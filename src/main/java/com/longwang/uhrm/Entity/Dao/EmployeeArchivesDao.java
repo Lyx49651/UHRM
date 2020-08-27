@@ -10,7 +10,7 @@ import com.longwang.uhrm.Entity.mapper.EmployeeArchivesMapper;
 
 import java.util.List;
 
-
+@Service
 public class EmployeeArchivesDao{
     @Autowired
     EmployeeArchivesMapper employeeArchivesMapper;
