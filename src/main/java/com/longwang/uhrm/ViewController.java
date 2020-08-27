@@ -102,14 +102,14 @@ public class ViewController {
     public JSONObject employee_login_check(@RequestBody HashMap<String, String> map , HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         Boolean res =  employeeArchivesDao.authenticate(Integer.parseInt(map.get("id")), map.get("password"));
         if(res){
-            HttpSession httpSession = httpServletRequest.getSession();//获取session
-            String name = employeeArchivesDao.getName(Integer.parseInt(map.get("id")));
-            httpSession.setAttribute("name",name);
-            httpSession.setMaxInactiveInterval(2*60);//设置session存活时间
-            Cookie cookie = new Cookie("name",name);//新建cookie供客户端使用
-            cookie.setMaxAge(2*60);// 设置存在时间为30分钟
-            cookie.setPath("/");//设置作用域
-            httpServletResponse.addCookie(cookie);
+//            HttpSession httpSession = httpServletRequest.getSession();//获取session
+//            String name = employeeArchivesDao.getName(Integer.parseInt(map.get("id")));
+//            httpSession.setAttribute("name",name);
+//            httpSession.setMaxInactiveInterval(2*60);//设置session存活时间
+//            Cookie cookie = new Cookie("name",name);//新建cookie供客户端使用
+//            cookie.setMaxAge(2*60);// 设置存在时间为30分钟
+//            cookie.setPath("/");//设置作用域
+//            httpServletResponse.addCookie(cookie);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("result","pass");
             return jsonObject;
@@ -154,7 +154,6 @@ public class ViewController {
     // 跳转到人员管理系统
     @RequestMapping(method = RequestMethod.GET,value = "/employee_management_system")
     public String employee_management_system(){
-
-        return "employee_login";
+        return "employee_management_system_functionlist";
     }
 }
