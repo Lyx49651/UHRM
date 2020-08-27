@@ -17,7 +17,7 @@ public interface EmployeeArchivesMapper {
     @Select("select employeeName from EmployeeArchives where employeeId = #{id}")
     public String getName(int id);
 
-    @Select("select id from EmployeeArchives where employeeId = #{employeeId}")
+    @Select("select * from EmployeeArchives where employeeId = #{employeeId}")
     public EmployeeArchives getEmployeeById(long employeeId);
 
     @Insert("insert into EmployeeArchives(employeeId, employeeName, password) values(#{employeeId}, " +
