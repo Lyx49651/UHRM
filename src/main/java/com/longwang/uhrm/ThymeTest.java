@@ -97,6 +97,8 @@ public class ThymeTest {
 //        cookie.setPath("/");//设置作用域
 //        httpServletResponse.addCookie(cookie);
         System.out.println(res);
+        Cookie cookie = new Cookie("name","刘宇轩");
+        httpServletResponse.addCookie(cookie);
         return "redirect:index";
     }
 }
