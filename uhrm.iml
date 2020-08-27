@@ -3,9 +3,12 @@
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
       <configuration>
-        <fileset id="fileset" name="Spring Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/main/resources/applicationContext.xml</file>
+
+        <fileset id="spring_boot_com.longwang.uhrm.UhrmApplication" name="UhrmApplication" removed="true">
+          <file>file://$MODULE_DIR$/src/main/java/com/longwang/uhrm/UhrmApplication.java</file>
+          <file>file://$MODULE_DIR$/src/main/resources/application.properties</file>
         </fileset>
+
       </configuration>
     </facet>
     <facet type="web" name="Web">
@@ -105,5 +108,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-jcl:5.2.8.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:5.2.8.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.7.0" level="project" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.21" level="project" />
   </component>
 </module>
