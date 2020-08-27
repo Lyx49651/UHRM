@@ -1,5 +1,6 @@
 package com.longwang.uhrm;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -7,13 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.templatemode.TemplateMode;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -21,19 +16,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.longwang.uhrm.Entity.Dao.EmployeeArchivesDao;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.templatemode.TemplateMode;
 
-import java.util.Base64;
+import java.util.HashMap;
 
 @Controller
-public class ThymeTest {
-
+public class ViewController {
     EmployeeArchivesDao employeeArchivesDao;
     @Autowired
     @Qualifier("employeeDao")
     void setEmployeeArchivesDao(EmployeeArchivesDao employeeArchivesDao){
         this.employeeArchivesDao = employeeArchivesDao;
     }
-
     ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
     @Bean
     public SpringResourceTemplateResolver templateResolver(){
@@ -68,7 +64,7 @@ public class ThymeTest {
     //主页面
     @RequestMapping(method = RequestMethod.GET,value = "/index")
     public String test(Model model){
-//        System.out.println(11111);
+        System.out.println(11111);
         return "home";
     }
 //    用户登录
@@ -86,17 +82,31 @@ public class ThymeTest {
     @RequestMapping(method = RequestMethod.POST,value = "/user_login_check")
         //@ResponseBody
         public String user_login_check(@RequestParam("phone") String phone, @RequestParam("password") String password, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
-            System.out.println(phone + password);
+        System.out.println(phone + password);
         Boolean res =  employeeArchivesDao.authenticate(1, password);
-//        HttpSession httpSession = httpServletRequest.getSession();//获取session
-//        httpSession.setAttribute("username",httpServletRequest.getParameter("username"));
-//        httpSession.setMaxInactiveInterval(360000);//设置session存活时间
-//        String id = httpSession.getId();
-//        Cookie cookie = new Cookie("sessionId",id);//新建cookie供客户端使用
-//        cookie.setMaxAge(30 * 60);// 设置存在时间为30分钟
-//        cookie.setPath("/");//设置作用域
-//        httpServletResponse.addCookie(cookie);
-        System.out.println(res);
         return "redirect:index";
+    }
+    //员工登录信息确认
+    @RequestMapping(method = RequestMethod.POST,value = "/employee_login_check")
+    @ResponseBody
+    public JSONObject employee_login_check(@RequestBody HashMap<String, String> map , HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        System.out.println(1);
+        System.out.println(map.get("id") + map.get("password"));
+        Boolean res =  employeeArchivesDao.authenticate(Integer.parseInt(map.get("id")), map.get("password"));
+//        if(res){
+////            HttpSession httpSession = httpServletRequest.getSession();//获取session
+////            httpSession.setAttribute("username",id);
+////            httpSession.setMaxInactiveInterval(2*60);//设置session存活时间
+////            Cookie cookie = new Cookie("sessionId",String.valueOf(id));//新建cookie供客户端使用
+////            cookie.setMaxAge(2*60);// 设置存在时间为30分钟
+////            cookie.setPath("/");//设置作用域
+////            httpServletResponse.addCookie(cookie);
+////        }
+        //请注意，因为session和cookie会给测试工作带来很大的复杂性，因此在整个开发过程，没有直接用到的，均暂时注解掉
+
+//        return "redirect:index";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result","pass");
+        return jsonObject;
     }
 }
