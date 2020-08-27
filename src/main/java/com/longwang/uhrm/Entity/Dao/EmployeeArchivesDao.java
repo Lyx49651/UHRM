@@ -26,13 +26,12 @@ public class EmployeeArchivesDao{
          }
          return false;
     }
-<<<<<<< HEAD
-    public String getName(int id){
+
+    public String getName(int id) {
         return employeeArchivesMapper.getName(id);
-=======
+    }
 
     public EmployeeArchives getEmployeeById(long id){
         return employeeArchivesMapper.getEmployeeById(id);
->>>>>>> 4d9504762fb855691639c9bc797dd0eeb7b8c79d
     }
 }
