@@ -20,6 +20,16 @@ public class EmployeeArchives {
   private long positionIdPosition;
   private long departmentIdDepartment;
 
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  private String password;
+
 
   public long getEmployeeId() {
     return employeeId;
