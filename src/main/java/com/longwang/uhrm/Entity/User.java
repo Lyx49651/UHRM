@@ -6,11 +6,15 @@ public class User {
   private long idUser;
   private String name;
   private String sex;
-  private String idCard;
+  private String IDCard;
   private String photo;
   private String address;
   private long age;
   private String mailAddress;
+
+  public User() {
+
+  }
 
   public String getTelephone() {
     return telephone;
@@ -18,6 +22,33 @@ public class User {
 
   public void setTelephone(String telephone) {
     this.telephone = telephone;
+  }
+
+  public User(String name, String sex, String idCard, String photo, String address, long age, String mailAddress, String telephone, long postIdPost, String password) {
+    this.name = name;
+    this.sex = sex;
+    this.IDCard = idCard;
+    this.photo = photo;
+    this.address = address;
+    this.age = age;
+    this.mailAddress = mailAddress;
+    this.telephone = telephone;
+    this.postIdPost = postIdPost;
+    this.password = password;
+  }
+
+  public User(long idUser, String name, String sex, String idCard, String photo, String address, long age, String mailAddress, String telephone, long postIdPost, String password) {
+    this.idUser = idUser;
+    this.name = name;
+    this.sex = sex;
+    this.IDCard = idCard;
+    this.photo = photo;
+    this.address = address;
+    this.age = age;
+    this.mailAddress = mailAddress;
+    this.telephone = telephone;
+    this.postIdPost = postIdPost;
+    this.password = password;
   }
 
   private String telephone;
@@ -62,11 +93,11 @@ public class User {
 
 
   public String getIdCard() {
-    return idCard;
+    return IDCard;
   }
 
   public void setIdCard(String idCard) {
-    this.idCard = idCard;
+    this.IDCard = idCard;
   }
 
 
