@@ -19,17 +19,27 @@ import com.longwang.uhrm.Entity.Dao.EmployeeArchivesDao;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
-
+import com.longwang.uhrm.Entity.Dao.UserDao;
 import java.util.HashMap;
 
 @Controller
 public class ViewController {
+    //注入
     EmployeeArchivesDao employeeArchivesDao;
+    UserDao userDao;
     @Autowired
     @Qualifier("employeeDao")
     void setEmployeeArchivesDao(EmployeeArchivesDao employeeArchivesDao){
         this.employeeArchivesDao = employeeArchivesDao;
     }
+    @Autowired
+    @Qualifier("userDao")
+    void setUserDao(UserDao userDao){
+        this.userDao = userDao;
+    }
+
+
+
     ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
     @Bean
     public SpringResourceTemplateResolver templateResolver(){
@@ -92,8 +102,36 @@ public class ViewController {
     public JSONObject employee_login_check(@RequestBody HashMap<String, String> map , HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         Boolean res =  employeeArchivesDao.authenticate(Integer.parseInt(map.get("id")), map.get("password"));
         if(res){
+            HttpSession httpSession = httpServletRequest.getSession();//获取session
+            String name = employeeArchivesDao.getName(Integer.parseInt(map.get("id")));
+            httpSession.setAttribute("name",name);
+            httpSession.setMaxInactiveInterval(2*60);//设置session存活时间
+            Cookie cookie = new Cookie("name",name);//新建cookie供客户端使用
+            cookie.setMaxAge(2*60);// 设置存在时间为30分钟
+            cookie.setPath("/");//设置作用域
+            httpServletResponse.addCookie(cookie);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("result","pass");
+            return jsonObject;
+        }else {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("result","undefined");
+            return jsonObject;
+        }
+        //请注意，因为session和cookie会给测试工作带来很大的复杂性，因此在整个开发过程，没有直接用到的，均暂时注解掉
+
+//        return "redirect:index";
+
+    }
+    //非员工登录信息确认
+    @RequestMapping(method = RequestMethod.POST,value = "/personnel_login_check")
+    @ResponseBody
+    public JSONObject personnel_login_check(@RequestBody HashMap<String, String> map , HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        Boolean res =  userDao.login(map.get("phone"), map.get("password"));
+        if(res){
 //            HttpSession httpSession = httpServletRequest.getSession();//获取session
-//            String name = employeeArchivesDao.getName(Integer.parseInt(map.get("id")));
+//            String name = userDao.getName(map.get("phone"));
+//            System.out.println(name);
 //            httpSession.setAttribute("name",name);
 //            httpSession.setMaxInactiveInterval(2*60);//设置session存活时间
 //            Cookie cookie = new Cookie("name",name);//新建cookie供客户端使用
@@ -113,31 +151,10 @@ public class ViewController {
 //        return "redirect:index";
 
     }
-    //非员工登录信息确认
-    @RequestMapping(method = RequestMethod.POST,value = "/personnel_login_check")
-    @ResponseBody
-    public JSONObject personnel_login_check(@RequestBody HashMap<String, String> map , HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
-        Boolean res =  employeeArchivesDao.authenticate(Integer.parseInt(map.get("phone")), map.get("password"));
-        if(res){
-//            HttpSession httpSession = httpServletRequest.getSession();//获取session
-//            String name = employeeArchivesDao.getName(Integer.parseInt(map.get("id")));
-//            httpSession.setAttribute("name",name);
-//            httpSession.setMaxInactiveInterval(2*60);//设置session存活时间
-//            Cookie cookie = new Cookie("name",name);//新建cookie供客户端使用
-//            cookie.setMaxAge(2*60);// 设置存在时间为30分钟
-//            cookie.setPath("/");//设置作用域
-//            httpServletResponse.addCookie(cookie);
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("result","pass");
-            return jsonObject;
-        }else {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("result","undefined");
-            return jsonObject;
-        }
-        //请注意，因为session和cookie会给测试工作带来很大的复杂性，因此在整个开发过程，没有直接用到的，均暂时注解掉
+    // 跳转到人员管理系统
+    @RequestMapping(method = RequestMethod.GET,value = "/employee_management_system")
+    public String employee_management_system(){
 
-//        return "redirect:index";
-
+        return "employee_login";
     }
 }

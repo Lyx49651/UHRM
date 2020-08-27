@@ -10,11 +10,10 @@ import com.longwang.uhrm.Entity.mapper.EmployeeArchivesMapper;
 
 import java.util.List;
 
-@Service("employeeDao")
+
 public class EmployeeArchivesDao{
     @Autowired
     EmployeeArchivesMapper employeeArchivesMapper;
-
 
     public boolean authenticate(int id, String password){
         System.out.println(employeeArchivesMapper.getPassword(id));
@@ -27,7 +26,13 @@ public class EmployeeArchivesDao{
          }
          return false;
     }
+<<<<<<< HEAD
     public String getName(int id){
         return employeeArchivesMapper.getName(id);
+=======
+
+    public EmployeeArchives getEmployeeById(long id){
+        return employeeArchivesMapper.getEmployeeById(id);
+>>>>>>> 4d9504762fb855691639c9bc797dd0eeb7b8c79d
     }
 }

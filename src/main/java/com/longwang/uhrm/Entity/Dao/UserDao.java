@@ -30,5 +30,8 @@ public class UserDao {
             return false;
         }
     }
+    public String getName(String phone){
+        return userMapper.getName(phone);
+    }
 
 }
