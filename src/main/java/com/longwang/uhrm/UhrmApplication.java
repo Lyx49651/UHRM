@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @MapperScan("com.longwang.uhrm.Entity.mapper")
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)//排除自动配置
+@SpringBootApplication//排除自动配置
 public class UhrmApplication {
     public static void main(String[] args) {
         SpringApplication.run(UhrmApplication.class, args);

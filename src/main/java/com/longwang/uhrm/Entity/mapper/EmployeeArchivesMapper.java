@@ -8,16 +8,16 @@ import java.util.List;
 
 @Mapper
 public interface EmployeeArchivesMapper {
-    @Select("select * from uhrm.employeeArchives")
+    @Select("select * from uhrm.EmployeeArchives")
     public List<EmployeeArchives> findAll();
 
-    @Select("select password from uhrm.employeeArchives where id = #{id}")
+    @Select("select password from EmployeeArchives where employeeId = #{id}")
     public String getPassword(int id);
 
-    @Select("select id from uhrm.employeeArchives where id = #{employeeId}")
+    @Select("select id from EmployeeArchives where employeeId = #{employeeId}")
     public EmployeeArchives getEmployeeById(long employeeId);
 
-    @Insert("insert into uhrm.employeeArchives(employeeId, employeeName, password) values(#{employeeId}, " +
+    @Insert("insert into EmployeeArchives(employeeId, employeeName, password) values(#{employeeId}, " +
             " #{employeeName}, #{password} )")
     public int insertEmployee(EmployeeArchives employeeArchives);
 }
