@@ -1,25 +1,29 @@
 package com.longwang.uhrm.Entity.Dao;
 
 import com.longwang.uhrm.Entity.EmployeeArchives;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import com.longwang.uhrm.Entity.mapper.EmployeeArchivesMapper;
 
+import java.util.List;
+
 @Service("employeeDao")
 public class EmployeeArchivesDao {
-    EmployeeArchivesMapper mapper;
-
     @Autowired
-    void setMapper(){};
+    EmployeeArchivesMapper employeeArchivesMapper;
+
 
     public boolean authenticate(int id, String password){
-        mapper.getPassword(id);
-        return password.equals(mapper.getPassword(id));
+        System.out.println(employeeArchivesMapper.getPassword(id));
+        return password.equals(employeeArchivesMapper.getPassword(id));
     }
 
     public boolean register(EmployeeArchives employeeArchives){
-         if(mapper.getEmployeeById(employeeArchives.getEmployeeId()) == null){
-             return mapper.insertEmployee(employeeArchives) == 1;
+         if(employeeArchivesMapper.getEmployeeById(employeeArchives.getEmployeeId()) == null){
+             return employeeArchivesMapper.insertEmployee(employeeArchives) == 1;
          }
          return false;
     }

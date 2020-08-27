@@ -3,12 +3,10 @@
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
       <configuration>
-
         <fileset id="spring_boot_com.longwang.uhrm.UhrmApplication" name="UhrmApplication" removed="true">
           <file>file://$MODULE_DIR$/src/main/java/com/longwang/uhrm/UhrmApplication.java</file>
           <file>file://$MODULE_DIR$/src/main/resources/application.properties</file>
         </fileset>
-
       </configuration>
     </facet>
     <facet type="web" name="Web">

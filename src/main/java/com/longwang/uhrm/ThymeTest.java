@@ -1,5 +1,7 @@
 package com.longwang.uhrm;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -13,13 +15,25 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import com.longwang.uhrm.Entity.Dao.EmployeeArchivesDao;
+
+import java.util.Base64;
 
 @Controller
 public class ThymeTest {
+
+    EmployeeArchivesDao employeeArchivesDao;
+    @Autowired
+    @Qualifier("employeeDao")
+    void setEmployeeArchivesDao(EmployeeArchivesDao employeeArchivesDao){
+        this.employeeArchivesDao = employeeArchivesDao;
+    }
+
     ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
     @Bean
     public SpringResourceTemplateResolver templateResolver(){
@@ -73,14 +87,16 @@ public class ThymeTest {
         //@ResponseBody
         public String user_login_check(@RequestParam("phone") String phone, @RequestParam("password") String password, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
             System.out.println(phone + password);
-        HttpSession httpSession = httpServletRequest.getSession();//获取session
-        httpSession.setAttribute("username",httpServletRequest.getParameter("username"));
-        httpSession.setMaxInactiveInterval(360000);//设置session存活时间
-        String id = httpSession.getId();
-        Cookie cookie = new Cookie("sessionId",id);//新建cookie供客户端使用
-        cookie.setMaxAge(30 * 60);// 设置存在时间为30分钟
-        cookie.setPath("/");//设置作用域
-        httpServletResponse.addCookie(cookie);
+        Boolean res =  employeeArchivesDao.authenticate(1, password);
+//        HttpSession httpSession = httpServletRequest.getSession();//获取session
+//        httpSession.setAttribute("username",httpServletRequest.getParameter("username"));
+//        httpSession.setMaxInactiveInterval(360000);//设置session存活时间
+//        String id = httpSession.getId();
+//        Cookie cookie = new Cookie("sessionId",id);//新建cookie供客户端使用
+//        cookie.setMaxAge(30 * 60);// 设置存在时间为30分钟
+//        cookie.setPath("/");//设置作用域
+//        httpServletResponse.addCookie(cookie);
+        System.out.println(res);
         return "redirect:index";
     }
 }

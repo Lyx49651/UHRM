@@ -11,7 +11,16 @@ public class User {
   private String address;
   private long age;
   private String mailAddress;
-  private long telephone;
+
+  public String getTelephone() {
+    return telephone;
+  }
+
+  public void setTelephone(String telephone) {
+    this.telephone = telephone;
+  }
+
+  private String telephone;
   private long postIdPost;
 
   public String getPassword() {
@@ -97,13 +106,6 @@ public class User {
   }
 
 
-  public long getTelephone() {
-    return telephone;
-  }
-
-  public void setTelephone(long telephone) {
-    this.telephone = telephone;
-  }
 
 
   public long getPostIdPost() {
