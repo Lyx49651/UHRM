@@ -27,4 +27,7 @@ public class EmployeeArchivesDao{
          }
          return false;
     }
+    public String getName(int id){
+        return employeeArchivesMapper.getName(id);
+    }
 }
