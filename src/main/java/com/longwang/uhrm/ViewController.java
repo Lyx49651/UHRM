@@ -28,7 +28,6 @@ public class ViewController {
     EmployeeArchivesDao employeeArchivesDao;
     UserDao userDao;
     @Autowired
-    @Qualifier("employeeDao")
     void setEmployeeArchivesDao(EmployeeArchivesDao employeeArchivesDao){
         this.employeeArchivesDao = employeeArchivesDao;
     }
