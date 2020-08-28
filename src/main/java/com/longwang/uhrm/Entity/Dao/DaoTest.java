@@ -28,10 +28,10 @@ public class DaoTest {
     @GetMapping("daoTest")
     @ResponseBody
     String test(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
-        User user = new User("Yxq","test","male","test","test",14,"2","1234",1,"1234");
+        //User user = new User("Yxq","test","male","test","test",14,"2","1234",1,"1234");
 
-        boolean test =  userDao.register(user);
-        System.out.println(test);
+        User user =  userDao.getUserById(2);
+        System.out.println(user.getName());
         return "success";
 //
 //        EmployeeArchives employeeArchives = new EmployeeArchives();

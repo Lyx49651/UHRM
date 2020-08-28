@@ -20,7 +20,15 @@ public interface EmployeeArchivesMapper {
     @Select("select * from EmployeeArchives where employeeId = #{employeeId}")
     public EmployeeArchives getEmployeeById(long employeeId);
 
-    @Insert("insert into EmployeeArchives(employeeId, employeeName, password) values(#{employeeId}, " +
-            " #{employeeName}, #{password} )")
+    @Insert("insert into EmployeeArchives(employeeId, employeeName, employeeSex, employeeBirthday," +
+            "employeeAddress, employeePhoneNumber, employeeDepartment, employeeEducation," +
+            "employeeEducation, employeePost, employeeTitle, employeeTechnicalGrade, " +
+            "employeeIdentity, employeeProfessionalTitle, salaryParametersIdSalaryParameters," +
+            "positionIdPosition, departmentIdDepartment, password) values(#{employeeId}, " +
+            " #{employeeName}, #{employeeSex}, #{employeeBirthday}," +
+            "#{employeeAddress}, #{employeePhoneNumber}, #{employeeDepartment}, #{employeeEducation}," +
+            "#{employeeEducation}, #{employeePost}, #{employeeTitle}, #{employeeTechnicalGrade}, " +
+            "#{employeeIdentity}, #{employeeProfessionalTitle}, #{salaryParametersIdSalaryParameters}," +
+            "#{positionIdPosition}, #{departmentIdDepartment}, #{password} )")
     public int insertEmployee(EmployeeArchives employeeArchives);
 }

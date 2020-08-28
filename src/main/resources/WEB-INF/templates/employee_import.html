@@ -20,7 +20,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">首页 <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="http://localhost:8080/index">首页 <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
@@ -86,12 +86,8 @@
             <div class="form-group">
                 <label for="FormDepartment">部门</label>
                 <select class="form-control" id="FormDepartment">
-                    <option>软件学院</option>
-                    <option>财务部</option>
-                    <option>人事部</option>
-                    <option>财务部</option>
-                    <option>人事部</option>
-                    <option>财务部</option>
+                    <option th:each="Post:${list}" th:value="${Post.idPost}"  th:text="${Post.postName}"></option>
+
                 </select>
             </div>
             <div class="form-group">
@@ -109,11 +105,8 @@
                     <div class="form-group">
                         <label for="FormTitle">岗位</label>
                         <select class="form-control" id="FormPost">
-                            <option>专科</option>
-                            <option>本科</option>
-                            <option>硕士</option>
-                            <option>博士</option>
-                            <option>其他</option>
+                            <option>高等数学</option>
+                            <option>大学物理</option>
                         </select>
                     </div>
                 </div>
@@ -121,11 +114,9 @@
                     <div class="form-group">
                         <label for="FormTitle">职称</label>
                         <select class="form-control" id="FormTitle">
-                            <option>专科</option>
-                            <option>本科</option>
-                            <option>硕士</option>
-                            <option>博士</option>
-                            <option>其他</option>
+                            <option>讲师</option>
+                            <option>副教授</option>
+                            <option>教授</option>
                         </select>
                     </div>
                 </div>
@@ -141,15 +132,68 @@
                 </div>
             </div>
             <div class="form-row">
-                <button type="submit" class="btn btn-primary" style="margin: 0 auto">提交</button>
+                <button type="button" class="btn btn-primary" style="margin: 0 auto" onclick="submit_info()">提交</button>
             </div>
         </form>
     </div>
 </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>-->
 </body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    function submit_info(){
+        var name = document.getElementById("inputName").value;
+        var gender = document.getElementsByName("inlineRadioOptions");
+        var birthday = document.getElementById("inputBirthday").value;
+        var address = document.getElementById("inputAddress").value;
+        var phone = document.getElementById("inputPhoneNumber").value;
+        var department = document.getElementById("inputDepartment").value;
+        var education = document.getElementById("FormControlSelect1").value;
+        var post = document.getElementById("inputPost").value;
+        var title = document.getElementById("inputTitle").value;
+        var technicalGrade = document.getElementById("inputTechnicalGrade").value;
+        var identity = document.getElementById("inputIdentity").value;
+        var gender_checked;
+        //便于转为json
+        if(gender[0].checked){
+            gender_checked = "Women";
+        }else {
+            gender_checked = "men";
+        }
+
+        var user={};
+        user.name = name;
+        user.gender = gender_checked;
+        user.birthday = birthday;
+        user.address = address;
+        user.department = department;
+        user.phone = phone;
+        user.education = education;
+        user.post = post;
+        user.title = title;
+        user.technicalGrade = technicalGrade;
+        user.identity = identity;
+        $.ajax({
+            url:"http://localhost:8080/employee_info_import",
+            type:"post",
+            dataType:"json",
+            data:JSON.stringify(user),
+            contentType: "application/json;charset=UTF-8",
+            success:function (data) {
+                if(data.result == "pass"){
+                    window.location="http://localhost:8080/index";
+                }else {
+                    alert("用户不存在或者信息有误！")
+                }
+            },
+            error:function (data) {
+                alert(JSON.stringify(data));
+            }
+        });
+    }
+</script>
 </html>

@@ -1,6 +1,7 @@
 package com.longwang.uhrm;
 
 import com.alibaba.fastjson.JSONObject;
+import com.longwang.uhrm.Entity.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -20,7 +21,10 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import com.longwang.uhrm.Entity.Dao.UserDao;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 public class ViewController {
@@ -76,6 +80,22 @@ public class ViewController {
 
         return "home";
     }
+    //登出
+    @RequestMapping(method = RequestMethod.GET,value = "/logout")
+    public String logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        HttpSession httpSession = httpServletRequest.getSession();
+        httpSession.setAttribute("name",null );
+        httpSession.setMaxInactiveInterval(0);//设置session存活时间
+        httpSession.invalidate();
+        Cookie[] cookies = httpServletRequest.getCookies();
+        for(Cookie cookie:cookies){
+            cookie.setValue(null);
+            cookie.setMaxAge(0);
+            cookie.setPath("/");
+            httpServletResponse.addCookie(cookie);
+        }
+        return "home";
+    }
 //    用户登录
     @RequestMapping(method = RequestMethod.GET,value = "/user_login")
     public String user_login(Model model){
@@ -101,14 +121,14 @@ public class ViewController {
     public JSONObject employee_login_check(@RequestBody HashMap<String, String> map , HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         Boolean res =  employeeArchivesDao.authenticate(Integer.parseInt(map.get("id")), map.get("password"));
         if(res){
-//            HttpSession httpSession = httpServletRequest.getSession();//获取session
-//            String name = employeeArchivesDao.getName(Integer.parseInt(map.get("id")));
-//            httpSession.setAttribute("name",name);
-//            httpSession.setMaxInactiveInterval(2*60);//设置session存活时间
-//            Cookie cookie = new Cookie("name",name);//新建cookie供客户端使用
-//            cookie.setMaxAge(2*60);// 设置存在时间为30分钟
-//            cookie.setPath("/");//设置作用域
-//            httpServletResponse.addCookie(cookie);
+            HttpSession httpSession = httpServletRequest.getSession();//获取session
+            String name = employeeArchivesDao.getName(Integer.parseInt(map.get("id")));
+            httpSession.setAttribute("name",name);
+            httpSession.setMaxInactiveInterval(2*60);//设置session存活时间
+            Cookie cookie = new Cookie("name",name);//新建cookie供客户端使用
+            cookie.setMaxAge(2*60);// 设置存在时间为30分钟
+            cookie.setPath("/");//设置作用域
+            httpServletResponse.addCookie(cookie);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("result","pass");
             return jsonObject;
@@ -128,22 +148,22 @@ public class ViewController {
     public JSONObject personnel_login_check(@RequestBody HashMap<String, String> map , HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         Boolean res =  userDao.login(map.get("phone"), map.get("password"));
         if(res){
-//            HttpSession httpSession = httpServletRequest.getSession();//获取session
-//            String name = userDao.getName(map.get("phone"));
-//            System.out.println(name);
-//            httpSession.setAttribute("name",name);
-//            httpSession.setMaxInactiveInterval(2*60);//设置session存活时间
-//            Cookie cookie = new Cookie("name",name);//新建cookie供客户端使用
-//            cookie.setMaxAge(2*60);// 设置存在时间为30分钟
-//            cookie.setPath("/");//设置作用域
-//            httpServletResponse.addCookie(cookie);
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("result","pass");
-            return jsonObject;
+            HttpSession httpSession = httpServletRequest.getSession();//获取session
+            String name = userDao.getName(map.get("phone"));
+            System.out.println(name);
+            httpSession.setAttribute("name",name);
+            httpSession.setMaxInactiveInterval(2*60);//设置session存活时间
+            Cookie cookie = new Cookie("name",name);//新建cookie供客户端使用
+            cookie.setMaxAge(2*60);// 设置存在时间为30分钟
+            cookie.setPath("/");//设置作用域
+            httpServletResponse.addCookie(cookie);
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("result","pass");
+            return jsonObject1;
         }else {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("result","undefined");
-            return jsonObject;
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("result","undefined");
+            return jsonObject1;
         }
         //请注意，因为session和cookie会给测试工作带来很大的复杂性，因此在整个开发过程，没有直接用到的，均暂时注解掉
 
@@ -154,5 +174,34 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.GET,value = "/employee_management_system")
     public String employee_management_system(){
         return "employee_management_system_functionlist";
+    }
+    // 跳转到人员信息录入
+    @RequestMapping(method = RequestMethod.GET,value = "/employee_import")
+    public String employee_import(Model model){
+        List<Post> x = new ArrayList<Post>();
+        Post a = new Post();
+        a.setIdPost(1);
+        a.setPostName("计算机科学与技术学院");
+        Post b = new Post();
+        b.setIdPost(2);
+        b.setPostName("人文学院");
+        Post a2 = new Post();
+        a2.setIdPost(3);
+        a2.setPostName("人工智能学院");
+        Post a3 = new Post();
+        a3.setIdPost(4);
+        a3.setPostName("机电学院");
+        x.add(a);
+        x.add(b);
+        x.add(a2);
+        x.add(a3);
+        model.addAttribute("list",x);
+        return "employee_import";
+    }
+    //信息导入
+    @RequestMapping(method = RequestMethod.POST,value = "/employee_info_import")
+    @ResponseBody
+    public String employee_info_import(@RequestBody HashMap<String, String> map,Model m){
+        return "employee_import";
     }
 }
