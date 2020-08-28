@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="uhrm" target="14" />
+      <module name="uhrm" target="13" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
