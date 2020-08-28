@@ -52,4 +52,8 @@ public class UserDao {
         return userMapper.deleteUserByName(name);
     }
 
+    public String getName(String phone){
+        return userMapper.getName(phone);
+    }
+
 }

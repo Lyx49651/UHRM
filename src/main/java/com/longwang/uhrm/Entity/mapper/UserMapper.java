@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface UserMapper {
-    @Select("select *from User where id = #{idUser}")
+    @Select("select *from User where idUser = #{idUser}")
     public User getUserById(int idUser);
 
     @Select("select *from User where name = #{name}")
@@ -19,6 +19,7 @@ public interface UserMapper {
 
     @Select("select name from User where telephone = #{telephone}")
     public String getName(String telephone);
+
 
     @Insert("insert into User(name, sex, IDCard, photo, address, age, mailAddress, telephone, Post_idPost, password) " +
             "values(#{name}, #{sex}, #{IDCard}, #{photo}, #{address}, #{age}, #{mailAddress}, #{telephone}, #{postIdPost}, #{password})")
