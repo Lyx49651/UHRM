@@ -7,7 +7,7 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>欢迎来到人力资源系统</title>
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
     <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
@@ -37,9 +37,9 @@
                 var username = getCookie("name");
                 var pro = "<ul class='nav navbar-nav navbar-right'>\n" +
                     "                <li class='dropdown' id='my_test_id'>\n" +
-                    "                    <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>"+username+"<span class='caret'></span></a>\n" +
+                    "                    <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false' style='color: black'>"+username+"<span class='caret'></span></a>\n" +
                     "                    <ul class='dropdown-menu'>\n" +
-                    "                        <li><a href='#'>其他</a></li>\n" +
+                    "                        <li><a href='http://localhost:8080/logout' style='color: black'>登出</a></li>\n" +
                     "                    </ul>\n" +
                     "                </li>\n" +
                     "                <!--li><a id=\"my_test_id\" href=\"http://localhost:3000/login\">登录</a></li-->\n" +
@@ -50,88 +50,82 @@
     </script>
 </head>
 <body style="overflow-y: auto;width: 100%;height: 100%">
-<nav class="navbar navbar-default" style="margin-bottom: 0;background: rgba(25,92,163,0.82)">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-                <img alt="Brand" src="#" style="width: 30px;height: 30px">
-            </a>
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="http://localhost:3000/">首页</a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Link</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <div id="first">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown" id="my_test_id">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我的账户 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="http://localhost:8080/user_login">用户登录</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="http://localhost:8080/personnel_login">员工登录</a></li>
-                    </ul>
-                </li>
-                <!--li><a id="my_test_id" href="http://localhost:3000/login">登录</a></li-->
-            </ul>
-        </div>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
-<!--滚动新闻部分-->
-<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="margin-top: 0;">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-        <!--li data-target="#carousel-example-generic" data-slide-to=""></li-->
-    </ol>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">高校人力资源管理系统</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="#" alt="..." style="height: 300px;width: 100%">
-            <div class="carousel-caption">
-                <h3 style="font-size: 50px">1111</h3>
-                <p>1</p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="#" alt="..." style="height: 300px;width: 100%">
-            <div class="carousel-caption">
-                <h3 style="font-size: 50px">2222</h3>
-                <p>2</p>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">首页 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+        </ul>
+        <div class="dropdown" id="first">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                登录
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="margin: 0 0 0 -108%">
+                <a class="dropdown-item" href="http://localhost:8080/personnel_login">员工登录</a>
+                <a class="dropdown-item" href="http://localhost:8080/user_login">非员工登录</a>
             </div>
         </div>
     </div>
-    <!-- Controls -->
-    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+</nav>
+<!--滚动新闻部分-->
+<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" style="width: 100%;height: 300px;background: black">
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" style="width: 100%;height: 300px">
+        <div class="carousel-item active" style="height: 300px">
+            <img src="..." class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5 >First slide label</h5>
+                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+            </div>
+        </div>
+        <div class="carousel-item" style="height: 300px">
+            <img src="..." class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Second slide label</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+        </div>
+        <div class="carousel-item" style="height: 300px">
+            <img src="..." class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Third slide label</h5>
+                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
     </a>
-    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
     </a>
 </div>
@@ -147,7 +141,7 @@
            <td style="padding: 0;width: 272px;height: 251px;margin: 0">
                <div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">
                    <div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">
-                       <a href="http://locahost:8080/employee_management_system" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">
+                       <a href="http://localhost:8080/employee_management_system" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">
                            <img th:src="@{/images/4.jpg}" alt="..." style="margin: 0">
                        </a>
                    </div>
@@ -247,9 +241,8 @@
     </div>
 </div>
 
-<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
-<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body>
 </html>
