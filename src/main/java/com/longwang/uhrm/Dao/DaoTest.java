@@ -1,7 +1,5 @@
-package com.longwang.uhrm.Entity.Dao;
+package com.longwang.uhrm.Dao;
 
-import com.longwang.uhrm.Entity.EmployeeArchives;
-import com.longwang.uhrm.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DaoTest {
     private EmployeeArchivesDao employeeArchivesDao;
     private UserDao userDao;
+    private DepartmentDao departmentDao;
 
     @Autowired
     public void setUserDao(UserDao userDao) {
@@ -25,13 +24,21 @@ public class DaoTest {
         this.employeeArchivesDao = employeeArchivesDao;
     }
 
+    @Autowired
+    public void setDepartmentDao(DepartmentDao departmentDao) {
+        this.departmentDao = departmentDao;
+    }
+
     @GetMapping("daoTest")
     @ResponseBody
     String test(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         //User user = new User("Yxq","test","male","test","test",14,"2","1234",1,"1234");
-
+/*
         User user =  userDao.getUserById(2);
-        System.out.println(user.getName());
+        System.out.println(user.getName());*/
+
+        departmentDao.getId("人事部");
+        System.out.println(departmentDao.getId("人事部")+ departmentDao.getName(1));
         return "success";
 //
 //        EmployeeArchives employeeArchives = new EmployeeArchives();
