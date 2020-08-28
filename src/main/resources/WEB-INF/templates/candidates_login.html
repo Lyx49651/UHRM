@@ -47,10 +47,19 @@
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <div id="first">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown" id="my_test_id">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: black">我的账户 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="http://localhost:8080/user_login">用户登录</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="http://localhost:8080/personnel_login">员工登录</a></li>
+                    </ul>
+                </li>
+                <!--li><a id="my_test_id" href="http://localhost:3000/login">登录</a></li-->
+            </ul>
+        </div>
     </div>
 </nav>
 <div class="card" style="width: 500px;height: 350px;margin: 13% 0 0 37%">
