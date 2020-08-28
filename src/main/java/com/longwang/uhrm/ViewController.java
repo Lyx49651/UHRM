@@ -1,6 +1,7 @@
 package com.longwang.uhrm;
 
 import com.alibaba.fastjson.JSONObject;
+import com.longwang.uhrm.Entity.EmployeeArchives;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -179,8 +180,11 @@ public class ViewController {
     //信息导入
     @RequestMapping(method = RequestMethod.POST,value = "/employee_info_import")
     @ResponseBody
-    public String employee_info_import(@RequestBody HashMap<String, String> map){
-        System.out.println(1);
-        return "employee_import";
+    public JSONObject employee_info_import(@RequestBody EmployeeArchives employeeArchives){
+        System.out.println(employeeArchives.getEmployeeName());
+        System.out.println(employeeArchives.getSalaryParametersIdSalaryParameters());
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result","success");
+        return jsonObject;
     }
 }
