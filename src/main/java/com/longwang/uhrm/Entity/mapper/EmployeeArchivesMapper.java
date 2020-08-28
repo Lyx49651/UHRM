@@ -14,10 +14,21 @@ public interface EmployeeArchivesMapper {
     @Select("select password from EmployeeArchives where employeeId = #{id}")
     public String getPassword(int id);
 
-    @Select("select id from EmployeeArchives where employeeId = #{employeeId}")
+    @Select("select employeeName from EmployeeArchives where employeeId = #{id}")
+    public String getName(int id);
+
+    @Select("select * from EmployeeArchives where employeeId = #{employeeId}")
     public EmployeeArchives getEmployeeById(long employeeId);
 
-    @Insert("insert into EmployeeArchives(employeeId, employeeName, password) values(#{employeeId}, " +
-            " #{employeeName}, #{password} )")
+    @Insert("insert into EmployeeArchives(employeeId, employeeName, employeeSex, employeeBirthday," +
+            "employeeAddress, employeePhoneNumber, employeeDepartment, employeeEducation," +
+            "employeeEducation, employeePost, employeeTitle, employeeTechnicalGrade, " +
+            "employeeIdentity, employeeProfessionalTitle, salaryParametersIdSalaryParameters," +
+            "positionIdPosition, departmentIdDepartment, password) values(#{employeeId}, " +
+            " #{employeeName}, #{employeeSex}, #{employeeBirthday}," +
+            "#{employeeAddress}, #{employeePhoneNumber}, #{employeeDepartment}, #{employeeEducation}," +
+            "#{employeeEducation}, #{employeePost}, #{employeeTitle}, #{employeeTechnicalGrade}, " +
+            "#{employeeIdentity}, #{employeeProfessionalTitle}, #{salaryParametersIdSalaryParameters}," +
+            "#{positionIdPosition}, #{departmentIdDepartment}, #{password} )")
     public int insertEmployee(EmployeeArchives employeeArchives);
 }

@@ -17,6 +17,9 @@ public interface UserMapper {
     @Select("select password from User where telephone = #{telephone}")
     public String getPassword(String telephone);
 
+    @Select("select name from User where telephone = #{telephone}")
+    public String getName(String telephone);
+
     @Insert("insert into User(name, sex, IDCard, photo, address, age, mailAddress, telephone, Post_idPost, password) " +
             "values(#{name}, #{sex}, #{IDCard}, #{photo}, #{address}, #{age}, #{mailAddress}, #{telephone}, #{postIdPost}, #{password})")
     public int insertUser(User user);
