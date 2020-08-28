@@ -13,3 +13,4 @@ buildNumber.properties
 .mvn/
 out/
 
+.idea/jarRepositories.xml
