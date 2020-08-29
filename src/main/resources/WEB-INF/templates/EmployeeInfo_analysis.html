@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="width: 100%;height: 100%">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="#">
+    <title>人员信息检索</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]-->
+    <script src="http://localhost:8080/js/echarts.js"></script>
+</head>
+<body style="width: 100%;height: 100%;overflow-y: auto">
+<!--上方提醒框-->
+<div class="alert alert-primary" role="alert" style="width: 80%;margin: 0 0 0 10%;height: 25%;font-size: 40px">
+    在下方选择你需要检索的部门
+</div>
+<!--下方部门选择-->
+<div class="form-group" style="width: 80%;margin: 0 0 0 10%;font-family: 微软雅黑;">
+     <!--<label for="FormDepartment">部门选择</label>-->
+    <select class="form-control" id="FormDepartment" onchange="getContent(this.value,this.options[this.selectedIndex].text)">
+        <option value="1">部门选择</option>
+        <option th:each="Department:${DepartmentList}" th:value="${Department.idDepartment}"  th:text="${Department.nameDepartment}"></option>
+        <!--<option value="2">人事部</option>-->
+    </select>
+</div>
+<!--图表绘制-->
+<div>
+    <div id="gender" style="width: 50%;height:400px;margin: 0;float: left"></div>
+    <div id="gender1" style="width: 50%;height:400px;margin: 0;float: left"></div>
+    <div id="age" style="width: 50%;height:400px;margin: 0;float: left"></div>
+    <div id="age1" style="width: 50%;height:400px;margin: 0;float: left"></div>
+    <div id="Education" style="width: 50%;height:400px;margin: 0;float: left"></div>
+    <div id="Education1" style="width: 50%;height:400px;margin: 0;float: left"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+<script type="text/javascript">
+    //请求数据后，渲染前端
+    function get_info(value) {
+        var charts_data;
+        var department = {};
+        department.name = value;
+        $.ajax({
+            url:"http://localhost:8080/get_info_employee",
+            type:"post",
+            dataType:"json",
+            data:JSON.stringify(department),
+            contentType: "application/json;charset=UTF-8",
+            success:function (data) {
+                charts_data = data;
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('gender'));
+                var myChart1 = echarts.init(document.getElementById('gender1'));
+                var myChart2 = echarts.init(document.getElementById('age'));
+                var myChart3 = echarts.init(document.getElementById('age1'));
+                var myChart4 = echarts.init(document.getElementById('Education'));
+                var myChart5 = echarts.init(document.getElementById('Education1'));
+                var charts = [];
+                charts.push(myChart);
+                charts.push(myChart1);
+                charts.push(myChart2);
+                charts.push(myChart3);
+                charts.push(myChart4);
+                charts.push(myChart5);
+                // 指定图表的配置项和数据
+                for(var i = 0;i <charts_data.data.length;i++){
+                    //配置直方图
+                    charts[2*i].setOption({
+                        title: {
+                            text: charts_data.data[i].title
+                        },
+                        tooltip: {},
+                        legend: {
+                            data:['人数']
+                        },
+                        xAxis: {
+                            data: charts_data.data[i].type
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: charts_data.data[i].name,
+                            type: 'bar',
+                            data: charts_data.data[i].value
+                        }]
+                    });
+                    //配置饼图
+                    charts[2*i + 1].setOption({
+                        series : [
+                            {
+                                name: charts_data.data[i].name,
+                                type: 'pie',
+                                radius: '55%',
+                                data:charts_data.data[i].pipe_data
+                            }
+                        ]});
+                }
+            },
+            error:function (data) {
+                alert(JSON.stringify(data));
+            }
+        });
+    }
+</script>
+<script src="http://localhost:8080/js/jquery-3.5.1.min.js"></script>
+<script>
+    //每当用户选中部门，更新图表
+    function getContent(value, content) {
+        if(content == "部门选择"){
+        }else {
+            get_info(content);
+        }
+    }
+</script>
+</html>

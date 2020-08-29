@@ -22,13 +22,13 @@ public interface EmployeeArchivesMapper {
 
     @Insert("insert into EmployeeArchives(employeeId, employeeName, employeeSex, employeeBirthday," +
             "employeeAddress, employeePhoneNumber, employeeDepartment, employeeEducation," +
-            "employeeEducation, employeePost, employeeTitle, employeeTechnicalGrade, " +
-            "employeeIdentity, employeeProfessionalTitle, salaryParametersIdSalaryParameters," +
+            "employeePost, employeeTitle, employeeTechnicalGrade, " +
+            "employeeIdentity, salaryParametersIdSalaryParameters," +
             "positionIdPosition, departmentIdDepartment, password) values(#{employeeId}, " +
             " #{employeeName}, #{employeeSex}, #{employeeBirthday}," +
             "#{employeeAddress}, #{employeePhoneNumber}, #{employeeDepartment}, #{employeeEducation}," +
-            "#{employeeEducation}, #{employeePost}, #{employeeTitle}, #{employeeTechnicalGrade}, " +
-            "#{employeeIdentity}, #{employeeProfessionalTitle}, #{salaryParametersIdSalaryParameters}," +
+            " #{employeePost}, #{employeeTitle}, #{employeeTechnicalGrade}, " +
+            "#{employeeIdentity}, #{salaryParametersIdSalaryParameters}," +
             "#{positionIdPosition}, #{departmentIdDepartment}, #{password} )")
     public int insertEmployee(EmployeeArchives employeeArchives);
 }

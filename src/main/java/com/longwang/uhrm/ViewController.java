@@ -1,6 +1,7 @@
 package com.longwang.uhrm;
 
 import com.alibaba.fastjson.JSONObject;
+import com.longwang.uhrm.Entity.Department;
 import com.longwang.uhrm.Entity.EmployeeArchives;
 import com.longwang.uhrm.Entity.Post;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,5 +209,56 @@ public class ViewController {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result", "success");
         return jsonObject;
+    }
+    //员工信息分析页面跳转
+    @RequestMapping(method = RequestMethod.GET,value = "/employee_management/info_analysis")
+    public String info_analysis(Model model) {
+        List<Department> test = new ArrayList<Department>();
+        Department a = new Department();
+        a.setIdDepartment(1);
+        a.setNameDepartment("人事部");
+        Department b = new Department();
+        b.setIdDepartment(2);
+        b.setNameDepartment("科技部");
+        test.add(a);
+        test.add(b);
+        model.addAttribute("DepartmentList",test);
+
+        return "EmployeeInfo_analysis";
+    }
+    //向前端发送部门详细数据
+    @RequestMapping(method = RequestMethod.POST,value = "/get_info_employee")
+    @ResponseBody
+    public JSONObject employee_info_import(@RequestBody HashMap<String, String> map) {
+        map.get("name");//部门姓名
+        System.out.println(map.get("name"));
+
+        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObject1 = new JSONObject();
+        JSONObject jsonObject2 = new JSONObject();
+        JSONObject jsonObject3 = new JSONObject();
+        String[] type = new String[2];
+        type[0] = "男士";
+        type[1] = "女士";
+        int[] value = new int[2];
+        value[0] = 6;
+        value[1] = 5;
+        JSONObject[] pipe_data = new JSONObject[2];
+        jsonObject1.put("value",6);
+        jsonObject1.put("name","女士");
+        jsonObject2.put("value",5);
+        jsonObject2.put("name","男士");
+        pipe_data[0] = jsonObject1;
+        pipe_data[1] = jsonObject2;
+
+        jsonObject.put("title", "性别分布");
+        jsonObject.put("type",type);
+        jsonObject.put("value",value);
+        jsonObject.put("name","人数");
+        jsonObject.put("pipe_data",pipe_data);
+        JSONObject[] data = new JSONObject[1];
+        data[0] = jsonObject;
+        jsonObject3.put("data", data);
+        return jsonObject3;
     }
 }
