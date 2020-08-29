@@ -16,4 +16,7 @@ public interface DepartmentMapper {
 
     @Select("select idDepartment from Department where nameDepartment = #{nameDepartment}")
     public int getID(String nameDepartment);
+
+    @Select("select * from Department")
+    public List<Department> getAllDepartment();
 }
