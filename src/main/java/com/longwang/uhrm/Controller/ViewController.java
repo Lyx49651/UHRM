@@ -1,6 +1,7 @@
 package com.longwang.uhrm.Controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.longwang.uhrm.Entity.EmployeeArchives;
 import com.longwang.uhrm.Entity.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -177,23 +178,7 @@ public class ViewController {
     // 跳转到人员信息录入
     @RequestMapping(method = RequestMethod.GET,value = "/employee_import")
     public String employee_import(Model model){
-        List<Post> x = new ArrayList<Post>();
-        Post a = new Post();
-        a.setIdPost(1);
-        a.setPostName("计算机科学与技术学院");
-        Post b = new Post();
-        b.setIdPost(2);
-        b.setPostName("人文学院");
-        Post a2 = new Post();
-        a2.setIdPost(3);
-        a2.setPostName("人工智能学院");
-        Post a3 = new Post();
-        a3.setIdPost(4);
-        a3.setPostName("机电学院");
-        x.add(a);
-        x.add(b);
-        x.add(a2);
-        x.add(a3);
+        List<EmployeeArchives> x = employeeArchivesDao.findAllEmployee();
         model.addAttribute("list",x);
         return "employee_import";
     }
@@ -202,5 +187,12 @@ public class ViewController {
     @ResponseBody
     public String employee_info_import(@RequestBody HashMap<String, String> map,Model m){
         return "employee_import";
+    }
+    //跳转到查询页面
+    @RequestMapping(method = RequestMethod.GET,value = "/employee_search")
+    public String employee_search(Model model){
+        List<EmployeeArchives> list = employeeArchivesDao.findAllEmployee();
+        model.addAttribute("list",list);
+        return "employee_search";
     }
 }

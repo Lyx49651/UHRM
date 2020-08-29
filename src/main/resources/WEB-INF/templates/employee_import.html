@@ -86,7 +86,7 @@
             <div class="form-group">
                 <label for="FormDepartment">部门</label>
                 <select class="form-control" id="FormDepartment">
-                    <option th:each="Post:${list}" th:value="${Post.idPost}"  th:text="${Post.postName}"></option>
+                    <option th:each="EmployeeArchives:${list}" th:value="${EmployeeArchives.employeeId}"  th:text="${EmployeeArchives.employeeName}"></option>
 
                 </select>
             </div>
