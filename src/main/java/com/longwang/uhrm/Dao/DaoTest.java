@@ -35,6 +35,9 @@ public class DaoTest {
         //User user = new User("Yxq","test","male","test","test",14,"2","1234",1,"1234");
 /*
         User user =  userDao.getUserById(2);
+
+        System.out.println(user.getName());
+        System.out.println(employeeArchivesDao.findAllEmployee());
         System.out.println(user.getName());*/
 
         departmentDao.getId("人事部");
@@ -47,5 +50,6 @@ public class DaoTest {
 //        employeeArchives.setPassword("123");
 //        employeeArchivesDao.register(employeeArchives);
 //        return "success";
+
     }
 }

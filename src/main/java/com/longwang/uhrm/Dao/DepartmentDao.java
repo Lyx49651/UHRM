@@ -4,6 +4,8 @@ import com.longwang.uhrm.mapper.DepartmentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DepartmentDao {
 
@@ -24,5 +26,6 @@ public class DepartmentDao {
         return departmentMapper.getName(idDepartment);
     }
 
-
+    //获得所有的department
+    public List<Department> getAll(){return  departmentMapper.getAllDepartment();}
 }

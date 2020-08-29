@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.longwang.uhrm.mapper.EmployeeArchivesMapper;
 
+import java.util.List;
+
 @Service
 public class EmployeeArchivesDao{
     @Autowired
@@ -31,6 +33,11 @@ public class EmployeeArchivesDao{
         return employeeArchivesMapper.getEmployeeById(id);
     }
 
+
+    public List<EmployeeArchives> findAllEmployee(){
+        return employeeArchivesMapper.findAll();
+    }
+
 //    //3.1.1.2 信息浏览 员工输入查询条件，查询自己的基本信息
 //    public Object userSearchInfo(String target, int id){
 //        EmployeeArchives employee = employeeArchivesMapper.getEmployeeById(id);
@@ -42,5 +49,6 @@ public class EmployeeArchivesDao{
 //        }
 //        //
 //    }
+
 
 }
