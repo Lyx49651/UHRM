@@ -33,5 +33,7 @@ public interface EmployeeArchivesMapper {
     public int insertEmployee(EmployeeArchives employeeArchives);
 
     //3.1.1.2 信息浏览
+    @Select("Select * from EmployeeArchives where employeeName like concat('%',#{employeeName},'%')")
+    public List<EmployeeArchives> getEmployeeByName(String employeeName);
 
 }
