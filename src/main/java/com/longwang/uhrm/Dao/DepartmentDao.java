@@ -34,4 +34,9 @@ public class DepartmentDao {
     public List<EmployeeArchives> getDepartmentEmployee(int idDepartment){
         return departmentMapper.getAllEmployeeByDepartment(idDepartment);
     }
+
+    //department name 查对应部门下的所有员工
+    public List<EmployeeArchives> getDepartmentEmployeeByName(String nameDepartment){
+        return departmentMapper.getAllEmployeeByDepartmentname(nameDepartment);
+    }
 }
