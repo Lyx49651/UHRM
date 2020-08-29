@@ -62,10 +62,11 @@ public class DaoTest {
 //        return "success";
 //        List<EmployeeArchives> em = departmentDao.getDepartmentEmployee(1);
 //        System.out.println(em);
-        Post post = positionDao.getPost(1);
+//        Post post = positionDao.getPost(1);
+//
+////        String  post = positionDao.getPostName(1);
+        System.out.println(employeeArchivesDao.getEmployeeByName("刘"));
 
-//        String  post = positionDao.getPostName(1);
-        System.out.println(post.getIdPost()+post.getPostName());
         return "success";
     }
 }

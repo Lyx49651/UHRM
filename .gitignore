@@ -13,4 +13,14 @@ buildNumber.properties
 .mvn/
 out/
 
+out/artifacts/uhrm_war_exploded2/WEB-INF/classes/com/longwang/uhrm/ViewController.class
+out/artifacts/uhrm_war_exploded2/WEB-INF/classes/com/longwang/uhrm/Entity/Dao/EmployeeArchivesDao.class
+.idea/misc.xml
+out/artifacts/uhrm_war_exploded2/WEB-INF/classes/com/longwang/uhrm/ViewController.class
+.idea/artifacts/uhrm_war.xml
+.idea/artifacts/uhrm_war_exploded.xml
+.idea/misc.xml
+.idea/artifacts/uhrm_war.xml
+.idea/misc.xml
 .idea/jarRepositories.xml
+

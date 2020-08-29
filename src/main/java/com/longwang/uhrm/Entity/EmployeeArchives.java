@@ -15,7 +15,6 @@ public class EmployeeArchives {
   private String employeeTitle;
   private String employeeTechnicalGrade;
   private String employeeIdentity;
-  private String employeeProfessionalTitle;
   private long salaryParametersIdSalaryParameters;
   private long positionIdPosition;
   private long departmentIdDepartment;
@@ -137,16 +136,6 @@ public class EmployeeArchives {
   public void setEmployeeIdentity(String employeeIdentity) {
     this.employeeIdentity = employeeIdentity;
   }
-
-
-  public String getEmployeeProfessionalTitle() {
-    return employeeProfessionalTitle;
-  }
-
-  public void setEmployeeProfessionalTitle(String employeeProfessionalTitle) {
-    this.employeeProfessionalTitle = employeeProfessionalTitle;
-  }
-
 
   public long getSalaryParametersIdSalaryParameters() {
     return salaryParametersIdSalaryParameters;
