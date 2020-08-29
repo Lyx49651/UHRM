@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-    <title>员工录入</title>
+    <title>员工查询</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -66,15 +66,22 @@
                 </thead>
                 <tbody>
                     <tr th:each="EmployeeArchives:${list}">
-                        <td th:text="${EmployeeArchives.employeeId}"></td>
+                        <td th:text="${EmployeeArchives.employeeId}" id="employeeId"></td>
                         <td th:text="${EmployeeArchives.employeeName}"></td>
                         <td th:text="${EmployeeArchives.employeeDepartment}"></td>
-                        <td><button class="btn btn-outline-success my-2 my-sm-0" type="submit">详情</button></td>
+                        <td><button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="xiuGai()">修改</button></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<script src="http://localhost:8080/js/jquery-3.5.1.min.js"></script>
+<script>
+    function xiuGai() {
+        var id =document.getElementById("employeeId").innerHTML;
+        location.href="http://localhost:8080/employee_info_change?id="+id
+    }
+</script>
 </body>
 </html>
