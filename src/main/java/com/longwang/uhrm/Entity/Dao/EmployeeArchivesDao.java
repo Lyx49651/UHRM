@@ -34,4 +34,8 @@ public class EmployeeArchivesDao{
     public EmployeeArchives getEmployeeById(long id){
         return employeeArchivesMapper.getEmployeeById(id);
     }
+
+    public List<EmployeeArchives> findAllEmployee(){
+        return employeeArchivesMapper.findAll();
+    }
 }
