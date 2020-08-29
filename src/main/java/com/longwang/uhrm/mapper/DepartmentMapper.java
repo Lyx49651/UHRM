@@ -19,4 +19,7 @@ public interface DepartmentMapper {
 
     @Select("select * from Department")
     public List<Department> getAllDepartment();
+
+    @Select("select * from EmployeeArchives, Department where Department_idDepartment=idDepartment and idDepartment = 1;")
+    public List<EmployeeArchives> getAllEmployeeByDepartment(int idDepartment);
 }

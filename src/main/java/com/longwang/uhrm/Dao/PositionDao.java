@@ -1,6 +1,7 @@
 package com.longwang.uhrm.Dao;
 
 import com.longwang.uhrm.Entity.Position;
+import com.longwang.uhrm.Entity.Post;
 import com.longwang.uhrm.mapper.PositionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,11 @@ public class PositionDao {
     //根据idposition获得post表中的name
     public String getPostName(int idPosition){
         return positionMapper.getName(idPosition);
+    }
+
+    //根据idposition查询得到对应的post
+    public Post getPost(int idPosition){
+        return positionMapper.getPost(idPosition);
     }
 
 }

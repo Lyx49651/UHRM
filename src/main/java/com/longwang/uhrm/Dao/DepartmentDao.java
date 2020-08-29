@@ -1,5 +1,6 @@
 package com.longwang.uhrm.Dao;
 import com.longwang.uhrm.Entity.Department;
+import com.longwang.uhrm.Entity.EmployeeArchives;
 import com.longwang.uhrm.mapper.DepartmentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,4 +29,9 @@ public class DepartmentDao {
 
     //获得所有的department
     public List<Department> getAll(){return  departmentMapper.getAllDepartment();}
+
+    //department id 查对应部门下的所有员工
+    public List<EmployeeArchives> getDepartmentEmployee(int idDepartment){
+        return departmentMapper.getAllEmployeeByDepartment(idDepartment);
+    }
 }

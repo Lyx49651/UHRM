@@ -1,6 +1,7 @@
 package com.longwang.uhrm.mapper;
 
 import com.longwang.uhrm.Entity.Position;
+import com.longwang.uhrm.Entity.Post;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -15,4 +16,7 @@ public interface PositionMapper {
     @Select("SELECT postName FROM uhrm.Post, Position where Position.idPosition = idPost and idPosition = #{idPosition}")
     public String getName(int idPosition);
     //sql
+
+    @Select("SELECT idPost,postName FROM Post, Position where Position.idPosition = idPost and idPosition = #{idPosition}")
+    public Post getPost(int idPosition);
 }
