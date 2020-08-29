@@ -1,4 +1,4 @@
-package com.longwang.uhrm.Entity.mapper;
+package com.longwang.uhrm.mapper;
 import com.longwang.uhrm.Entity.Department;
 import com.longwang.uhrm.Entity.EmployeeArchives;
 import org.apache.ibatis.annotations.Insert;

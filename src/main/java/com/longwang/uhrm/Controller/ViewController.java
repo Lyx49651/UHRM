@@ -1,4 +1,4 @@
-package com.longwang.uhrm;
+package com.longwang.uhrm.Controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.longwang.uhrm.Entity.Post;
@@ -11,16 +11,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import com.longwang.uhrm.Entity.Dao.EmployeeArchivesDao;
+import com.longwang.uhrm.Dao.EmployeeArchivesDao;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
-import com.longwang.uhrm.Entity.Dao.UserDao;
+import com.longwang.uhrm.Dao.UserDao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
