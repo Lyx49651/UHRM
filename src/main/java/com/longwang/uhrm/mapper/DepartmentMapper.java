@@ -1,4 +1,4 @@
-package com.longwang.uhrm.Entity.mapper;
+package com.longwang.uhrm.mapper;
 import com.longwang.uhrm.Entity.Department;
 import com.longwang.uhrm.Entity.EmployeeArchives;
 import org.apache.ibatis.annotations.Insert;
@@ -16,4 +16,13 @@ public interface DepartmentMapper {
 
     @Select("select idDepartment from Department where nameDepartment = #{nameDepartment}")
     public int getID(String nameDepartment);
+
+    @Select("select * from Department")
+    public List<Department> getAllDepartment();
+
+    @Select("select * from EmployeeArchives, Department where Department_idDepartment=idDepartment and idDepartment = #{idDepartment};")
+    public List<EmployeeArchives> getAllEmployeeByDepartment(int idDepartment);
+
+    @Select("select * from EmployeeArchives, Department where employeeDepartment=nameDepartment and nameDepartment = #{nameDepartment};")
+    public List<EmployeeArchives> getAllEmployeeByDepartmentname(String nameDepartment);
 }

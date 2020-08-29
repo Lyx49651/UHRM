@@ -1,7 +1,7 @@
-package com.longwang.uhrm.Entity.Dao;
+package com.longwang.uhrm.Dao;
 
 import com.longwang.uhrm.Entity.EmployeeArchives;
-import com.longwang.uhrm.Entity.User;
+import com.longwang.uhrm.Entity.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,11 +9,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class DaoTest {
     private EmployeeArchivesDao employeeArchivesDao;
     private UserDao userDao;
+    private DepartmentDao departmentDao;
+    private PositionDao positionDao;
+
+    @Autowired
+    public void setPositionDao(PositionDao positionDao) {
+        this.positionDao = positionDao;
+    }
 
     @Autowired
     public void setUserDao(UserDao userDao) {
@@ -25,14 +34,25 @@ public class DaoTest {
         this.employeeArchivesDao = employeeArchivesDao;
     }
 
+    @Autowired
+    public void setDepartmentDao(DepartmentDao departmentDao) {
+        this.departmentDao = departmentDao;
+    }
+
     @GetMapping("daoTest")
     @ResponseBody
     String test(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         //User user = new User("Yxq","test","male","test","test",14,"2","1234",1,"1234");
-
+/*
         User user =  userDao.getUserById(2);
+
         System.out.println(user.getName());
-        return "success";
+        System.out.println(employeeArchivesDao.findAllEmployee());
+        System.out.println(user.getName());*/
+
+//        departmentDao.getId("人事部");
+//        System.out.println(departmentDao.getId("人事部")+ departmentDao.getName(1));
+//        return "success";
 //
 //        EmployeeArchives employeeArchives = new EmployeeArchives();
 //        employeeArchives.setEmployeeId(2);
@@ -40,5 +60,12 @@ public class DaoTest {
 //        employeeArchives.setPassword("123");
 //        employeeArchivesDao.register(employeeArchives);
 //        return "success";
+//        List<EmployeeArchives> em = departmentDao.getDepartmentEmployee(1);
+//        System.out.println(em);
+        Post post = positionDao.getPost(1);
+
+//        String  post = positionDao.getPostName(1);
+        System.out.println(post.getIdPost()+post.getPostName());
+        return "success";
     }
 }

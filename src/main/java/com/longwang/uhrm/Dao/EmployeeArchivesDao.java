@@ -1,12 +1,9 @@
-package com.longwang.uhrm.Entity.Dao;
+package com.longwang.uhrm.Dao;
 
 import com.longwang.uhrm.Entity.EmployeeArchives;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import com.longwang.uhrm.Entity.mapper.EmployeeArchivesMapper;
+import com.longwang.uhrm.mapper.EmployeeArchivesMapper;
 
 import java.util.List;
 
@@ -31,7 +28,27 @@ public class EmployeeArchivesDao{
         return employeeArchivesMapper.getName(id);
     }
 
+    //3.1.1.2 信息浏览 人事助理输入查询条件，查询员工的基本信息
     public EmployeeArchives getEmployeeById(long id){
         return employeeArchivesMapper.getEmployeeById(id);
     }
+
+
+    public List<EmployeeArchives> findAllEmployee(){
+        return employeeArchivesMapper.findAll();
+    }
+
+//    //3.1.1.2 信息浏览 员工输入查询条件，查询自己的基本信息
+//    public Object userSearchInfo(String target, int id){
+//        EmployeeArchives employee = employeeArchivesMapper.getEmployeeById(id);
+//        if(target.equals("电话")){
+//            return employee.getEmployeePhoneNumber();
+//        }
+//        else if(target.equals("地址")){
+//            return employee.getEmployeeAddress();
+//        }
+//        //
+//    }
+
+
 }

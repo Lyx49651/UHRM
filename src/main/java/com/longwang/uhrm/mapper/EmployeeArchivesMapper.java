@@ -1,4 +1,4 @@
-package com.longwang.uhrm.Entity.mapper;
+package com.longwang.uhrm.mapper;
 
 import com.longwang.uhrm.Entity.EmployeeArchives;
 import org.apache.ibatis.annotations.Insert;
@@ -31,4 +31,7 @@ public interface EmployeeArchivesMapper {
             "#{employeeIdentity}, #{salaryParametersIdSalaryParameters}," +
             "#{positionIdPosition}, #{departmentIdDepartment}, #{password} )")
     public int insertEmployee(EmployeeArchives employeeArchives);
+
+    //3.1.1.2 信息浏览
+
 }

@@ -1,21 +1,14 @@
-<!DOCTYPE html >
-<html lang="en" xmlns:th="http://www.thymeleaf.org" style="width: 100%;height: 100%">
+<!doctype html>
+<html lang="en">
 <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>欢迎来到人力资源系统</title>
-    <!-- Bootstrap -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
-    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
-    <!--[if lt IE 9]>
-    <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-    <script src = "https://cdn.jsdelivr.net/npm/chart.js@2.8.0" ></script>
-    <![endif]-->
+    <title>信息更改</title>
     <script type="text/javascript">
         window.onload=function(){
             var cookie = document.cookie;
@@ -37,7 +30,7 @@
                 var username = getCookie("name");
                 var pro = " <div class='btn-group dropleft'>" +
                     "            <button class='btn btn-secondary dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' style='color: black'>\n" +
-                                   username +
+                    username +
                     "            </button>\n" +
                     "            <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>\n" +
                     "                <a class='dropdown-item' href='http://localhost:8080/logout' style='color: black'>登出</a>\n" +
@@ -93,75 +86,71 @@
     </div>
 </nav>
 
-<!--中间工具层-->
-<div style="width: 80%;height: 50%;margin: 5% auto">
-    <div class="panel panel-default" style="width: 60%;;margin: 0 0 0 20%;border: none">
-        <div class="panel-body" style="font-size: 30px">
-            功能选择
-        </div>
+<div class="card" style="margin: 160px auto;width: 650px;height: 400px">
+    <div class="card-header">
+        信息更改
     </div>
-    <table class="table table-bordered" style="width: 60%;height: 100%;margin: 0 0 0 20%">
-        <tr>
-            <td style="padding: 0;width: 272px;height: 251px;margin: 0">
-                <div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">
-                    <div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">
-                        <a href="http://localhost:8080/employee_import" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">
-                            <img th:src="@{/images/3.jpg}" alt="..." style="margin: 0">
-                        </a>
-                    </div>
+    <div class="card-body">
+        <form>
+            <div class="form-group">
+                <label for="employeeName">员工姓名</label>
+                <input type="text" id="employeeName" class="form-control">
+            </div>
+            <div class="form-group">
+            <label for="change_type">更改类型</label>
+            <select class="form-control" id="change_type">
+                <option selected>请选择更改类型</option>
+                <option>部门</option>
+                <option>学历</option>
+                <option>职位</option>
+                <option>岗位</option>
+                <option>技术等级</option>
+                <option>身份</option>
+            </select>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="change_original">原信息</label>
+                    <input type="text" class="form-control" id="change_original">
                 </div>
-            </td>
-            <td style="padding: 0;width: 272px;height: 251px">
-                <div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">
-                    <div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">
-                        <a href="http://localhost:8080/employee_search" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">
-                            <img th:src="@{/images/6.jpg}" alt="..." style="margin: 0">
-                        </a>
-                    </div>
+                <div class="form-group col-md-6">
+                    <label for="change_new">新信息</label>
+                    <input type="text" class="form-control" id="change_new">
                 </div>
-            </td>
-            <td style="padding: 0;width: 272px;height: 251px">
-                <div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">
-                    <div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">
-                        <a href="http://localhost:8080/employee_management/info_analysis" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">
-                            <img th:src="@{/images/5.jpg}" alt="..." style="margin: 0">
-                        </a>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td style="padding: 0;width: 272px;height: 251px">
-                <div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">
-                    <div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">
-                        <a href="#" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">
-                            <img th:src="@{/images/1.jpg}" alt="..." style="margin: 0">
-                        </a>
-                    </div>
-                </div>
-            </td>
-            <td style="padding: 0;width: 272px;height: 251px;">
-                <div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">
-                    <div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">
-                        <a href="#" class="thumbnail" style="height: 100%;width: 272px;padding: 0;border: 0;margin: 0">
-                            <img th:src="@{/images/1.jpg}" alt="..." style="margin: 0">
-                        </a>
-                    </div>
-                </div>
-            </td>
-            <td style="padding: 0;width: 272px;height: 251px">
-                <div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">
-                    <div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">
-                        <a href="#" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">
-                            <img th:src="@{/images/1.jpg}" alt="..." style="margin: 0">
-                        </a>
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </table>
+            </div>
+            <button type="button" class="btn btn-primary my-1" onclick="submit()">提交</button>
+        </form>
+    </div>
 </div>
-
+<script>
+    function submit(){
+        var employeename = document.getElementById("employeeName").value;
+        var changetype = document.getElementById("change_type").value;
+        var change_original = document.getElementById("change_original").value;
+        var change_new = document.getElementById("change_new").value;
+        var informationchange = {};
+        informationchange.employeeName = employeename;
+        informationchange.change_type = changetype;
+        informationchange.change_original = change_original;
+        informationchange.change_new = change_new;
+        $.ajax({
+            url:"http://localhost:8080/",
+            type:"post",
+            dataType:"json",
+            data:JSON.stringify(informationchange),
+            contentType: "application/json;charset=UTF-8",
+            success:function (data) {
+                location.reload();
+                alert("提交成功！")
+            },
+            error:function (data) {
+                alert("提交失败");
+            }
+        });
+    }
+</script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

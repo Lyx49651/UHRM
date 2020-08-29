@@ -1,4 +1,4 @@
-package com.longwang.uhrm.Entity.mapper;
+package com.longwang.uhrm.mapper;
 
 import com.longwang.uhrm.Entity.User;
 import org.apache.ibatis.annotations.Delete;
@@ -19,7 +19,6 @@ public interface UserMapper {
 
     @Select("select name from User where telephone = #{telephone}")
     public String getName(String telephone);
-
 
     @Insert("insert into User(name, sex, IDCard, photo, address, age, mailAddress, telephone, Post_idPost, password) " +
             "values(#{name}, #{sex}, #{IDCard}, #{photo}, #{address}, #{age}, #{mailAddress}, #{telephone}, #{postIdPost}, #{password})")

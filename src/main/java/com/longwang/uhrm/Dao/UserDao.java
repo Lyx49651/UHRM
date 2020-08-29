@@ -1,16 +1,10 @@
-package com.longwang.uhrm.Entity.Dao;
+package com.longwang.uhrm.Dao;
 
-import com.longwang.uhrm.Entity.EmployeeArchives;
 import com.longwang.uhrm.Entity.User;
-import com.longwang.uhrm.Entity.mapper.UserMapper;
-import org.mybatis.spring.annotation.MapperScan;
+import com.longwang.uhrm.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import com.longwang.uhrm.Entity.mapper.EmployeeArchivesMapper;
 
-import java.util.List;
 @Service("userDao")
 public class UserDao {
     @Autowired

@@ -163,4 +163,25 @@ public class EmployeeArchives {
     this.departmentIdDepartment = departmentIdDepartment;
   }
 
+  @Override
+  public String toString() {
+    return "EmployeeArchives{" +
+            "employeeId=" + employeeId +
+            ", employeeName='" + employeeName + '\'' +
+            ", employeeSex='" + employeeSex + '\'' +
+            ", employeeBirthday='" + employeeBirthday + '\'' +
+            ", employeeAddress='" + employeeAddress + '\'' +
+            ", employeePhoneNumber=" + employeePhoneNumber +
+            ", employeeDepartment='" + employeeDepartment + '\'' +
+            ", employeeEducation='" + employeeEducation + '\'' +
+            ", employeePost='" + employeePost + '\'' +
+            ", employeeTitle='" + employeeTitle + '\'' +
+            ", employeeTechnicalGrade='" + employeeTechnicalGrade + '\'' +
+            ", employeeIdentity='" + employeeIdentity + '\'' +
+            ", salaryParametersIdSalaryParameters=" + salaryParametersIdSalaryParameters +
+            ", positionIdPosition=" + positionIdPosition +
+            ", departmentIdDepartment=" + departmentIdDepartment +
+            ", password='" + password + '\'' +
+            '}';
+  }
 }
