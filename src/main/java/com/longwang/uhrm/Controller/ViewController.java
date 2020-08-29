@@ -1,8 +1,11 @@
 package com.longwang.uhrm.Controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.longwang.uhrm.Dao.DepartmentDao;
+import com.longwang.uhrm.Entity.Department;
 import com.longwang.uhrm.Entity.EmployeeArchives;
 import com.longwang.uhrm.Entity.Post;
+import com.longwang.uhrm.Tool.ToolMy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -31,6 +34,7 @@ public class ViewController {
     //注入
     EmployeeArchivesDao employeeArchivesDao;
     UserDao userDao;
+    DepartmentDao departmentDao;
     @Autowired
     void setEmployeeArchivesDao(EmployeeArchivesDao employeeArchivesDao){
         this.employeeArchivesDao = employeeArchivesDao;
@@ -40,10 +44,13 @@ public class ViewController {
     void setUserDao(UserDao userDao){
         this.userDao = userDao;
     }
-
-
+    @Autowired
+    public void setDepartmentDao(DepartmentDao departmentDao) {
+        this.departmentDao = departmentDao;
+    }
 
     ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+
     @Bean
     public SpringResourceTemplateResolver templateResolver(){
         // SpringResourceTemplateResolver automatically integrates with Spring's own
@@ -176,15 +183,31 @@ public class ViewController {
     // 跳转到人员信息录入
     @RequestMapping(method = RequestMethod.GET,value = "/employee_import")
     public String employee_import(Model model){
-        List<EmployeeArchives> x = employeeArchivesDao.findAllEmployee();
-        model.addAttribute("list",x);
+        model.addAttribute("list",departmentDao.getAll());
         return "employee_import";
     }
     //信息导入
     @RequestMapping(method = RequestMethod.POST,value = "/employee_info_import")
     @ResponseBody
-    public String employee_info_import(@RequestBody HashMap<String, String> map,Model m){
-        return "employee_import";
+    public JSONObject employee_info_import(@RequestBody EmployeeArchives employeeArchives) {
+        System.out.println(employeeArchives.getEmployeeName());
+        System.out.println(employeeArchives.getSalaryParametersIdSalaryParameters());
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result", "success");
+        return jsonObject;
+    }
+    //员工信息分析页面跳转
+    @RequestMapping(method = RequestMethod.GET,value = "/employee_management/info_analysis")
+    public String info_analysis(Model model) {
+        model.addAttribute("DepartmentList",departmentDao.getAll());
+        return "EmployeeInfo_analysis";
+    }
+    //向前端发送部门详细数据
+    @RequestMapping(method = RequestMethod.POST,value = "/get_info_employee")
+    @ResponseBody
+    public JSONObject employee_info_import(@RequestBody HashMap<String, String> map) {
+        ToolMy demo = new ToolMy();
+        return demo.analysis_json(departmentDao.getDepartmentEmployeeByName(map.get("name")));
     }
     //跳转到查询页面
     @RequestMapping(method = RequestMethod.GET,value = "/employee_search")
