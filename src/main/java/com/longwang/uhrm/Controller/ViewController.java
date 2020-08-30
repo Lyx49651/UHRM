@@ -216,13 +216,11 @@ public class ViewController {
         model.addAttribute("list",list);
         return "employee_search";
     }
-
+    //高级查询
     @RequestMapping(method = RequestMethod.GET,value = "/employee_id_search")
     public String employee_search_id(HttpServletRequest request, Model model){
-       // System.out.println(map.get("idOrName"));
         try{
             long id = Long.parseLong( request.getParameter("idOrName"));
-      //      System.out.println(id);
             EmployeeArchives emp = employeeArchivesDao.getEmployeeById(id);
             model.addAttribute("list",emp);
         }catch(Exception e){
@@ -230,8 +228,6 @@ public class ViewController {
             List<EmployeeArchives> list = employeeArchivesDao.getEmployeeByName(name);
             model.addAttribute("list",list);
         }
-
-
         return "employee_search";
     }
 }
