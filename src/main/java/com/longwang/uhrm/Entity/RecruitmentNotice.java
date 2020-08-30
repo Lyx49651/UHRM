@@ -1,6 +1,8 @@
 package com.longwang.uhrm.Entity;
 
 
+import java.sql.Timestamp;
+
 public class RecruitmentNotice {
 
   private long id;
@@ -62,4 +64,16 @@ public class RecruitmentNotice {
             ", stringTime='" + stringTime + '\'' +
             '}';
   }
+
+  public RecruitmentNotice() {
+  }
+
+  public RecruitmentNotice(long id, String title, String content, Timestamp time, String stringTime) {
+    this.id = id;
+    this.title = title;
+    this.content = content;
+    this.time = time;
+    this.stringTime = stringTime;
+  }
+
 }

@@ -22,4 +22,9 @@ public class RecruitmentNoticeDao {
         return recruitmentNoticeMapper.findAllByTitle(title);
     }
 
+    //添加招聘信息，可以不加主键id
+    public boolean addRecruitmentNotice (RecruitmentNotice recruitmentNotice){
+        return recruitmentNoticeMapper.insertRecuitment(recruitmentNotice);
+    }
+
 }

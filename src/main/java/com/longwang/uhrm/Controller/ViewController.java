@@ -2,6 +2,7 @@ package com.longwang.uhrm.Controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.longwang.uhrm.Dao.DepartmentDao;
+import com.longwang.uhrm.Dao.RecruitmentNoticeDao;
 import com.longwang.uhrm.Entity.Department;
 import com.longwang.uhrm.Entity.EmployeeArchives;
 import com.longwang.uhrm.Entity.Post;
@@ -37,6 +38,13 @@ public class ViewController {
     EmployeeArchivesDao employeeArchivesDao;
     UserDao userDao;
     DepartmentDao departmentDao;
+    RecruitmentNoticeDao recruitmentNoticeDao;
+
+    @Autowired
+    public void setRecruitmentNoticeDao(RecruitmentNoticeDao recruitmentNoticeDao) {
+        this.recruitmentNoticeDao = recruitmentNoticeDao;
+    }
+
     @Autowired
     void setEmployeeArchivesDao(EmployeeArchivesDao employeeArchivesDao){
         this.employeeArchivesDao = employeeArchivesDao;
@@ -46,6 +54,7 @@ public class ViewController {
     void setUserDao(UserDao userDao){
         this.userDao = userDao;
     }
+
     @Autowired
     public void setDepartmentDao(DepartmentDao departmentDao) {
         this.departmentDao = departmentDao;
@@ -221,23 +230,26 @@ public class ViewController {
     //跳转到招聘系统的功能页面
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_system")
     public String recruitment_system(Model model){
-        List<RecruitmentNotice> test = new ArrayList<>();
-        RecruitmentNotice a = new RecruitmentNotice();
-        RecruitmentNotice b = new RecruitmentNotice();
-        a.setId(1);
-        a.setTitle("人事部招聘");
-        a.setContent("随便招");
-        Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        a.setTime(time1);
-        a.setStringTime(time1.toString());
-        b.setId(2);
-        b.setTitle("科技部部招聘");
-        b.setContent("招");
-        Timestamp time = new Timestamp(System.currentTimeMillis());
-        b.setTime(time);
-        b.setStringTime(time.toString());
-        test.add(a);
-        test.add(b);
+        List<RecruitmentNotice> test = recruitmentNoticeDao.findAll();
+        for(RecruitmentNotice recruitmentNotice:test){
+            recruitmentNotice.setStringTime(recruitmentNotice.getTime().toString());
+        }
+//        RecruitmentNotice a = new RecruitmentNotice();
+//        RecruitmentNotice b = new RecruitmentNotice();
+//        a.setId(1);
+//        a.setTitle("人事部招聘");
+//        a.setContent("随便招");
+//        Timestamp time1 = new Timestamp(System.currentTimeMillis());
+//        a.setTime(time1);
+//        a.setStringTime(time1.toString());
+//        b.setId(2);
+//        b.setTitle("科技部部招聘");
+//        b.setContent("招");
+//        Timestamp time = new Timestamp(System.currentTimeMillis());
+//        b.setTime(time);
+//        b.setStringTime(time.toString());
+//        test.add(a);
+//        test.add(b);
         model.addAttribute("list",test);
         return "Recruitment_system_functions";
     }
@@ -254,10 +266,8 @@ public class ViewController {
     //高级查询，按id查询，或者按姓名模糊查询
     @RequestMapping(method = RequestMethod.GET,value = "/employee_id_search")
     public String employee_search_id(HttpServletRequest request, Model model){
-       // System.out.println(map.get("idOrName"));
         try{
             long id = Long.parseLong( request.getParameter("idOrName"));
-      //      System.out.println(id);
             EmployeeArchives emp = employeeArchivesDao.getEmployeeById(id);
             model.addAttribute("list",emp);
         }catch(Exception e){
@@ -265,8 +275,12 @@ public class ViewController {
             List<EmployeeArchives> list = employeeArchivesDao.getEmployeeByName(name);
             model.addAttribute("list",list);
         }
-
-
         return "employee_search";
+    }
+    //跳转到上报招聘计划页面
+    @RequestMapping(method = RequestMethod.GET,value = "/recruitment_plan_make")
+    public String recruitment_plan_make(Model model){
+        model.addAttribute("DepartmentList",departmentDao.getAll());
+        return "EmployeeInfo_analysis";
     }
 }

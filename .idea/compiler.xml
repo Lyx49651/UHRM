@@ -9,7 +9,7 @@
         <module name="uhrm" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="13">
       <module name="uhrm" target="13" />
     </bytecodeTargetLevel>
   </component>
