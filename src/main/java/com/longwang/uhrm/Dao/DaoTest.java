@@ -18,6 +18,10 @@ public class DaoTest {
     private UserDao userDao;
     private DepartmentDao departmentDao;
     private PositionDao positionDao;
+    private RecruitmentNoticeDao recruitmentNoticeDao;
+
+    @Autowired
+    public void setRecruitmentNoticeDao(RecruitmentNoticeDao recruitmentNoticeDao){this.recruitmentNoticeDao = recruitmentNoticeDao;}
 
     @Autowired
     public void setPositionDao(PositionDao positionDao) {
@@ -65,8 +69,8 @@ public class DaoTest {
 //        Post post = positionDao.getPost(1);
 //
 ////        String  post = positionDao.getPostName(1);
-        System.out.println(employeeArchivesDao.getEmployeeByName("刘"));
-
+       // System.out.println(employeeArchivesDao.getEmployeeByName("刘"));
+        System.out.println(recruitmentNoticeDao.findAll());
         return "success";
     }
 }

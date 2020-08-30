@@ -12,7 +12,7 @@ public class DepartmentDao {
 
     @Autowired
     DepartmentMapper departmentMapper;
-//按id获取部门信息
+    //按id获取部门信息
     public Department getDepartmentById(int idDepartment){
         return departmentMapper.getDepartmentById(idDepartment);
     }

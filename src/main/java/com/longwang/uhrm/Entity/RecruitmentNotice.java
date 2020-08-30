@@ -52,4 +52,14 @@ public class RecruitmentNotice {
     this.time = time;
   }
 
+  @Override
+  public String toString() {
+    return "RecruitmentNotice{" +
+            "id=" + id +
+            ", title='" + title + '\'' +
+            ", content='" + content + '\'' +
+            ", time=" + time +
+            ", stringTime='" + stringTime + '\'' +
+            '}';
+  }
 }
