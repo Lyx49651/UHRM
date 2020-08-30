@@ -29,4 +29,5 @@ public interface UserMapper {
 
     @Delete("delete from user where name = #{name}")
     public boolean deleteUserByName(String name);
+
 }

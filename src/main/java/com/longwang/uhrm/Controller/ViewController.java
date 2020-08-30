@@ -147,9 +147,7 @@ public class ViewController {
             return jsonObject;
         }
         //请注意，因为session和cookie会给测试工作带来很大的复杂性，因此在整个开发过程，没有直接用到的，均暂时注解掉
-
 //        return "redirect:index";
-
     }
     //非员工登录信息确认
     @RequestMapping(method = RequestMethod.POST,value = "/personnel_login_check")
@@ -251,5 +249,22 @@ public class ViewController {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result","success");
         return jsonObject;
+
+    @RequestMapping(method = RequestMethod.GET,value = "/employee_id_search")
+    public String employee_search_id(HttpServletRequest request, Model model){
+       // System.out.println(map.get("idOrName"));
+        try{
+            long id = Long.parseLong( request.getParameter("idOrName"));
+      //      System.out.println(id);
+            EmployeeArchives emp = employeeArchivesDao.getEmployeeById(id);
+            model.addAttribute("list",emp);
+        }catch(Exception e){
+            String name = request.getParameter("idOrName");
+            List<EmployeeArchives> list = employeeArchivesDao.getEmployeeByName(name);
+            model.addAttribute("list",list);
+        }
+
+
+        return "employee_search";
     }
 }
