@@ -31,7 +31,7 @@ public interface PositionMapper {
     @Select("Select employeeId from EmployeeArchives where Position_idPosition = #{Position_idPosition} and Department_idDepartment = #{Department_idDepartment}")
     public List<Integer> getPositionStuffAdvanced(int Position_idPosition, int Department_idDepartment);
 
-    @Select("Select recruitmentManagement from Position where typePosition = #{typePositon} and departmentId = #{departmentId}")
+    @Select("Select totalStaff from Position where typePosition = #{typePositon} and departmentId = #{departmentId}")
     public long getRecruitment(String typePosition,int departmentId);
 
     @Select("Select idPost from Post where postName = #{postName}")
