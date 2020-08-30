@@ -20,10 +20,7 @@ public class PositionDao {
         return positionMapper.getPosById(idPosition);
     }
 
-    //根据typename和department获得id
-    public int getId(String typeName,String departmentName){
-        return positionMapper.getId(typeName,departmentDao.getId(departmentName));
-    }
+
 
     //根据idposition获得post表中的name
     public String getPostName(int idPosition){
@@ -34,7 +31,6 @@ public class PositionDao {
     public Post getPost(int idPosition){
         return positionMapper.getPost(idPosition);
     }
-
 
     //根据部门名返回部门下的岗位列表
     public List<Position> getPostByDepartment(String nameDepartment){
@@ -54,5 +50,15 @@ public class PositionDao {
     //根据positionName和departmenName获取相应部门岗位的编制人数，例：人事部--助理--编制人数
     public long getRecruitment(String posName, String departName){
         return positionMapper.getRecruitment(posName,departmentDao.getId(departName));
+    }
+
+    //根据typename(postname)和department获得position表中的id
+    public int getId(String typeName,String departmentName){
+        return positionMapper.getId(typeName,departmentDao.getId(departmentName));
+    }
+
+    //根据Post表中的postName获得Post表的id
+    public int getPostId(String postName){
+        return positionMapper.getPostId(postName);
     }
 }

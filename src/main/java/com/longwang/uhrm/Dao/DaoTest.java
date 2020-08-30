@@ -1,6 +1,7 @@
 package com.longwang.uhrm.Dao;
 
 import com.longwang.uhrm.Entity.EmployeeArchives;
+import com.longwang.uhrm.Entity.Position;
 import com.longwang.uhrm.Entity.Post;
 import com.longwang.uhrm.Entity.RecruitmentNotice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,8 +87,8 @@ public class DaoTest {
 //        RecruitmentNotice recruitmentNotice = new RecruitmentNotice("人事部","1",time,"1");
 //        System.out.println(recruitmentNoticeDao.addRecruitmentNotice(recruitmentNotice));
 //
-
-        System.out.println(positionDao.getStuffNumByPosition_and_Department("组长","科研部"));
+        List<Position> list = positionDao.getPostByDepartment("人事部");
+        System.out.println(list.get(1).toString());
         return "success";
     }
 }

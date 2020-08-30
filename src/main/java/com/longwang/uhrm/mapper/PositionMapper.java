@@ -34,4 +34,7 @@ public interface PositionMapper {
 
     @Select("Select recruitmentManagement from Position where typePosition = #{typePositon} and departmentId = #{departmentId}")
     public long getRecruitment(String typePosition,int departmentId);
+
+    @Select("Select idPost from Post where postName = #{postName}")
+    public int getPostId(String postName);
 }
