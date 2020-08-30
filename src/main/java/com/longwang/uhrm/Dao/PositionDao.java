@@ -41,23 +41,6 @@ public class PositionDao {
         return positionMapper.getPositionListByDepartment(departmentDao.getId(nameDepartment));
     }
 
-//    //根据岗位名查询岗位现有人数
-//    public int getStuffNumByPosition(String positionName){
-//        int id = positionMapper.getId(positionName);
-//        List<Integer> numbers = positionMapper.getPositionStuff(id);
-//        return numbers.size();
-//    }
-
-//    //根据岗位名和部门名更精确的查询岗位现有人数
-//    public int getStuffNumByPosition_and_Department(String positonName,String departmentName){
-//        int depId = departmentDao.getId(departmentName);
-//        int posId = positionMapper.getId(positonName);
-//
-//        List<Integer> nums = positionMapper.getPositionStuffAdvanced(posId,depId);
-//        return nums.size();
-//    }
-
-
 
     //根据岗位名和部门名查询该部门该岗位现有人数，例：人事部--助理
     public int getStuffNumByPosition_and_Department(String positonName,String departmentName){
