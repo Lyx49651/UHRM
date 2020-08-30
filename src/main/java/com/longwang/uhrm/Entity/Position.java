@@ -14,6 +14,29 @@ public class Position {
   private long personnelManagement;
   private long systemManagement;
   private long totalStaff;
+  private long departmentId;
+
+  @Override
+  public String toString() {
+    return "Position{" +
+            "idPosition=" + idPosition +
+            ", typePostion='" + typePostion + '\'' +
+            ", employeeManagement=" + employeeManagement +
+            ", salaryManagement=" + salaryManagement +
+            ", documentManagement=" + documentManagement +
+            ", organizationManagement=" + organizationManagement +
+            ", attendanceManagement=" + attendanceManagement +
+            ", recruitmentManagement=" + recruitmentManagement +
+            ", personnelManagement=" + personnelManagement +
+            ", systemManagement=" + systemManagement +
+            ", totalStaff=" + totalStaff +
+            ", departmentId=" + departmentId +
+            '}';
+  }
+
+  public void setDepartmentId(long departmentId) {
+    this.departmentId = departmentId;
+  }
 
   public long getTotalStaff() {
     return totalStaff;
