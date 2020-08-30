@@ -4,7 +4,7 @@ package com.longwang.uhrm.Entity;
 public class Position {
 
   private long idPosition;
-  private String typePostion;
+  private String typePosition;
   private long employeeManagement;
   private long salaryManagement;
   private long documentManagement;
@@ -20,7 +20,7 @@ public class Position {
   public String toString() {
     return "Position{" +
             "idPosition=" + idPosition +
-            ", typePostion='" + typePostion + '\'' +
+            ", typePosition='" + typePosition + '\'' +
             ", employeeManagement=" + employeeManagement +
             ", salaryManagement=" + salaryManagement +
             ", documentManagement=" + documentManagement +
@@ -54,13 +54,8 @@ public class Position {
     this.idPosition = idPosition;
   }
 
-
-  public String getTypePostion() {
-    return typePostion;
-  }
-
-  public void setTypePostion(String typePostion) {
-    this.typePostion = typePostion;
+  public String getTypePosition() {
+    return typePosition;
   }
 
 

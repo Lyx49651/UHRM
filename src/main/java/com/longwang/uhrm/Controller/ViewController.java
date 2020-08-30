@@ -141,6 +141,7 @@ public class ViewController {
         if(res){
             HttpSession httpSession = httpServletRequest.getSession();//获取session
             String name = employeeArchivesDao.getName(Integer.parseInt(map.get("id")));
+            httpSession.setAttribute("id",map.get("id"));
             httpSession.setAttribute("name",name);
             httpSession.setMaxInactiveInterval(2*60);//设置session存活时间
             Cookie cookie = new Cookie("name",name);//新建cookie供客户端使用
@@ -277,6 +278,16 @@ public class ViewController {
         }
         return "employee_search";
     }
+
+
+    //查看个人信息
+    @RequestMapping(method = RequestMethod.GET,value = "/personalInfo")
+    public String personal_info(HttpServletRequest httpServletRequest,Model model) {
+        long employeeId = Long.parseLong((String) httpServletRequest.getSession().getAttribute("id"));
+        model.addAttribute("Employee", employeeArchivesDao.getEmployeeById(employeeId));
+        return "personal_info";
+    }
+
     //跳转到上报招聘计划页面
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_plan_make")
     public String recruitment_plan_make(Model model){

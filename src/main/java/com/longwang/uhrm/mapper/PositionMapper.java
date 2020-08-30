@@ -4,7 +4,6 @@ import com.longwang.uhrm.Entity.Position;
 import com.longwang.uhrm.Entity.Post;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>个人信息</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">高校人力资源管理系统</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="http://localhost:8080/index">首页 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+<div class="p-3 mb-2 bg-dark text-dark">
+    <div class="card" style="width: 80%;margin:1% auto">
+        <div class="card-header">
+            个人信息
+        </div>
+        <div class="card-body">
+            <table class="table" >
+                <tbody th:each="EmployeeArchives:${Employee}">
+                <tr>
+                    <th scope="row">编号</th>
+                    <td th:text="${EmployeeArchives.employeeId}"></td>
+                    <th scope="row">姓名</th>
+                    <td th:text="${EmployeeArchives.employeeName}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">性别</th>
+                    <td th:text="${EmployeeArchives.employeeSex}"></td>
+                    <th scope="row">生日</th>
+                    <td th:text="${EmployeeArchives.employeeBirthday}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">地址</th>
+                    <td th:text="${EmployeeArchives.employeeAddress}"></td>
+                    <th scope="row">手机号码</th>
+                    <td th:text="${EmployeeArchives.employeePhoneNumber}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">部门</th>
+                    <td th:text="${EmployeeArchives.employeeDepartment}"></td>
+                    <th scope="row">学位水平</th>
+                    <td th:text="${EmployeeArchives.employeeEducation}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">岗位</th>
+                    <td th:text="${EmployeeArchives.employeePost}"></td>
+                    <th scope="row">职称</th>
+                    <td th:text="${EmployeeArchives.employeeTitle}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">技术等级</th>
+                    <td th:text="${EmployeeArchives.employeeTechnicalGrade}"></td>
+                    <th scope="row">身份证号</th>
+                    <td th:text="${EmployeeArchives.employeeIdentity}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
