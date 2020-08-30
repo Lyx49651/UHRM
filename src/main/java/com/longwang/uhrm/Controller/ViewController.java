@@ -5,6 +5,7 @@ import com.longwang.uhrm.Dao.DepartmentDao;
 import com.longwang.uhrm.Entity.Department;
 import com.longwang.uhrm.Entity.EmployeeArchives;
 import com.longwang.uhrm.Entity.Post;
+import com.longwang.uhrm.Entity.RecruitmentNotice;
 import com.longwang.uhrm.Tool.ToolMy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,6 +26,7 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import com.longwang.uhrm.Dao.UserDao;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -217,5 +219,37 @@ public class ViewController {
         List<EmployeeArchives> list = employeeArchivesDao.findAllEmployee();
         model.addAttribute("list",list);
         return "employee_search";
+    }
+    //跳转到招聘系统的功能页面
+    @RequestMapping(method = RequestMethod.GET,value = "/recruitment_system")
+    public String recruitment_system(Model model){
+        List<RecruitmentNotice> test = new ArrayList<>();
+        RecruitmentNotice a = new RecruitmentNotice();
+        RecruitmentNotice b = new RecruitmentNotice();
+        a.setId(1);
+        a.setTitle("人事部招聘");
+        a.setContent("随便招");
+        Timestamp time1 = new Timestamp(System.currentTimeMillis());
+        a.setTime(time1);
+        a.setStringTime(time1.toString());
+        b.setId(2);
+        b.setTitle("科技部部招聘");
+        b.setContent("招");
+        Timestamp time = new Timestamp(System.currentTimeMillis());
+        b.setTime(time);
+        b.setStringTime(time.toString());
+        test.add(a);
+        test.add(b);
+        model.addAttribute("list",test);
+        return "Recruitment_system_functions";
+    }
+    //接收前端的招聘通知，存入数据库
+    @RequestMapping(method = RequestMethod.POST,value = "/recruitment_notice")
+    @ResponseBody
+    public JSONObject recruitment_notice(@RequestBody HashMap<String, String> map) {
+        System.out.println(map.get("title")+ map.get("content"));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result","success");
+        return jsonObject;
     }
 }

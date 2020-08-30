@@ -7,7 +7,15 @@ public class RecruitmentNotice {
   private String title;
   private String content;
   private java.sql.Timestamp time;
+  private  String stringTime;//存储String类型的日期
 
+  public String getStringTime() {
+    return stringTime;
+  }
+
+  public void setStringTime(String stringTime) {
+    this.stringTime = stringTime;
+  }
 
   public long getId() {
     return id;
