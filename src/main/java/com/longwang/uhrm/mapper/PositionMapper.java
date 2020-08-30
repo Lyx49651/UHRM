@@ -26,13 +26,13 @@ public interface PositionMapper {
     @Select("Select * from Position where departmentId = #{departmentId}")
     public List<Position> getPositionListByDepartment(int departmentId);
 
-    @Select("Select employeeId from EmployeeArchives where Position_idPosition = #{Position_idPosition}")
-    public List<Integer> getPositionStuff(int Position_idPosition);
+    @Select("Select employeeId from EmployeeArchives where employeeDepartment = #{employeeDepartment} and employeePost = #{employeePost}")
+    public List<Integer> getPositionStuff(String employeeDepartment, String employeePost);
 
     @Select("Select employeeId from EmployeeArchives where Position_idPosition = #{Position_idPosition} and Department_idDepartment = #{Department_idDepartment}")
     public List<Integer> getPositionStuffAdvanced(int Position_idPosition, int Department_idDepartment);
 
-    @Select("Select recruitmentManagement from Position where typePosition = #{typePositon} and departmentId = #{departmentId}")
+    @Select("Select recruitmentManagement from Position where typePosition = #{typePosition} and departmentId = #{departmentId}")
     public long getRecruitment(String typePosition,int departmentId);
 
     @Select("Select idPost from Post where postName = #{postName}")
