@@ -130,7 +130,7 @@
         user.type = "store_info";
         user.id = my_id;
         $.ajax({
-            url:"http://localhost:8080/get_info_by_departmentName",
+            url:"http://localhost:8080/get_info_by_departmentName_store",
             type:"post",
             dataType:"json",
             data:JSON.stringify(user),
@@ -212,6 +212,8 @@
         if(content == "部门选择"){
 
         }else {
+            var a = document.getElementById("post_list");
+            a.innerHTML = '<ul id="post_list" style="list-style-type: none"></ul>';
             get_info(content);
         }
     }

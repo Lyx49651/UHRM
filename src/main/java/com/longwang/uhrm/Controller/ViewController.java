@@ -307,40 +307,45 @@ public class ViewController {
     //根据部门名获取编制信息
     @RequestMapping(method = RequestMethod.POST,value = "/get_info_by_departmentName")
     @ResponseBody
-    public JSONObject get_info_by_departmentName(@RequestBody HashMap<String, Object> map) {
+    public JSONObject get_info_by_departmentName(@RequestBody HashMap<String, String> map) {
         //执行的为查询操作
-        if(map.get("type").equals("get_info")){
-            System.out.println(map.get("department"));
-//            List<Position> positions = positionDao.getPostByDepartment(map.get("department"));
+        System.out.println(map.get("department"));
+        List<Position> positions = positionDao.getPostByDepartment(map.get("department"));
 //            System.out.println(positions);
-            JSONObject jsonObject = new JSONObject();
-            JSONArray post_name = new JSONArray();
-            JSONArray position_id = new JSONArray();
-            JSONArray member_number = new JSONArray();
-            JSONArray authorize_strength = new JSONArray();
-            post_name.add("二级人事助理");
-            post_name.add("部门主管");
-            position_id.add(1);
-            position_id.add(2);
-            member_number.add(3);
-            member_number.add(1);
-            authorize_strength.add(10);
-            authorize_strength.add(1);
-//            for (Position position1:positions){
-//                System.out.println(position1.getTypePostion());
-//            }
-//            for(Position position:positions){
-//                post_name.add(position.getTypePostion());
-//                position_id.add(position.getIdPosition());
-//                member_number.add(positionDao.getStuffNumByPosition_and_Department(position.getTypePostion(),map.get("department")));
-//                authorize_strength.add(positionDao.getRecruitment(position.getTypePostion(),map.get("department")));
-//            }
-            jsonObject.put("post_name",post_name);
-            jsonObject.put("position_id",position_id);
-            jsonObject.put("member_number",member_number);
-            jsonObject.put("authorize_strength",authorize_strength);
-            return jsonObject;
-        }else {//招聘表存入数据库
+        JSONObject jsonObject = new JSONObject();
+        JSONArray post_name = new JSONArray();
+        JSONArray position_id = new JSONArray();
+        JSONArray member_number = new JSONArray();
+        JSONArray authorize_strength = new JSONArray();
+//            post_name.add("二级人事助理");
+//            post_name.add("部门主管");
+//            position_id.add(1);
+//            position_id.add(2);
+//            member_number.add(3);
+//            member_number.add(1);
+//            authorize_strength.add(10);
+//            authorize_strength.add(1);
+//        for (Position position1:positions){
+//            System.out.println(position1.getTypePostion());
+//        }
+        for(Position position:positions){
+            post_name.add(position.getTypePosition());
+            position_id.add(position.getIdPosition());
+            member_number.add(positionDao.getStuffNumByPosition_and_Department(map.get("department"),position.getTypePosition()));
+            System.out.println(position.getTypePosition());
+            authorize_strength.add(positionDao.getRecruitment(position.getTypePosition(),map.get("department")));
+        }
+        jsonObject.put("post_name",post_name);
+        jsonObject.put("position_id",position_id);
+        jsonObject.put("member_number",member_number);
+        jsonObject.put("authorize_strength",authorize_strength);
+        return jsonObject;
+
+    }
+    //根据部门名获取编制信息
+    @RequestMapping(method = RequestMethod.POST,value = "/get_info_by_departmentName_store")
+    @ResponseBody
+    public JSONObject get_info_by_departmentName_store(@RequestBody HashMap<String, Object> map) {
             System.out.println(map.get("id"));
             System.out.println(map.get("member"));
             System.out.println(map.get("authoried"));
@@ -348,6 +353,5 @@ public class ViewController {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("result", "pass");
             return jsonObject;
-        }
     }
 }

@@ -46,7 +46,8 @@ public class PositionDao {
 
     //根据positionName和departmenName获取相应部门岗位的编制人数，例：人事部--助理--编制人数
     public long getRecruitment(String posName, String departName){
-        return positionMapper.getRecruitment(posName,departmentDao.getId(departName));
+        System.out.println(departmentDao.getId(departName));
+        return positionMapper.getRecruitment(posName, departmentDao.getId(departName));
     }
 
     //根据typename(postname)和department获得position表中的id
