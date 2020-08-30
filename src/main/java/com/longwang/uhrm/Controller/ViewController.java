@@ -1,12 +1,9 @@
 package com.longwang.uhrm.Controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.longwang.uhrm.Dao.DepartmentDao;
-import com.longwang.uhrm.Dao.RecruitmentNoticeDao;
-import com.longwang.uhrm.Entity.Department;
-import com.longwang.uhrm.Entity.EmployeeArchives;
-import com.longwang.uhrm.Entity.Post;
-import com.longwang.uhrm.Entity.RecruitmentNotice;
+import com.longwang.uhrm.Dao.*;
+import com.longwang.uhrm.Entity.*;
 import com.longwang.uhrm.Tool.ToolMy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,11 +18,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import com.longwang.uhrm.Dao.EmployeeArchivesDao;
+
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
-import com.longwang.uhrm.Dao.UserDao;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -39,6 +35,12 @@ public class ViewController {
     UserDao userDao;
     DepartmentDao departmentDao;
     RecruitmentNoticeDao recruitmentNoticeDao;
+    PositionDao positionDao;
+
+    @Autowired
+    public void setPositionDao(PositionDao positionDao) {
+        this.positionDao = positionDao;
+    }
 
     @Autowired
     public void setRecruitmentNoticeDao(RecruitmentNoticeDao recruitmentNoticeDao) {
@@ -141,6 +143,7 @@ public class ViewController {
         if(res){
             HttpSession httpSession = httpServletRequest.getSession();//获取session
             String name = employeeArchivesDao.getName(Integer.parseInt(map.get("id")));
+            httpSession.setAttribute("id",map.get("id"));
             httpSession.setAttribute("name",name);
             httpSession.setMaxInactiveInterval(2*60);//设置session存活时间
             Cookie cookie = new Cookie("name",name);//新建cookie供客户端使用
@@ -258,6 +261,14 @@ public class ViewController {
     @ResponseBody
     public JSONObject recruitment_notice(@RequestBody HashMap<String, String> map) {
         System.out.println(map.get("title") + map.get("content"));
+
+        RecruitmentNotice recruitmentNotice = new RecruitmentNotice();
+        recruitmentNotice.setTitle(map.get("title"));
+        recruitmentNotice.setContent(map.get("content"));
+        Timestamp time = new Timestamp(System.currentTimeMillis());
+        recruitmentNotice.setTime(time);
+        recruitmentNoticeDao.addRecruitmentNotice(recruitmentNotice);
+
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result", "success");
         return jsonObject;
@@ -277,10 +288,66 @@ public class ViewController {
         }
         return "employee_search";
     }
+
+
+    //查看个人信息
+    @RequestMapping(method = RequestMethod.GET,value = "/personalInfo")
+    public String personal_info(HttpServletRequest httpServletRequest,Model model) {
+        long employeeId = Long.parseLong((String) httpServletRequest.getSession().getAttribute("id"));
+        model.addAttribute("Employee", employeeArchivesDao.getEmployeeById(employeeId));
+        return "personal_info";
+    }
+
     //跳转到上报招聘计划页面
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_plan_make")
     public String recruitment_plan_make(Model model){
         model.addAttribute("DepartmentList",departmentDao.getAll());
-        return "EmployeeInfo_analysis";
+        return "recruitment_plan_make";
+    }
+    //根据部门名获取编制信息
+    @RequestMapping(method = RequestMethod.POST,value = "/get_info_by_departmentName")
+    @ResponseBody
+    public JSONObject get_info_by_departmentName(@RequestBody HashMap<String, Object> map) {
+        //执行的为查询操作
+        if(map.get("type").equals("get_info")){
+            System.out.println(map.get("department"));
+//            List<Position> positions = positionDao.getPostByDepartment(map.get("department"));
+//            System.out.println(positions);
+            JSONObject jsonObject = new JSONObject();
+            JSONArray post_name = new JSONArray();
+            JSONArray position_id = new JSONArray();
+            JSONArray member_number = new JSONArray();
+            JSONArray authorize_strength = new JSONArray();
+            post_name.add("二级人事助理");
+            post_name.add("部门主管");
+            position_id.add(1);
+            position_id.add(2);
+            member_number.add(3);
+            member_number.add(1);
+            authorize_strength.add(10);
+            authorize_strength.add(1);
+//            for (Position position1:positions){
+//                System.out.println(position1.getTypePostion());
+//            }
+//            for(Position position:positions){
+//                post_name.add(position.getTypePostion());
+//                position_id.add(position.getIdPosition());
+//                member_number.add(positionDao.getStuffNumByPosition_and_Department(position.getTypePostion(),map.get("department")));
+//                authorize_strength.add(positionDao.getRecruitment(position.getTypePostion(),map.get("department")));
+//            }
+            jsonObject.put("post_name",post_name);
+            jsonObject.put("position_id",position_id);
+            jsonObject.put("member_number",member_number);
+            jsonObject.put("authorize_strength",authorize_strength);
+            return jsonObject;
+        }else {//招聘表存入数据库
+            System.out.println(map.get("id"));
+            System.out.println(map.get("member"));
+            System.out.println(map.get("authoried"));
+            System.out.println(map.get("recruitment"));
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("result", "pass");
+            return jsonObject;
+        }
     }
 }

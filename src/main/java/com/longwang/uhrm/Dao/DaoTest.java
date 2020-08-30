@@ -90,8 +90,12 @@ public class DaoTest {
 //        RecruitmentNotice recruitmentNotice = new RecruitmentNotice("人事部","1",time,"1");
 //        System.out.println(recruitmentNoticeDao.addRecruitmentNotice(recruitmentNotice));
 //
-        List<Position> list = positionDao.getPostByDepartment("人事部");
-        System.out.println(list.get(1).toString());
+//        List<Position> list = positionDao.getPostByDepartment("人事部");
+//        System.out.println(list.get(1).toString());
+        int num = positionDao.getStuffNumByPosition_and_Department("人事部","二级人事助理");
+        System.out.println(num);
+        //人事部对应id为1
+        System.out.println(positionDao.getRecruitment("助理","人事部"));
         return "success";
     }
 }

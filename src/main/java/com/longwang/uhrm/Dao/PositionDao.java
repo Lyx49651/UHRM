@@ -39,11 +39,8 @@ public class PositionDao {
 
 
     //根据岗位名和部门名查询该部门该岗位现有人数，例：人事部--助理
-    public int getStuffNumByPosition_and_Department(String positonName,String departmentName){
-        int depId = departmentDao.getId(departmentName);
-        int posId = positionMapper.getId(positonName,departmentDao.getId(departmentName));
-
-        List<Integer> nums = positionMapper.getPositionStuff(posId);
+    public int getStuffNumByPosition_and_Department(String employeeDepartment,String employeePosition){
+        List<Integer> nums = positionMapper.getPositionStuff(employeeDepartment, employeePosition);
         return nums.size();
     }
 
