@@ -1,6 +1,7 @@
 package com.longwang.uhrm.Dao;
 
 import com.longwang.uhrm.Entity.EmployeeArchives;
+import com.longwang.uhrm.Entity.Position;
 import com.longwang.uhrm.Entity.Post;
 import com.longwang.uhrm.Entity.RecruitmentNotice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,8 @@ public class DaoTest {
     private RecruitmentNoticeDao recruitmentNoticeDao;
 
     @Autowired
-    public void setRecruitmentNoticeDao(RecruitmentNoticeDao recruitmentNoticeDao) {
-        this.recruitmentNoticeDao = recruitmentNoticeDao;
-    }
+    public void setRecruitmentNoticeDao(RecruitmentNoticeDao recruitmentNoticeDao){this.recruitmentNoticeDao = recruitmentNoticeDao;}
+
 
     @Autowired
     public void setPositionDao(PositionDao positionDao) {
@@ -77,6 +77,10 @@ public class DaoTest {
 //
 ////        String  post = positionDao.getPostName(1);
 
+       // System.out.println(employeeArchivesDao.getEmployeeByName("刘"));
+        System.out.println(recruitmentNoticeDao.findAll());
+
+
 //
 //        String date = "2009-07-16T19:20"; // <input type="datetime-local"> 输入参数
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
@@ -86,8 +90,12 @@ public class DaoTest {
 //        RecruitmentNotice recruitmentNotice = new RecruitmentNotice("人事部","1",time,"1");
 //        System.out.println(recruitmentNoticeDao.addRecruitmentNotice(recruitmentNotice));
 //
-
-        System.out.println(positionDao.getStuffNumByPosition_and_Department("组长","科研部"));
+//        List<Position> list = positionDao.getPostByDepartment("人事部");
+//        System.out.println(list.get(1).toString());
+        int num = positionDao.getStuffNumByPosition_and_Department("人事部","二级人事助理");
+        System.out.println(num);
+        //人事部对应id为1
+        System.out.println(positionDao.getRecruitment("助理","人事部"));
         return "success";
     }
 }
