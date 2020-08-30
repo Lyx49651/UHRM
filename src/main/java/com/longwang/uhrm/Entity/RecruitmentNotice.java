@@ -1,13 +1,23 @@
 package com.longwang.uhrm.Entity;
 
 
+import java.sql.Timestamp;
+
 public class RecruitmentNotice {
 
   private long id;
   private String title;
   private String content;
   private java.sql.Timestamp time;
+  private  String stringTime;//存储String类型的日期
 
+  public String getStringTime() {
+    return stringTime;
+  }
+
+  public void setStringTime(String stringTime) {
+    this.stringTime = stringTime;
+  }
 
   public long getId() {
     return id;
@@ -44,4 +54,21 @@ public class RecruitmentNotice {
     this.time = time;
   }
 
+  public RecruitmentNotice() {
+  }
+
+  public RecruitmentNotice(long id, String title, String content, Timestamp time, String stringTime) {
+    this.id = id;
+    this.title = title;
+    this.content = content;
+    this.time = time;
+    this.stringTime = stringTime;
+  }
+
+  public RecruitmentNotice(String title, String content, Timestamp time, String stringTime) {
+    this.title = title;
+    this.content = content;
+    this.time = time;
+    this.stringTime = stringTime;
+  }
 }
