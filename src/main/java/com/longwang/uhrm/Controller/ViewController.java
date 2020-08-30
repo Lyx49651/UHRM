@@ -245,11 +245,11 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST,value = "/recruitment_notice")
     @ResponseBody
     public JSONObject recruitment_notice(@RequestBody HashMap<String, String> map) {
-        System.out.println(map.get("title")+ map.get("content"));
+        System.out.println(map.get("title") + map.get("content"));
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("result","success");
+        jsonObject.put("result", "success");
         return jsonObject;
-
+    }
     @RequestMapping(method = RequestMethod.GET,value = "/employee_id_search")
     public String employee_search_id(HttpServletRequest request, Model model){
        // System.out.println(map.get("idOrName"));
