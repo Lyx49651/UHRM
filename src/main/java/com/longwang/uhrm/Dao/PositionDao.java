@@ -6,19 +6,23 @@ import com.longwang.uhrm.mapper.PositionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PositionDao {
     @Autowired
     PositionMapper positionMapper;
+    @Autowired
+    DepartmentDao departmentDao;
 
     //根据id获得position
     public Position getPosByID(int idPosition){
         return positionMapper.getPosById(idPosition);
     }
 
-    //根据typename获得id
-    public int getId(String typeName){
-        return positionMapper.getId(typeName);
+    //根据typename和department获得id
+    public int getId(String typeName,String departmentName){
+        return positionMapper.getId(typeName,departmentDao.getId(departmentName));
     }
 
     //根据idposition获得post表中的name
@@ -31,4 +35,41 @@ public class PositionDao {
         return positionMapper.getPost(idPosition);
     }
 
+
+    //根据部门名返回部门下的岗位列表
+    public List<Position> getPostByDepartment(String nameDepartment){
+        return positionMapper.getPositionListByDepartment(departmentDao.getId(nameDepartment));
+    }
+
+//    //根据岗位名查询岗位现有人数
+//    public int getStuffNumByPosition(String positionName){
+//        int id = positionMapper.getId(positionName);
+//        List<Integer> numbers = positionMapper.getPositionStuff(id);
+//        return numbers.size();
+//    }
+
+//    //根据岗位名和部门名更精确的查询岗位现有人数
+//    public int getStuffNumByPosition_and_Department(String positonName,String departmentName){
+//        int depId = departmentDao.getId(departmentName);
+//        int posId = positionMapper.getId(positonName);
+//
+//        List<Integer> nums = positionMapper.getPositionStuffAdvanced(posId,depId);
+//        return nums.size();
+//    }
+
+
+
+    //根据岗位名和部门名查询该部门该岗位现有人数，例：人事部--助理
+    public int getStuffNumByPosition_and_Department(String positonName,String departmentName){
+        int depId = departmentDao.getId(departmentName);
+        int posId = positionMapper.getId(positonName,departmentDao.getId(departmentName));
+
+        List<Integer> nums = positionMapper.getPositionStuff(posId);
+        return nums.size();
+    }
+
+    //根据positionName和departmenName获取相应部门岗位的编制人数，例：人事部--助理--编制人数
+    public long getRecruitment(String posName, String departName){
+        return positionMapper.getRecruitment(posName,departmentDao.getId(departName));
+    }
 }

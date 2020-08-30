@@ -77,15 +77,17 @@ public class DaoTest {
 //
 ////        String  post = positionDao.getPostName(1);
 
-
-        String date = "2009-07-16T19:20"; // <input type="datetime-local"> 输入参数
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-            Date dt = sdf.parse(date);
-            Timestamp time = new Timestamp(dt.getTime());
-
-        RecruitmentNotice recruitmentNotice = new RecruitmentNotice("人事部","1",time,"1");
-        System.out.println(recruitmentNoticeDao.addRecruitmentNotice(recruitmentNotice));
 //
+//        String date = "2009-07-16T19:20"; // <input type="datetime-local"> 输入参数
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+//            Date dt = sdf.parse(date);
+//            Timestamp time = new Timestamp(dt.getTime());
+//
+//        RecruitmentNotice recruitmentNotice = new RecruitmentNotice("人事部","1",time,"1");
+//        System.out.println(recruitmentNoticeDao.addRecruitmentNotice(recruitmentNotice));
+//
+
+        System.out.println(positionDao.getStuffNumByPosition_and_Department("组长","科研部"));
         return "success";
     }
 }
