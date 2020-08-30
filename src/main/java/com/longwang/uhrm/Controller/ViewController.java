@@ -250,6 +250,8 @@ public class ViewController {
         jsonObject.put("result", "success");
         return jsonObject;
     }
+
+    //高级查询，按id查询，或者按姓名模糊查询
     @RequestMapping(method = RequestMethod.GET,value = "/employee_id_search")
     public String employee_search_id(HttpServletRequest request, Model model){
        // System.out.println(map.get("idOrName"));
