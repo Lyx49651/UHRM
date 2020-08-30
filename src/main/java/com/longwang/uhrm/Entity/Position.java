@@ -13,7 +13,15 @@ public class Position {
   private long recruitmentManagement;
   private long personnelManagement;
   private long systemManagement;
+  private long totalStaff;
 
+  public long getTotalStaff() {
+    return totalStaff;
+  }
+
+  public void setTotalStaff(long totalStaff) {
+    this.totalStaff = totalStaff;
+  }
 
   public long getIdPosition() {
     return idPosition;
