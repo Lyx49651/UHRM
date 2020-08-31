@@ -10,15 +10,6 @@ public class RecruitmentNotice {
   private String content;
   private java.sql.Timestamp time;
   private  String stringTime;//存储String类型的日期
-  private String status;
-
-  public String getStatus() {
-    return status;
-  }
-
-  public void setStatus(String status) {
-    this.status = status;
-  }
 
   public String getStringTime() {
     return stringTime;
@@ -71,7 +62,6 @@ public class RecruitmentNotice {
     this.content = content;
     this.time = time;
     this.stringTime = stringTime;
-    this.status = status;
   }
 
   @Override
@@ -82,7 +72,6 @@ public class RecruitmentNotice {
             ", content='" + content + '\'' +
             ", time=" + time +
             ", stringTime='" + stringTime + '\'' +
-            ", status='" + status + '\'' +
             '}';
   }
 }

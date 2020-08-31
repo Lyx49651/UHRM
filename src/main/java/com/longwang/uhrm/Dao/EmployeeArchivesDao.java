@@ -55,11 +55,35 @@ public class EmployeeArchivesDao{
 //        //
 //    }
     public boolean informationChange(convertdata convertdata){
-        return employeeArchivesMapper.informationChange(convertdata) == 1;
+        if(convertdata.getSelectedInfo().length == 1){
+            return employeeArchivesMapper.informationChangeOne(convertdata) == 1;
+        }else if(convertdata.getSelectedInfo().length == 2){
+            return employeeArchivesMapper.informationChangeTwo(convertdata) == 1;
+        }else if(convertdata.getSelectedInfo().length == 3){
+            return employeeArchivesMapper.informationChangeThree(convertdata) == 1;
+        }else if(convertdata.getSelectedInfo().length == 4){
+            return employeeArchivesMapper.informationChangeFour(convertdata) == 1;
+        }else if(convertdata.getSelectedInfo().length == 5){
+            return employeeArchivesMapper.informationChangeFive(convertdata) == 1;
+        }else{
+            return employeeArchivesMapper.informationChangeSix(convertdata) == 1;
+        }
     }
 
     public boolean updateEmployeeInfo(convertdata convertdata){
-        return true;
+        if(convertdata.getSelectedInfo().length == 1){
+            return employeeArchivesMapper.updateEmployeeInfoOne(convertdata) == 1;
+        }else if(convertdata.getSelectedInfo().length == 2){
+            return employeeArchivesMapper.updateEmployeeInfoTwo(convertdata) == 1;
+        }else if(convertdata.getSelectedInfo().length == 3){
+            return employeeArchivesMapper.updateEmployeeInfoThree(convertdata) == 1;
+        }else if(convertdata.getSelectedInfo().length == 4){
+            return employeeArchivesMapper.updateEmployeeInfoFour(convertdata) == 1;
+        }else if(convertdata.getSelectedInfo().length == 5){
+            return employeeArchivesMapper.updateEmployeeInfoFive(convertdata) == 1;
+        }else{
+            return employeeArchivesMapper.updateEmployeeInfoSix(convertdata) == 1;
+        }
     }
 
 }

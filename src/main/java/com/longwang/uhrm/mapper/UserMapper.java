@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
     @Select("select *from User where idUser = #{idUser}")
@@ -30,4 +32,6 @@ public interface UserMapper {
     @Delete("delete from user where name = #{name}")
     public boolean deleteUserByName(String name);
 
+    @Select("SELECT * FROM User,CandidateInfo where idUser = idCandidateInfo;")
+    public List<User> getUsrByCandidate();
 }
