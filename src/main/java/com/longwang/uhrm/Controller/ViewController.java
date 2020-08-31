@@ -1,4 +1,4 @@
-package com.longwang.uhrm.Controller;
+package com.longwang.uhrm.controller;
 
 
 import com.alibaba.fastjson.JSONArray;
@@ -474,16 +474,31 @@ public class ViewController {
         convertdata.setEmployeeName(map.get("employeeName"));
         convertdata.setEmployeeSex(map.get("employeeSex"));
         convertdata.setEmployeePhone(map.get("employeePhone"));
-        convertdata.setChangeInfoOriginal(changeInfoOriginal);
-        convertdata.setChangeInfoNow(changeInfoNow);
-        convertdata.setSelectedInfo(selectedInfo);
-        Boolean res = employeeArchivesDao.informationChange(convertdata);
-        Boolean res1 = employeeArchivesDao.updateEmployeeInfo(convertdata);
+        Boolean res = false;
+        Boolean res1 = false;
 
 
-        if(res && res1) jsonObject.put("result","success");
+        Boolean res2 = employeeArchivesDao.updateEmployeeBaseInfo(convertdata);
+
+        for(int i=0;i<len1;i++){
+            convertdata.setChangeInfoOriginal(changeInfoOriginal[i]);
+            convertdata.setChangeInfoNow(changeInfoNow[i]);
+            convertdata.setChangeType(selectedInfo[i]);
+            res = employeeArchivesDao.informationChange(convertdata);
+            if(res) continue;
+            else break;
+        }
+
+        for(int i=0;i<len1;i++){
+            convertdata.setChangeType(selectedInfo[i]);
+            convertdata.setChangeInfoNow(changeInfoNow[i]);
+            res1 = employeeArchivesDao.updateEmployeeSpecialInfo(convertdata);
+            if(res) continue;
+            else break;
+        }
+
+        if(res && res1 && res2) jsonObject.put("result","success");
         else jsonObject.put("result","default");
-
         return jsonObject;
     }
 
