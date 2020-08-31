@@ -433,13 +433,6 @@ public class ViewController {
         jsonObject.put("result", "pass");
         return jsonObject;
     }
-
-
-    public String employee_info_import(@RequestBody HashMap<String, String> map,Model m){
-        return "employee_import";
-
-    }
-
     //跳转到信息修改页面
     @RequestMapping(method = RequestMethod.GET,value = "/employee_info_change")
     public String employee_info_change(HttpServletRequest httpServletRequest,Model model){
@@ -477,12 +470,12 @@ public class ViewController {
         convertdata.setChangeInfoOriginal(changeInfoOriginal);
         convertdata.setChangeInfoNow(changeInfoNow);
         convertdata.setSelectedInfo(selectedInfo);
-        Boolean res = employeeArchivesDao.informationChange(convertdata);
-        Boolean res1 = employeeArchivesDao.updateEmployeeInfo(convertdata);
-
-
-        if(res && res1) jsonObject.put("result","success");
-        else jsonObject.put("result","default");
+//        Boolean res = employeeArchivesDao.informationChange(convertdata);
+//        Boolean res1 = employeeArchivesDao.updateEmployeeInfo(convertdata);
+//
+//
+//        if(res && res1) jsonObject.put("result","success");
+//        else jsonObject.put("result","default");
 
         return jsonObject;
     }
@@ -529,6 +522,17 @@ public class ViewController {
         System.out.println(map.get("out_list"));
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result","pass");
+        return jsonObject;
+    }
+    //用户注册
+    @RequestMapping(method = RequestMethod.POST,value = "/userRegister")
+    @ResponseBody
+    public JSONObject user_register(@RequestBody User user){
+        boolean flag=userDao.register(user);
+        JSONObject jsonObject=new JSONObject();
+        if(flag){
+            jsonObject.put("result","success");
+        }
         return jsonObject;
     }
 }
