@@ -34,4 +34,7 @@ public interface UserMapper {
 
     @Select("SELECT * FROM User,CandidateInfo where idUser = idCandidateInfo;")
     public List<User> getUsrByCandidate();
+
+    @Select("SELECT * FROM User,CandidateInfo where CandidateInfo.status = \"passed\" and User.idUser = CandidateInfo.idCandidateInfo")
+    public List<User> userPassed();
 }

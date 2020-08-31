@@ -52,8 +52,14 @@ public class UserDao {
         return userMapper.getName(phone);
     }
 
+    //根据CandidateInfo（面试用户）获取对应的user表中的所有用户信息的函数
     public List<User> getUserByCandiate(){
         return userMapper.getUsrByCandidate();
+    }
+
+    //获取通过的user信息
+    public List<User> getUserPassed(){
+        return userMapper.userPassed();
     }
 
 }
