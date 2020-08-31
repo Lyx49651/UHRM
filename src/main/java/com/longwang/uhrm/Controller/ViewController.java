@@ -4,7 +4,7 @@ package com.longwang.uhrm.Controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.longwang.uhrm.Dao.*;
-import com.longwang.uhrm.entity.*;
+import com.longwang.uhrm.Entity.*;
 import com.longwang.uhrm.Tool.ToolMy;
 
 import com.alibaba.fastjson.JSON;
@@ -477,12 +477,12 @@ public class ViewController {
         convertdata.setChangeInfoOriginal(changeInfoOriginal);
         convertdata.setChangeInfoNow(changeInfoNow);
         convertdata.setSelectedInfo(selectedInfo);
-        Boolean res = employeeArchivesDao.informationChange(convertdata);
-        Boolean res1 = employeeArchivesDao.updateEmployeeInfo(convertdata);
+//        Boolean res = employeeArchivesDao.informationChange(convertdata);
+//        Boolean res1 = employeeArchivesDao.updateEmployeeInfo(convertdata);
 
 
-        if(res && res1) jsonObject.put("result","success");
-        else jsonObject.put("result","default");
+//        if(res && res1) jsonObject.put("result","success");
+//        else jsonObject.put("result","default");
 
         return jsonObject;
     }
@@ -527,6 +527,55 @@ public class ViewController {
     @ResponseBody
     public JSONObject modify_users(@RequestBody HashMap<String,Object> map){
         System.out.println(map.get("out_list"));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result","pass");
+        return jsonObject;
+    }
+    //跳转面试与笔试成绩审核页面
+    @RequestMapping(method = RequestMethod.GET,value = "/recruitment_info_save")
+    public String recruitment_info_save(Model model){
+        List<CandidateInfo> candidateInfos = new ArrayList<>();
+        CandidateInfo a = new CandidateInfo();
+        a.setIdCandidateInfo(1);
+        a.setInterviewResult("98");
+        a.setWrittenResult("90");
+        candidateInfos.add(a);
+        model.addAttribute("list", a);
+        return "select_recruitment_grade";
+    }
+    //接收经过笔试和面试成绩审核的信息
+    @RequestMapping(method = RequestMethod.POST, value = "/modify_users_selected")
+    @ResponseBody
+    public JSONObject modify_users_selected(@RequestBody HashMap<String,Object> map){
+        System.out.println(map.get("out_list"));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result","pass");
+        return jsonObject;
+    }
+    //跳转到招聘人归档页面
+    @RequestMapping(method = RequestMethod.GET,value = "/recruitment_to_employee")
+    public String recruitment_to_employee(Model model){
+        List<User> users = new ArrayList<>();
+        User a = new User();
+        a.setIdUser(1);
+        a.setName("边小博");
+        a.setIdCard("61012219990331xxxx");
+        a.setAddress("陕西榆林");
+        a.setAge(21);
+        a.setMailAddress("123@qq.com");
+        a.setTelephone("1531581010");
+        a.setEducation("本科");
+        a.setSex("男");
+        users.add(a);
+        model.addAttribute("list", users);
+        return "Archive";
+    }
+    //归档
+    @RequestMapping(method = RequestMethod.POST, value = "/archive_data")
+    @ResponseBody
+    public JSONObject archive_data(@RequestBody HashMap<String,Object> map){
+        System.out.println(map.get("title"));
+        System.out.println(map.get("name").toString().split("]")[0]);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result","pass");
         return jsonObject;

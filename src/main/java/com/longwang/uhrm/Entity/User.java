@@ -11,6 +11,15 @@ public class User {
   private String address;
   private long age;
   private String mailAddress;
+  private String education;
+
+  public String getEducation() {
+    return education;
+  }
+
+  public void setEducation(String education) {
+    this.education = education;
+  }
 
   public User() {
 
@@ -24,10 +33,19 @@ public class User {
     this.telephone = telephone;
   }
 
+  public String getIDCard() {
+    return IDCard;
+  }
+
+  public void setIDCard(String IDCard) {
+    this.IDCard = IDCard;
+  }
+
   public User(String name, String sex, String idCard, String photo, String address, long age, String mailAddress, String telephone, long postIdPost, String password) {
     this.name = name;
     this.sex = sex;
     this.IDCard = idCard;
+
     this.photo = photo;
     this.address = address;
     this.age = age;
