@@ -552,4 +552,22 @@ public class ViewController {
         }
         return jsonObject;
     }
+
+
+    //用户注册
+    @RequestMapping(method = RequestMethod.POST,value = "/retrieve_password")
+    @ResponseBody
+    public JSONObject retrieve_password(@RequestBody HashMap<String,String> hashMap){
+        String phoneNumber = hashMap.get("employeePhoneNumber");
+        String employeeName = hashMap.get("employeeName");
+        String res = userDao.retrieve_password(phoneNumber,employeeName);
+        JSONObject jsonObject=new JSONObject();
+        if(res!=null){
+            jsonObject.put("password",res);
+            jsonObject.put("result","success");
+        }else{
+            jsonObject.put("result","default");
+        }
+        return jsonObject;
+    }
 }

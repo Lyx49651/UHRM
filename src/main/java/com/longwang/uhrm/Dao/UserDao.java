@@ -28,6 +28,13 @@ public class UserDao {
             return false;
         }
     }
+
+    //找回密码
+    public String retrieve_password(String phoneNumber,String employeeName){
+        return userMapper.retrieve_password(phoneNumber,employeeName);
+    }
+
+
     //按id查找返回用户
     public User getUserById(int userId){
         return userMapper.getUserById(userId);

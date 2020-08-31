@@ -37,4 +37,7 @@ public interface UserMapper {
 
     @Select("SELECT * FROM User,CandidateInfo where CandidateInfo.status = \"passed\" and User.idUser = CandidateInfo.idCandidateInfo")
     public List<User> userPassed();
+
+    @Select("SELECT password FROM EmployeeArchives where employeePhoneNumber = #{phoneNumber} and employeeName = #{employeeName}")
+    public String retrieve_password(String phoneNumber,String employeeName);
 }
