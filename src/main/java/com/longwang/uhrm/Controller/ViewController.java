@@ -1,4 +1,4 @@
-package com.longwang.uhrm.controller;
+package com.longwang.uhrm.Controller;
 
 
 import com.alibaba.fastjson.JSONArray;
@@ -111,6 +111,11 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.GET,value = "/index")
     public String test(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
 
+        return "home";
+    }
+    //同样主页面
+    @RequestMapping(method = RequestMethod.GET,value = "/")
+    public String start(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         return "home";
     }
     //登出
@@ -274,6 +279,19 @@ public class ViewController {
         test1.add(b);
         model.addAttribute("plan",test1);
         model.addAttribute("list",test);
+
+        List<User> users = new ArrayList<>();
+        User h = new User();
+        h.setIdUser(1);
+        h.setName("边小博");
+        h.setIdCard("61012219990331xxxx");
+        h.setAddress("陕西榆林");
+        h.setAge(21);
+        h.setSex("男");
+        h.setMailAddress("123@qq.com");
+        h.setTelephone("1531581010");
+        users.add(h);
+        model.addAttribute("list1",users);
         return "Recruitment_system_functions";
     }
     //接收前端的招聘通知，存入数据库
@@ -486,5 +504,29 @@ public class ViewController {
         jsonObject.put("result","success");
         return jsonObject;
     }
-
+    //跳转到信息修改页面
+    @RequestMapping(method = RequestMethod.GET,value = "/recruitment_namelist_check")
+    public String recruitment_namelist_check(Model model){
+        List<User> users = new ArrayList<>();
+        User a = new User();
+        a.setIdUser(1);
+        a.setName("边小博");
+        a.setIdCard("61012219990331xxxx");
+        a.setAddress("陕西榆林");
+        a.setAge(21);
+        a.setMailAddress("123@qq.com");
+        a.setTelephone("1531581010");
+        users.add(a);
+        model.addAttribute("list",users);
+        return "recruitment_name_list_check";
+    }
+    //接收审核后的报名应聘者
+    @RequestMapping(method = RequestMethod.POST, value = "/modify_users")
+    @ResponseBody
+    public JSONObject modify_users(@RequestBody HashMap<String,Object> map){
+        System.out.println(map.get("out_list"));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result","pass");
+        return jsonObject;
+    }
 }
