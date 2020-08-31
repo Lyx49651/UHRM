@@ -3,8 +3,8 @@ package com.longwang.uhrm.Entity;
 
 public class InformationChange {
 
-  private String idInformationChange;
-  private long emploteeId;
+  private long idInformationChange;
+  private long employeeId;
   private String employeeName;
   private java.sql.Timestamp changeTime;
   private String changeType;
@@ -12,23 +12,21 @@ public class InformationChange {
   private String changeNow;
 
 
-  public String getIdInformationChange() {
+  public long getIdInformationChange() {
     return idInformationChange;
   }
 
-  public void setIdInformationChange(String idInformationChange) {
+  public void setIdInformationChange(long idInformationChange) {
     this.idInformationChange = idInformationChange;
   }
 
-
-  public long getEmploteeId() {
-    return emploteeId;
+  public long getEmployeeId() {
+    return employeeId;
   }
 
-  public void setEmploteeId(long emploteeId) {
-    this.emploteeId = emploteeId;
+  public void setEmployeeId(long employeeId) {
+    this.employeeId = employeeId;
   }
-
 
   public String getEmployeeName() {
     return employeeName;
@@ -74,4 +72,18 @@ public class InformationChange {
     this.changeNow = changeNow;
   }
 
+
+
+  @Override
+  public String toString() {
+    return "InformationChange{" +
+            "idInformationChange='" + idInformationChange + '\'' +
+            ", employeeId=" + employeeId +
+            ", employeeName='" + employeeName + '\'' +
+            ", changeTime=" + changeTime +
+            ", changeType='" + changeType + '\'' +
+            ", changeOriginal='" + changeOriginal + '\'' +
+            ", changeNow='" + changeNow + '\'' +
+            '}';
+  }
 }

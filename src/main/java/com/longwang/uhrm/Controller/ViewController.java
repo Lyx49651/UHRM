@@ -1,10 +1,19 @@
-package com.longwang.uhrm.Controller;
+package com.longwang.uhrm.controller;
+
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.longwang.uhrm.Dao.*;
 import com.longwang.uhrm.Entity.*;
 import com.longwang.uhrm.Tool.ToolMy;
+
+import com.alibaba.fastjson.JSON;
+import com.longwang.uhrm.Entity.InformationChange;
+import com.alibaba.fastjson.JSONObject;
+import com.longwang.uhrm.Entity.Post;
+import com.longwang.uhrm.Tool.convertdata;
+import com.sun.tools.jconsole.JConsoleContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -23,11 +32,14 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import java.util.*;
 
 @Controller
 public class ViewController {
@@ -203,6 +215,7 @@ public class ViewController {
     }
     //信息导入
     @RequestMapping(method = RequestMethod.POST,value = "/employee_info_import")
+
     @ResponseBody
     public JSONObject employee_info_import(@RequestBody EmployeeArchives employeeArchives) {
         System.out.println(employeeArchives.getEmployeeName());
@@ -395,5 +408,75 @@ public class ViewController {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result", "pass");
         return jsonObject;
+
+    public String employee_info_import(@RequestBody HashMap<String, String> map,Model m){
+        return "employee_import";
+
     }
+
+    //跳转到信息修改页面
+    @RequestMapping(method = RequestMethod.GET,value = "/employee_info_change")
+    public String employee_info_change(HttpServletRequest httpServletRequest,Model model){
+       // model.addAttribute("employee",employeeArchivesDao.getEmployeeById(Integer.parseInt(httpServletRequest.getParameter("id"))));
+        model.addAttribute("employee",employeeArchivesDao.getEmployeeById(1));
+        return "information_change";
+    }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/info_change")
+    @ResponseBody
+    public JSONObject info_change(@RequestBody HashMap<String, String> map){
+        int originalLen = Integer.parseInt(map.get("lenn"));
+        int nowLen = Integer.parseInt(map.get("lenn1"));
+        int len1 = Integer.parseInt(map.get("len1"));
+        convertdata convertdata = new convertdata();
+        String[] changeInfoOriginal = new String[originalLen];
+        String[] changeInfoNow = new String[nowLen];
+        String[] selectedInfo = new String[len1];
+        for(int i=0;i<changeInfoOriginal.length;i++){
+            changeInfoOriginal[i] = map.get("changeinfooriginal["+i+"]");
+        }
+        for(int i=0;i<changeInfoNow.length;i++){
+            changeInfoNow[i] = map.get("changeinfonow["+i+"]");
+        }
+        for(int i=0;i<selectedInfo.length;i++) {
+            selectedInfo[i] = map.get("selectInfo[" + i + "]");
+        }
+        JSONObject jsonObject = new JSONObject();
+        convertdata.setEmployeeAddress(map.get("employeeAddress"));
+        convertdata.setEmployeeBirthday(map.get("employeeBirthday"));
+        convertdata.setEmployeeId(Integer.parseInt(map.get("employeeId")));
+        convertdata.setEmployeeName(map.get("employeeName"));
+        convertdata.setEmployeeSex(map.get("employeeSex"));
+        convertdata.setEmployeePhone(map.get("employeePhone"));
+        convertdata.setChangeInfoOriginal(changeInfoOriginal);
+        convertdata.setChangeInfoNow(changeInfoNow);
+        convertdata.setSelectedInfo(selectedInfo);
+//        Boolean res = employeeArchivesDao.informationChange(informationChange);
+
+//        if(res) jsonObject.put("result","success");
+//        else jsonObject.put("result","default");
+
+        return jsonObject;
+    }
+
+    //获取需修改信息的原信息
+    @RequestMapping(method = RequestMethod.POST, value = "/get_info")
+    @ResponseBody
+    public JSONObject get_info(@RequestBody HashMap<String,String> hashMap){
+        JSONObject jsonObject = new JSONObject();
+        String res="";
+        com.longwang.uhrm.Entity.EmployeeArchives employeeArchives = employeeArchivesDao.getEmployeeById(Integer.parseInt(hashMap.get("employeeId")));
+        switch (hashMap.get("changeType")){
+            case "employeeDepartment": res = employeeArchives.getEmployeeDepartment();break;
+            case "employeePost": res = employeeArchives.getEmployeePost();break;
+            case "employeeTitle": res = employeeArchives.getEmployeeTitle();break;
+            case "employeeTechnicalGrade": res = employeeArchives.getEmployeeTechnicalGrade();break;
+            case "employeeIdentity": res = employeeArchives.getEmployeeIdentity();break;
+            case "employeeEducation": res = employeeArchives.getEmployeeEducation();break;
+        }
+        jsonObject.put("res",res);
+        jsonObject.put("result","success");
+        return jsonObject;
+    }
+
 }
