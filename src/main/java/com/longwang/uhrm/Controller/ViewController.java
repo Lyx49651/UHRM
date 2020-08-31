@@ -410,6 +410,7 @@ public class ViewController {
         return jsonObject;
     }
 
+
     public String employee_info_import(@RequestBody HashMap<String, String> map,Model m){
         return "employee_import";
 
@@ -418,8 +419,8 @@ public class ViewController {
     //跳转到信息修改页面
     @RequestMapping(method = RequestMethod.GET,value = "/employee_info_change")
     public String employee_info_change(HttpServletRequest httpServletRequest,Model model){
-       // model.addAttribute("employee",employeeArchivesDao.getEmployeeById(Integer.parseInt(httpServletRequest.getParameter("id"))));
-        model.addAttribute("employee",employeeArchivesDao.getEmployeeById(1));
+        model.addAttribute("employee",employeeArchivesDao.getEmployeeById(Integer.parseInt(httpServletRequest.getParameter("id"))));
+//        model.addAttribute("employee",employeeArchivesDao.getEmployeeById(1));
         return "information_change";
     }
 
