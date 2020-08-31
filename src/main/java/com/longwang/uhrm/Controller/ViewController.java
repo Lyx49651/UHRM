@@ -433,8 +433,8 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST,value = "/info_change")
     @ResponseBody
     public JSONObject info_change(@RequestBody HashMap<String, String> map){
-        int originalLen = Integer.parseInt(map.get("lenn"));
-        int nowLen = Integer.parseInt(map.get("lenn1"));
+        int originalLen = Integer.parseInt(map.get("originallen"));
+        int nowLen = Integer.parseInt(map.get("nowlen"));
         int len1 = Integer.parseInt(map.get("len1"));
         convertdata convertdata = new convertdata();
         String[] changeInfoOriginal = new String[originalLen];
@@ -459,10 +459,11 @@ public class ViewController {
         convertdata.setChangeInfoOriginal(changeInfoOriginal);
         convertdata.setChangeInfoNow(changeInfoNow);
         convertdata.setSelectedInfo(selectedInfo);
-//        Boolean res = employeeArchivesDao.informationChange(informationChange);
+        Boolean res = employeeArchivesDao.informationChange(convertdata);
+        Boolean res1 = employeeArchivesDao.updateEmployeeInfo(convertdata);
 
-//        if(res) jsonObject.put("result","success");
-//        else jsonObject.put("result","default");
+        if(res && res1) jsonObject.put("result","success");
+        else jsonObject.put("result","default");
 
         return jsonObject;
     }
