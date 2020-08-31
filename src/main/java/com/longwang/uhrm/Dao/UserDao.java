@@ -5,6 +5,8 @@ import com.longwang.uhrm.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("userDao")
 public class UserDao {
     @Autowired
@@ -48,6 +50,10 @@ public class UserDao {
 
     public String getName(String phone){
         return userMapper.getName(phone);
+    }
+
+    public List<User> getUserByCandiate(){
+        return userMapper.getUsrByCandidate();
     }
 
 }
