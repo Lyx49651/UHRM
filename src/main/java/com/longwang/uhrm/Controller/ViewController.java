@@ -4,7 +4,7 @@ package com.longwang.uhrm.Controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.longwang.uhrm.Dao.*;
-import com.longwang.uhrm.entity.*;
+import com.longwang.uhrm.Entity.*;
 import com.longwang.uhrm.Tool.ToolMy;
 
 import com.alibaba.fastjson.JSON;
