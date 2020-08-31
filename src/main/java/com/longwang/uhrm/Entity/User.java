@@ -172,15 +172,6 @@ public class User {
     this.mailAddress = mailAddress;
   }
 
-
-  public String getIDCard() {
-    return IDCard;
-  }
-
-  public void setIDCard(String IDCard) {
-    this.IDCard = IDCard;
-  }
-
   public Long getPost_idPost() {
     return Post_idPost;
   }

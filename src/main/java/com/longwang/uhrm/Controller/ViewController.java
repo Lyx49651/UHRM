@@ -583,11 +583,13 @@ public class ViewController {
     //归档
     @RequestMapping(method = RequestMethod.POST, value = "/archive_data")
     @ResponseBody
-    public JSONObject archive_data(@RequestBody HashMap<String,Object> map){
+    public JSONObject archive_data(@RequestBody HashMap<String,Object> map) {
         System.out.println(map.get("title"));
         System.out.println(map.get("name").toString().split("]")[0]);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("result","pass");
+        jsonObject.put("result", "pass");
+        return jsonObject;
+    }
     //用户注册
     @RequestMapping(method = RequestMethod.POST,value = "/userRegister")
     @ResponseBody
