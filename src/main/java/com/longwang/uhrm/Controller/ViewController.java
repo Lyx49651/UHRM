@@ -27,6 +27,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ViewController {
@@ -353,5 +354,46 @@ public class ViewController {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("result", "pass");
             return jsonObject;
+    }
+    //审核招聘计划
+    @RequestMapping(method = RequestMethod.GET,value = "/recruitment_plan_check")
+    public String recruitment_plan_check(Model model) {
+        List<CollectTable> test = new ArrayList<>();
+        CollectTable a = new CollectTable();
+        a.setId(1);
+        a.setMemberNumber("5");
+        a.setAuthorizedStrengthNumber("10");
+        a.setRecutimentNumber("4");
+        a.setIdPost(1);
+        a.setDepartmentIdDepartment(1);
+        a.setNamePost("二级人事助理");
+        a.setDepartmentName("人事部");
+        CollectTable b = new CollectTable();
+        b.setId(2);
+        b.setMemberNumber("25");
+        b.setAuthorizedStrengthNumber("40");
+        b.setRecutimentNumber("14");
+        b.setIdPost(2);
+        b.setDepartmentIdDepartment(2);
+        b.setNamePost("科研组长");
+        b.setDepartmentName("科研部");
+        test.add(a);
+        test.add(b);
+        model.addAttribute("plan",test);
+        return "recruitment_plan_check";
+    }
+    //招聘计划审核结果
+    @RequestMapping(method = RequestMethod.POST,value = "/recruitment_plan_check_result")
+    @ResponseBody
+    public JSONObject recruitment_plan_check_result(@RequestBody HashMap<String, Object> map) {
+        System.out.println(map.get("member"));
+        System.out.println(map.get("max"));
+        System.out.println(map.get("form_member"));
+        System.out.println(map.get("recruitment"));
+        System.out.println(map.get("state"));
+        System.out.println(map.get("depart"));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result", "pass");
+        return jsonObject;
     }
 }
