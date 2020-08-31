@@ -93,9 +93,9 @@ public class DaoTest {
 //        System.out.println(num);
 //        //人事部对应id为1
 //        System.out.println(positionDao.getRecruitment("助理","人事部"));
-        List<User> user = userDao.getUserByCandiate();
+        List<User> user = userDao.getUserPassed();
         System.out.println(user.get(0).toString());
-        System.out.println(user.get(1).getName());
+        System.out.println(user.toString());
 
         return "success";
 
