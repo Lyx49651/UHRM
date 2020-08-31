@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="width: 100%;height: 100%"
+      xmlns:list-style-type="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="#">
+    <title>人员信息统计</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]-->
+</head>
+<body style="width: 100%;height: 100%;overflow-y: auto">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">高校人力资源管理系统</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="http://localhost:8080/index">首页 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    功能
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="http://localhost:8080/recruitment_plan_make">
+                        上报招聘计划
+                    </a>
+                    <a class="dropdown-item" href="#">发布招聘信息</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <!--招聘通知模态框-->
+            </li>
+        </ul>
+    </div>
+</nav>
+<!--警告-->
+<div class="alert alert-success" role="alert">
+    <h4 class="alert-heading">注意人数!</h4>
+    <p>招聘人数和现有人数的总和不应该超过编制人数。</p>
+    <hr>
+    <p class="mb-0">为不符合要求的计划修改招聘人数</p>
+</div>
+<!--计划列表-->
+<div class="form-group" style="width: 80%;margin: 0 0 0 10%;font-family: 微软雅黑;">
+    <form id="plan_list">
+        <div th:each="CollectTable:${plan}">
+            <p>
+                <button class="btn btn-primary" th:inline="text"  th:attr="data-target='#collapseExample'+ ${CollectTable.id}" type="button" data-toggle="collapse"  aria-expanded="false" aria-controls="collapseExample" style="color: white;border-color: #007bff;background-color: #007bff;margin: 1% 0 0 0">
+                [[${CollectTable.departmentName}]]--[[${CollectTable.namePost}]]
+                </button>
+                <span>
+                    <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                        <input type="checkbox" name="checkbox_select" th:value="${CollectTable.id}" class="custom-control-input" th:attr="id='customControlInline'+ ${CollectTable.id}">
+                        <label class="custom-control-label" th:attr="for='customControlInline'+ ${CollectTable.id}">选择审核通过</label>
+                    </div>
+               </span>
+            </p>
+            <div class="collapse" th:attr="id='collapseExample'+ ${CollectTable.id}">
+                <div class="card card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputName2">现有人数</label>
+                            <input class="form-control" id="inputName2" th:value="${CollectTable.memberNumber}" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputName3">编制人数</label>
+                            <input class="form-control" id="inputName3" th:value="${CollectTable.authorizedStrengthNumber}" disabled>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputName4">原招聘人数(上报单位填写)</label>
+                            <input class="form-control" id="inputName4" th:value="${CollectTable.recutimentNumber}" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputName4">招聘人数(审核单位填写)</label>
+                            <input class="form-control" id="inputName5" th:value="${CollectTable.recutimentNumber}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <button type="button" class="btn btn-primary btn-block" onclick="submit_info()">提交</button>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body >
+<script src="http://localhost:8080/js/jquery-3.5.1.min.js"></script>
+<script>
+    function submit_info() {
+        var element = document.getElementById("plan_list");
+        var lists = element.getElementsByTagName("input");
+        var checked = document.getElementsByName("checkbox_select");
+        var button_value = element.getElementsByTagName("button");
+        var member = [];
+        var max = [];
+        var form_member = [];
+        var recruitment = [];
+        var state = [];
+        var department_post = [];
+        for(var i=0;i<(lists.length/5);i++){
+            member.push(lists[5*i+1].value);
+            max.push(lists[5*i+2].value);
+            form_member.push(lists[5*i+3].value);
+            recruitment.push(lists[5*i+4].value);
+        }
+        for(var j=0;j<checked.length;j++){
+            if(checked[j].checked){
+                state.push(checked[j].value);
+            }else {
+                state.push("bye");
+            }
+        }
+        for(var k=0;k<button_value.length;k++){
+            department_post.push(button_value[k].innerText);
+        }
+        var user = {};
+        user.member = member;
+        user.max = max;
+        user.form_member = form_member;
+        user.recruitment = recruitment;
+        user.state = state;
+        user.depart = department_post;
+        $.ajax({
+            url:"http://localhost:8080/recruitment_plan_check_result",
+            type:"post",
+            dataType:"json",
+            data:JSON.stringify(user),
+            contentType: "application/json;charset=UTF-8",
+            success:function (data) {
+                if(data.result == "pass"){
+                    alert("审核完成！");
+                    window.location = "http://localhost:8080/recruitment_plan_check"
+                }else {
+                    alert("审核失败！");
+                }
+            },
+            error:function (data) {
+                alert(data);
+            }
+        });
+    }
+</script>
+</html>

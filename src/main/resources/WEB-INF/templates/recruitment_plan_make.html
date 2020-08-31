@@ -68,33 +68,6 @@
 <div style="width: 80%;margin: 0 0 0 10%;" id="my_post">
     <form style="width: 100%;">
         <ul id="post_list" style="list-style-type: none">
-            <!--<li>-->
-                <!--<p>-->
-                    <!--<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="color: white;border-color: #007bff;background-color: #007bff;margin: 1% 0 0 0">-->
-                        <!--二级人事助理-->
-                    <!--</button>-->
-                <!--</p>-->
-                <!--<div class="collapse" id="collapseExample">-->
-                    <!--<div class="card card-body">-->
-                        <!--<div class="form-row">-->
-                            <!--<div class="form-group col-md-6">-->
-                                <!--<label for="inputName2">现有人数</label>-->
-                                <!--<input class="form-control" id="inputName2" disabled>-->
-                            <!--</div>-->
-                            <!--<div class="form-group col-md-6">-->
-                                <!--<label for="inputName3">编制人数</label>-->
-                                <!--<input class="form-control" id="inputName3" disabled>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="form-row">-->
-                            <!--<div class="form-group col-md-6">-->
-                                <!--<label for="inputName4">招聘人数(填写)</label>-->
-                                <!--<input class="form-control" value="0" id="inputName4">-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</li>-->
         </ul>
         <button type="button" class="btn btn-primary btn-block" onclick="put_info()">提交</button>
     </form>
@@ -210,7 +183,8 @@
     //每当用户选中部门，更新
     function getContent(value, content) {
         if(content == "部门选择"){
-
+            var a = document.getElementById("post_list");
+            a.innerHTML = '<ul id="post_list" style="list-style-type: none"></ul>';
         }else {
             var a = document.getElementById("post_list");
             a.innerHTML = '<ul id="post_list" style="list-style-type: none"></ul>';

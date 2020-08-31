@@ -5,8 +5,28 @@ public class CollectTable {
 
   private long id;
   private long departmentIdDepartment;
+  private String departmentName;
   private String recutimentNumber;
   private long idPost;
+  private String namePost;
+
+  public String getNamePost() {
+    return namePost;
+  }
+
+  public void setNamePost(String namePost) {
+    this.namePost = namePost;
+  }
+
+  public String getDepartmentName() {
+
+    return departmentName;
+  }
+
+  public void setDepartmentName(String departmentName) {
+    this.departmentName = departmentName;
+  }
+
   private String memberNumber;
   private String authorizedStrengthNumber;
 
