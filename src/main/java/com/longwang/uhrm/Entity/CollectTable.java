@@ -9,6 +9,15 @@ public class CollectTable {
   private String recutimentNumber;
   private long idPost;
   private String namePost;
+  private String status;
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
   public String getNamePost() {
     return namePost;

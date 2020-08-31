@@ -16,7 +16,7 @@ public interface RecruitmentNoticeMapper {
     @Select("select * from RecruitmentNotice where title = #{title}")
     public List<RecruitmentNotice> findAllByTitle(String title);
 
-    @Insert("insert into RecruitmentNotice values(#{id}, #{title}, #{content}, #{time}, #{status})")
+    @Insert("insert into RecruitmentNotice values(#{id}, #{title}, #{content}, #{time})")
     public boolean insertRecuitment (RecruitmentNotice recruitmentNotice);
 
     //改变状态
