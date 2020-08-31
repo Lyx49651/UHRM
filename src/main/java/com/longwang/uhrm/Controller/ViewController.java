@@ -238,22 +238,28 @@ public class ViewController {
         for(RecruitmentNotice recruitmentNotice:test){
             recruitmentNotice.setStringTime(recruitmentNotice.getTime().toString());
         }
-//        RecruitmentNotice a = new RecruitmentNotice();
-//        RecruitmentNotice b = new RecruitmentNotice();
-//        a.setId(1);
-//        a.setTitle("人事部招聘");
-//        a.setContent("随便招");
-//        Timestamp time1 = new Timestamp(System.currentTimeMillis());
-//        a.setTime(time1);
-//        a.setStringTime(time1.toString());
-//        b.setId(2);
-//        b.setTitle("科技部部招聘");
-//        b.setContent("招");
-//        Timestamp time = new Timestamp(System.currentTimeMillis());
-//        b.setTime(time);
-//        b.setStringTime(time.toString());
-//        test.add(a);
-//        test.add(b);
+        List<CollectTable> test1 = new ArrayList<>();
+        CollectTable a = new CollectTable();
+        a.setId(1);
+        a.setMemberNumber("5");
+        a.setAuthorizedStrengthNumber("10");
+        a.setRecutimentNumber("4");
+        a.setIdPost(1);
+        a.setDepartmentIdDepartment(1);
+        a.setNamePost("二级人事助理");
+        a.setDepartmentName("人事部");
+        CollectTable b = new CollectTable();
+        b.setId(2);
+        b.setMemberNumber("25");
+        b.setAuthorizedStrengthNumber("40");
+        b.setRecutimentNumber("14");
+        b.setIdPost(2);
+        b.setDepartmentIdDepartment(2);
+        b.setNamePost("科研组长");
+        b.setDepartmentName("科研部");
+        test1.add(a);
+        test1.add(b);
+        model.addAttribute("plan",test1);
         model.addAttribute("list",test);
         return "Recruitment_system_functions";
     }
