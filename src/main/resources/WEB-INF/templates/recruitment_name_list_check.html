@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="width: 100%;height: 100%"
+      xmlns:list-style-type="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="#">
+    <title>应聘者名单审核</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]-->
+</head>
+<body style="width: 100%;height: 100%;overflow-y: auto">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">高校人力资源管理系统</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="http://localhost:8080/index">首页 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    功能
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="http://localhost:8080/recruitment_plan_make">
+                        上报招聘计划
+                    </a>
+                    <a class="dropdown-item" href="#">发布招聘信息</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <!--招聘通知模态框-->
+            </li>
+        </ul>
+    </div>
+</nav>
+<!--警告-->
+<div class="alert alert-success" role="alert">
+    <h4 class="alert-heading">审核名单</h4>
+    <p>对符合条件的应聘者予以选择</p>
+    <hr>
+    <p class="mb-0">点击生成之后，不选择发布不会修改应聘者的结果</p>
+</div>
+<!--报名用户信息-->
+<div>
+    <table class="table" id="name_list_table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">姓名</th>
+            <th scope="col">性别</th>
+            <th scope="col">身份证号码</th>
+            <th scope="col">年龄</th>
+            <th scope="col">邮箱</th>
+            <th scope="col">电话</th>
+            <th scope="col">地址</th>
+            <th scope="col">意见</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="User:${list}" th:inline="text">
+            <th scope="row">[[${User.idUser}]]</th>
+            <td>[[${User.name}]]</td>
+            <td>[[${User.sex}]]</td>
+            <td>[[${User.IdCard}]]</td>
+            <td>[[${User.age}]]</td>
+            <td>[[${User.mailAddress}]]</td>
+            <td>[[${User.telephone}]]</td>
+            <td>[[${User.address}]]</td>
+            <td>
+                <input type="checkbox" th:value="${User.idUser}" class="custom-control-input" th:attr="id='customControlInline'+ ${User.idUser}">
+                <label class="custom-control-label" th:attr="for='customControlInline'+ ${User.idUser}">通过</label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div>
+        <button type="button" class="btn btn-primary btn-block" id="get_list" onclick="submit_info()">生成</button>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body >
+<script src="http://localhost:8080/js/jquery-3.5.1.min.js"></script>
+<script>
+    var out_list = [];
+    function publish_info() {
+        var user = {};
+        user.out_list = out_list;
+        $.ajax({
+            url:"http://localhost:8080/modify_users",
+            type:"post",
+            dataType:"json",
+            data:JSON.stringify(user),
+            contentType: "application/json;charset=UTF-8",
+            success:function (data) {
+                if(data.result == "pass"){
+                    alert("审核完成！");
+                    window.location = "http://localhost:8080/recruitment_system"
+                }else {
+                    alert("审核失败！");
+                }
+            },
+            error:function (data) {
+                alert(data);
+            }
+        });
+    }
+    function submit_info() {
+        var element = document.getElementById("name_list_table");
+        var td = element.getElementsByTagName("td");
+        var msg = '<button type="button" class="btn btn-primary btn-block" onclick="publish_info()">发布</button>';
+        var button = document.getElementById("get_list");
+        for(var i=0;i<(td.length/8);i++){
+            if(td[8*i+7].children[0].checked){
+            }else{
+                td[4*i+7].parentNode.style = "display:none";
+                out_list.push(td[8*i+7].children[0].value);
+            }
+        }
+        button.parentNode.innerHTML = msg;
+    }
+</script>
+</html>
