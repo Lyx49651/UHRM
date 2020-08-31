@@ -1,8 +1,10 @@
 package com.longwang.uhrm.Dao;
 
 import com.longwang.uhrm.Entity.EmployeeArchives;
+import com.longwang.uhrm.Tool.convertdata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.longwang.uhrm.Entity.InformationChange;
 import com.longwang.uhrm.mapper.EmployeeArchivesMapper;
 
 import java.util.List;
@@ -52,6 +54,12 @@ public class EmployeeArchivesDao{
 //        }
 //        //
 //    }
+    public boolean informationChange(convertdata convertdata){
+        return employeeArchivesMapper.informationChange(convertdata) == 1;
+    }
 
+    public boolean updateEmployeeInfo(convertdata convertdata){
+        return true;
+    }
 
 }
