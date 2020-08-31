@@ -3,38 +3,47 @@ package com.longwang.uhrm.Tool;
 import java.util.Arrays;
 
 public class convertdata {
+    private int idInformationChange;
     private int employeeId;
     private String employeeName;
     private String employeeSex;
     private String employeeBirthday;
     private String employeeAddress;
     private String employeePhone;
-    private String[] changeInfoOriginal;
-    private String[] changeInfoNow;
-    private String[] selectedInfo;
+    private String changeInfoOriginal;
+    private String changeInfoNow;
+    private String changeType;
 
-    public String[] getChangeInfoOriginal() {
+    public int getIdInformationChange() {
+        return idInformationChange;
+    }
+
+    public void setIdInformationChange(int idInformationChange) {
+        this.idInformationChange = idInformationChange;
+    }
+
+    public String getChangeInfoOriginal() {
         return changeInfoOriginal;
     }
 
-    public void setChangeInfoOriginal(String[] changeInfoOriginal) {
+    public void setChangeInfoOriginal(String changeInfoOriginal) {
         this.changeInfoOriginal = changeInfoOriginal;
     }
 
-    public String[] getChangeInfoNow() {
+    public String getChangeInfoNow() {
         return changeInfoNow;
     }
 
-    public void setChangeInfoNow(String[] changeInfoNow) {
+    public void setChangeInfoNow(String changeInfoNow) {
         this.changeInfoNow = changeInfoNow;
     }
 
-    public String[] getSelectedInfo() {
-        return selectedInfo;
+    public String getChangeType() {
+        return changeType;
     }
 
-    public void setSelectedInfo(String[] selectedInfo) {
-        this.selectedInfo = selectedInfo;
+    public void setChangeType(String changeType) {
+        this.changeType = changeType;
     }
 
     public int getEmployeeId() {

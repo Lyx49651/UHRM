@@ -1,4 +1,4 @@
-package com.longwang.uhrm.Controller;
+package com.longwang.uhrm.controller;
 
 
 import com.alibaba.fastjson.JSONArray;
@@ -433,13 +433,6 @@ public class ViewController {
         jsonObject.put("result", "pass");
         return jsonObject;
     }
-
-
-    public String employee_info_import(@RequestBody HashMap<String, String> map,Model m){
-        return "employee_import";
-
-    }
-
     //跳转到信息修改页面
     @RequestMapping(method = RequestMethod.GET,value = "/employee_info_change")
     public String employee_info_change(HttpServletRequest httpServletRequest,Model model){
@@ -474,16 +467,33 @@ public class ViewController {
         convertdata.setEmployeeName(map.get("employeeName"));
         convertdata.setEmployeeSex(map.get("employeeSex"));
         convertdata.setEmployeePhone(map.get("employeePhone"));
-        convertdata.setChangeInfoOriginal(changeInfoOriginal);
-        convertdata.setChangeInfoNow(changeInfoNow);
-        convertdata.setSelectedInfo(selectedInfo);
-//        Boolean res = employeeArchivesDao.informationChange(convertdata);
-//        Boolean res1 = employeeArchivesDao.updateEmployeeInfo(convertdata);
+
+        Boolean res = false;
+        Boolean res1 = false;
 
 
-//        if(res && res1) jsonObject.put("result","success");
-//        else jsonObject.put("result","default");
+        Boolean res2 = employeeArchivesDao.updateEmployeeBaseInfo(convertdata);
 
+        for(int i=0;i<len1;i++){
+            convertdata.setChangeInfoOriginal(changeInfoOriginal[i]);
+            convertdata.setChangeInfoNow(changeInfoNow[i]);
+            convertdata.setChangeType(selectedInfo[i]);
+            res = employeeArchivesDao.informationChange(convertdata);
+            if(res) continue;
+            else break;
+        }
+
+
+        for(int i=0;i<len1;i++){
+            convertdata.setChangeType(selectedInfo[i]);
+            convertdata.setChangeInfoNow(changeInfoNow[i]);
+            res1 = employeeArchivesDao.updateEmployeeSpecialInfo(convertdata);
+            if(res) continue;
+            else break;
+        }
+
+        if(res && res1 && res2) jsonObject.put("result","success");
+        else jsonObject.put("result","default");
         return jsonObject;
     }
 
@@ -578,6 +588,15 @@ public class ViewController {
         System.out.println(map.get("name").toString().split("]")[0]);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result","pass");
+    //用户注册
+    @RequestMapping(method = RequestMethod.POST,value = "/userRegister")
+    @ResponseBody
+    public JSONObject user_register(@RequestBody User user){
+        boolean flag=userDao.register(user);
+        JSONObject jsonObject=new JSONObject();
+        if(flag){
+            jsonObject.put("result","success");
+        }
         return jsonObject;
     }
 }

@@ -20,6 +20,8 @@ public class User {
   public void setEducation(String education) {
     this.education = education;
   }
+  private String telephone;
+  private Long Post_idPost;
 
   public User() {
 
@@ -51,7 +53,7 @@ public class User {
     this.age = age;
     this.mailAddress = mailAddress;
     this.telephone = telephone;
-    this.postIdPost = postIdPost;
+    this.Post_idPost = postIdPost;
     this.password = password;
   }
 
@@ -65,12 +67,11 @@ public class User {
     this.age = age;
     this.mailAddress = mailAddress;
     this.telephone = telephone;
-    this.postIdPost = postIdPost;
+    this.Post_idPost = postIdPost;
     this.password = password;
   }
 
-  private String telephone;
-  private long postIdPost;
+
 
   public String getPassword() {
     return password;
@@ -92,7 +93,7 @@ public class User {
             ", age=" + age +
             ", mailAddress='" + mailAddress + '\'' +
             ", telephone='" + telephone + '\'' +
-            ", postIdPost=" + postIdPost +
+            ", postIdPost=" + Post_idPost +
             ", password='" + password + '\'' +
             '}';
   }
@@ -172,14 +173,19 @@ public class User {
   }
 
 
-
-
-  public long getPostIdPost() {
-    return postIdPost;
+  public String getIDCard() {
+    return IDCard;
   }
 
-  public void setPostIdPost(long postIdPost) {
-    this.postIdPost = postIdPost;
+  public void setIDCard(String IDCard) {
+    this.IDCard = IDCard;
   }
 
+  public Long getPost_idPost() {
+    return Post_idPost;
+  }
+
+  public void setPost_idPost(Long post_idPost) {
+    Post_idPost = post_idPost;
+  }
 }

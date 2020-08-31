@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>注册</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">高校人力资源管理系统</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="http://localhost:8080/index">首页 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+<div class="card" style="width:30%; margin:10% auto">
+    <h5 class="card-header">注册</h5>
+    <div class="card-body">
+        <form novalidate>
+            <div class="form-group">
+                <label for="Name">姓名</label>
+                <input type="text" class="form-control" id="Name" name="name" required>
+            </div>
+            <div class=" was-validated form-group">
+                <label for="Phone">手机号</label>
+                <input type="text" class="form-control" id="Phone" name="phone" required>
+                <div class="invalid-feedback">
+                    手机号不能为空
+                </div>
+            </div>
+            <div class="was-validated form-group">
+                <label for="Password">密码</label>
+                <input type="password" class="form-control" id="Password" name="password" pattern="[A-Za-z0-9]{8,16}" required>
+                <div class="invalid-feedback">
+                    输入8-16位字母或数字
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Password">确认密码</label>
+                <input type="password" class="form-control was-validated is-invalid"  id="Password2" name="password2"  oninput="compare()" required>
+                <div class="invalid-feedback">
+                    两次密码不一致
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary btn-block" onclick="userRegist()">注册</button>
+        </form>
+
+    </div>
+</div>
+<script src="http://localhost:8080/js/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script>
+    function compare() {
+        var password1= document.getElementById("Password").value;
+        var password2= document.getElementById("Password2").value;
+        if(password1 == password2) {
+            document.getElementById("Password2").className = "form-control was-validated is-valid";
+        } else {
+            document.getElementById("Password2").className = "form-control was-validated is-invalid";
+        }
+    }
+</script>
+<script>
+    function userRegist() {
+        var userName=document.getElementById("Name").value;
+        var userPhone=document.getElementById("Phone").value;
+        var userPassword=document.getElementById("Password").value;
+        var user={};
+        user.name=userName;
+        user.telephone=userPhone;
+        user.password=userPassword;
+        $.ajax({
+            url:"http://localhost:8080/userRegister",
+            type:"post",
+            dataType:"json",
+            data:JSON.stringify(user),
+            contentType: "application/json;charset=UTF-8",
+            success:function (data) {
+                if(data.result == "success"){
+                    alert("注册成功！")
+                    window.location="http://localhost:8080/user_login";
+                }else {
+                }
+            },
+            error:function (data) {
+                alert(JSON.stringify(data));
+            }
+        });
+    }
+</script>
+</body>
+</html>
