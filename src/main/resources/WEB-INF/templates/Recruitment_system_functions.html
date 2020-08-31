@@ -124,16 +124,55 @@
     <ul class="list-group" th:each="RecruitmentNotice:${list}">
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <p>
-                <button th:text="${RecruitmentNotice.title}" th:attr="data-target='#collapseExample'+ ${RecruitmentNotice.id}" class="btn btn-primary" type="button" data-toggle="collapse"  aria-expanded="false" aria-controls="collapseExample">
+                <button th:text="${RecruitmentNotice.title}" th:attr="data-target='#collapseExamplex'+ ${RecruitmentNotice.id}" class="btn btn-primary" type="button" data-toggle="collapse"  aria-expanded="false" aria-controls="collapseExample">
                 </button>
 
             </p>
-            <div class="collapse" th:id="collapseExample + ${RecruitmentNotice.id}" style="width: 50%">
+            <div class="collapse" th:id="collapseExamplex + ${RecruitmentNotice.id}" style="width: 50%">
                 <div th:text="${RecruitmentNotice.content}" class="card card-body" style="overflow-y: auto">
                 </div>
             </div>
             <span class="badge badge-primary badge-pill" th:text="${RecruitmentNotice.stringTime}"></span>
         </li>
+    </ul>
+</div>
+<!--招聘计划发布处-->
+<div class="alert alert-success" role="alert">
+    <h4 class="alert-heading">招聘计划</h4>
+    <p>选择您心仪的岗位</p>
+    <hr>
+    <p class="mb-0">下面包括部门与岗位</p>
+</div>
+<div class="form-group" style="width: 100%;margin: 0;font-family: 微软雅黑;">
+    <ul style="width: 100%;list-style-type: none;padding-left: 20px" th:each="CollectTable:${plan}">
+        <li>
+            <div>
+            <p>
+                <button class="btn btn-primary" th:inline="text"  th:attr="data-target='#collapseExample'+ ${CollectTable.id}" type="button" data-toggle="collapse"  aria-expanded="false" aria-controls="collapseExample" style="color: white;border-color: #007bff;background-color: #007bff;margin: 1% 0 0 0">
+                    [[${CollectTable.departmentName}]]--[[${CollectTable.namePost}]]
+                </button>
+                <span style="margin: 0 5% 0 0;float:right">
+                    <button type="button" class="btn btn-outline-info">我要申请</button>
+                </span>
+            </p>
+            <div class="collapse" th:attr="id='collapseExample'+ ${CollectTable.id}">
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">岗位名</th>
+                        <th scope="col">招聘人数</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:inline="text">[[${CollectTable.namePost}]]</td>
+                        <td th:inline="text">[[${CollectTable.recutimentNumber}]]</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        </li>
+        <hr>
     </ul>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
