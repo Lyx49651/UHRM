@@ -1,10 +1,10 @@
-package com.longwang.uhrm.controller;
+package com.longwang.uhrm.Controller;
 
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.longwang.uhrm.Dao.*;
-import com.longwang.uhrm.Entity.*;
+import com.longwang.uhrm.entity.*;
 import com.longwang.uhrm.Tool.ToolMy;
 
 import com.alibaba.fastjson.JSON;
@@ -112,6 +112,11 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.GET,value = "/index")
     public String test(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
 
+        return "home";
+    }
+    //同样主页面
+    @RequestMapping(method = RequestMethod.GET,value = "/")
+    public String start(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         return "home";
     }
     //登出
@@ -251,23 +256,42 @@ public class ViewController {
         for(com.longwang.uhrm.Entity.RecruitmentNotice recruitmentNotice:test){
             recruitmentNotice.setStringTime(recruitmentNotice.getTime().toString());
         }
-//        RecruitmentNotice a = new RecruitmentNotice();
-//        RecruitmentNotice b = new RecruitmentNotice();
-//        a.setId(1);
-//        a.setTitle("人事部招聘");
-//        a.setContent("随便招");
-//        Timestamp time1 = new Timestamp(System.currentTimeMillis());
-//        a.setTime(time1);
-//        a.setStringTime(time1.toString());
-//        b.setId(2);
-//        b.setTitle("科技部部招聘");
-//        b.setContent("招");
-//        Timestamp time = new Timestamp(System.currentTimeMillis());
-//        b.setTime(time);
-//        b.setStringTime(time.toString());
-//        test.add(a);
-//        test.add(b);
+        List<CollectTable> test1 = new ArrayList<>();
+        CollectTable a = new CollectTable();
+        a.setId(1);
+        a.setMemberNumber("5");
+        a.setAuthorizedStrengthNumber("10");
+        a.setRecutimentNumber("4");
+        a.setIdPost(1);
+        a.setDepartmentIdDepartment(1);
+        a.setNamePost("二级人事助理");
+        a.setDepartmentName("人事部");
+        CollectTable b = new CollectTable();
+        b.setId(2);
+        b.setMemberNumber("25");
+        b.setAuthorizedStrengthNumber("40");
+        b.setRecutimentNumber("14");
+        b.setIdPost(2);
+        b.setDepartmentIdDepartment(2);
+        b.setNamePost("科研组长");
+        b.setDepartmentName("科研部");
+        test1.add(a);
+        test1.add(b);
+        model.addAttribute("plan",test1);
         model.addAttribute("list",test);
+
+        List<User> users = new ArrayList<>();
+        User h = new User();
+        h.setIdUser(1);
+        h.setName("边小博");
+        h.setIdCard("61012219990331xxxx");
+        h.setAddress("陕西榆林");
+        h.setAge(21);
+        h.setSex("男");
+        h.setMailAddress("123@qq.com");
+        h.setTelephone("1531581010");
+        users.add(h);
+        model.addAttribute("list1",users);
         return "Recruitment_system_functions";
     }
     //接收前端的招聘通知，存入数据库
@@ -410,6 +434,7 @@ public class ViewController {
         return jsonObject;
     }
 
+
     public String employee_info_import(@RequestBody HashMap<String, String> map,Model m){
         return "employee_import";
 
@@ -418,16 +443,16 @@ public class ViewController {
     //跳转到信息修改页面
     @RequestMapping(method = RequestMethod.GET,value = "/employee_info_change")
     public String employee_info_change(HttpServletRequest httpServletRequest,Model model){
-       // model.addAttribute("employee",employeeArchivesDao.getEmployeeById(Integer.parseInt(httpServletRequest.getParameter("id"))));
-        model.addAttribute("employee",employeeArchivesDao.getEmployeeById(1));
+        model.addAttribute("employee",employeeArchivesDao.getEmployeeById(Integer.parseInt(httpServletRequest.getParameter("id"))));
+//        model.addAttribute("employee",employeeArchivesDao.getEmployeeById(1));
         return "information_change";
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/info_change")
     @ResponseBody
     public JSONObject info_change(@RequestBody HashMap<String, String> map){
-        int originalLen = Integer.parseInt(map.get("lenn"));
-        int nowLen = Integer.parseInt(map.get("lenn1"));
+        int originalLen = Integer.parseInt(map.get("originallen"));
+        int nowLen = Integer.parseInt(map.get("nowlen"));
         int len1 = Integer.parseInt(map.get("len1"));
         convertdata convertdata = new convertdata();
         String[] changeInfoOriginal = new String[originalLen];
@@ -452,10 +477,12 @@ public class ViewController {
         convertdata.setChangeInfoOriginal(changeInfoOriginal);
         convertdata.setChangeInfoNow(changeInfoNow);
         convertdata.setSelectedInfo(selectedInfo);
-//        Boolean res = employeeArchivesDao.informationChange(informationChange);
+        Boolean res = employeeArchivesDao.informationChange(convertdata);
+        Boolean res1 = employeeArchivesDao.updateEmployeeInfo(convertdata);
 
-//        if(res) jsonObject.put("result","success");
-//        else jsonObject.put("result","default");
+
+        if(res && res1) jsonObject.put("result","success");
+        else jsonObject.put("result","default");
 
         return jsonObject;
     }
@@ -479,5 +506,29 @@ public class ViewController {
         jsonObject.put("result","success");
         return jsonObject;
     }
-
+    //跳转到信息修改页面
+    @RequestMapping(method = RequestMethod.GET,value = "/recruitment_namelist_check")
+    public String recruitment_namelist_check(Model model){
+        List<User> users = new ArrayList<>();
+        User a = new User();
+        a.setIdUser(1);
+        a.setName("边小博");
+        a.setIdCard("61012219990331xxxx");
+        a.setAddress("陕西榆林");
+        a.setAge(21);
+        a.setMailAddress("123@qq.com");
+        a.setTelephone("1531581010");
+        users.add(a);
+        model.addAttribute("list",users);
+        return "recruitment_name_list_check";
+    }
+    //接收审核后的报名应聘者
+    @RequestMapping(method = RequestMethod.POST, value = "/modify_users")
+    @ResponseBody
+    public JSONObject modify_users(@RequestBody HashMap<String,Object> map){
+        System.out.println(map.get("out_list"));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result","pass");
+        return jsonObject;
+    }
 }

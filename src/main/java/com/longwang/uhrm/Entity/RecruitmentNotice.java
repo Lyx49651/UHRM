@@ -54,6 +54,16 @@ public class RecruitmentNotice {
     this.time = time;
   }
 
+  public RecruitmentNotice() { }
+
+  public RecruitmentNotice(long id, String title, String content, Timestamp time, String stringTime, String status) {
+    this.id = id;
+    this.title = title;
+    this.content = content;
+    this.time = time;
+    this.stringTime = stringTime;
+  }
+
   @Override
   public String toString() {
     return "RecruitmentNotice{" +
@@ -64,16 +74,4 @@ public class RecruitmentNotice {
             ", stringTime='" + stringTime + '\'' +
             '}';
   }
-
-  public RecruitmentNotice() {
-  }
-
-  public RecruitmentNotice(long id, String title, String content, Timestamp time, String stringTime) {
-    this.id = id;
-    this.title = title;
-    this.content = content;
-    this.time = time;
-    this.stringTime = stringTime;
-  }
-
 }

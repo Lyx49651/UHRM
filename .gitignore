@@ -24,3 +24,8 @@ out/artifacts/uhrm_war_exploded2/WEB-INF/classes/com/longwang/uhrm/ViewControlle
 .idea/misc.xml
 .idea/jarRepositories.xml
 
+uhrm.iml
+.idea/misc.xml
+.idea/compiler.xml
+.idea/artifacts/uhrm_war_exploded.xml
+.idea/artifacts/uhrm_war.xml

@@ -1,9 +1,6 @@
 package com.longwang.uhrm.Dao;
 
-import com.longwang.uhrm.Entity.EmployeeArchives;
-import com.longwang.uhrm.Entity.Position;
-import com.longwang.uhrm.Entity.Post;
-import com.longwang.uhrm.Entity.RecruitmentNotice;
+import com.longwang.uhrm.Entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -92,10 +89,15 @@ public class DaoTest {
 //
 //        List<Position> list = positionDao.getPostByDepartment("人事部");
 //        System.out.println(list.get(1).toString());
-        int num = positionDao.getStuffNumByPosition_and_Department("人事部","二级人事助理");
-        System.out.println(num);
-        //人事部对应id为1
-        System.out.println(positionDao.getRecruitment("助理","人事部"));
+//        int num = positionDao.getStuffNumByPosition_and_Department("人事部","二级人事助理");
+//        System.out.println(num);
+//        //人事部对应id为1
+//        System.out.println(positionDao.getRecruitment("助理","人事部"));
+        List<User> user = userDao.getUserByCandiate();
+        System.out.println(user.get(0).toString());
+        System.out.println(user.get(1).getName());
+
         return "success";
+
     }
 }

@@ -62,6 +62,23 @@ public class User {
     this.password = password;
   }
 
+  @Override
+  public String toString() {
+    return "User{" +
+            "idUser=" + idUser +
+            ", name='" + name + '\'' +
+            ", sex='" + sex + '\'' +
+            ", IDCard='" + IDCard + '\'' +
+            ", photo='" + photo + '\'' +
+            ", address='" + address + '\'' +
+            ", age=" + age +
+            ", mailAddress='" + mailAddress + '\'' +
+            ", telephone='" + telephone + '\'' +
+            ", postIdPost=" + postIdPost +
+            ", password='" + password + '\'' +
+            '}';
+  }
+
   private String password;
 
 
