@@ -1,10 +1,19 @@
-package com.longwang.uhrm.Controller;
+package com.longwang.uhrm.controller;
+
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.longwang.uhrm.Dao.*;
 import com.longwang.uhrm.Entity.*;
 import com.longwang.uhrm.Tool.ToolMy;
+
+import com.alibaba.fastjson.JSON;
+import com.longwang.uhrm.Entity.InformationChange;
+import com.alibaba.fastjson.JSONObject;
+import com.longwang.uhrm.Entity.Post;
+import com.longwang.uhrm.Tool.convertdata;
+import com.sun.tools.jconsole.JConsoleContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -23,11 +32,14 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import java.util.*;
 
 @Controller
 public class ViewController {
@@ -203,8 +215,9 @@ public class ViewController {
     }
     //信息导入
     @RequestMapping(method = RequestMethod.POST,value = "/employee_info_import")
+
     @ResponseBody
-    public JSONObject employee_info_import(@RequestBody EmployeeArchives employeeArchives) {
+    public JSONObject employee_info_import(@RequestBody com.longwang.uhrm.Entity.EmployeeArchives employeeArchives) {
         System.out.println(employeeArchives.getEmployeeName());
         System.out.println(employeeArchives.getSalaryParametersIdSalaryParameters());
         JSONObject jsonObject = new JSONObject();
@@ -227,15 +240,15 @@ public class ViewController {
     //跳转到查询页面
     @RequestMapping(method = RequestMethod.GET,value = "/employee_search")
     public String employee_search(Model model){
-        List<EmployeeArchives> list = employeeArchivesDao.findAllEmployee();
+        List<com.longwang.uhrm.Entity.EmployeeArchives> list = employeeArchivesDao.findAllEmployee();
         model.addAttribute("list",list);
         return "employee_search";
     }
     //跳转到招聘系统的功能页面
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_system")
     public String recruitment_system(Model model){
-        List<RecruitmentNotice> test = recruitmentNoticeDao.findAll();
-        for(RecruitmentNotice recruitmentNotice:test){
+        List<com.longwang.uhrm.Entity.RecruitmentNotice> test = recruitmentNoticeDao.findAll();
+        for(com.longwang.uhrm.Entity.RecruitmentNotice recruitmentNotice:test){
             recruitmentNotice.setStringTime(recruitmentNotice.getTime().toString());
         }
         List<CollectTable> test1 = new ArrayList<>();
@@ -269,7 +282,7 @@ public class ViewController {
     public JSONObject recruitment_notice(@RequestBody HashMap<String, String> map) {
         System.out.println(map.get("title") + map.get("content"));
 
-        RecruitmentNotice recruitmentNotice = new RecruitmentNotice();
+        com.longwang.uhrm.Entity.RecruitmentNotice recruitmentNotice = new com.longwang.uhrm.Entity.RecruitmentNotice();
         recruitmentNotice.setTitle(map.get("title"));
         recruitmentNotice.setContent(map.get("content"));
         Timestamp time = new Timestamp(System.currentTimeMillis());
@@ -286,11 +299,11 @@ public class ViewController {
     public String employee_search_id(HttpServletRequest request, Model model){
         try{
             long id = Long.parseLong( request.getParameter("idOrName"));
-            EmployeeArchives emp = employeeArchivesDao.getEmployeeById(id);
+            com.longwang.uhrm.Entity.EmployeeArchives emp = employeeArchivesDao.getEmployeeById(id);
             model.addAttribute("list",emp);
         }catch(Exception e){
             String name = request.getParameter("idOrName");
-            List<EmployeeArchives> list = employeeArchivesDao.getEmployeeByName(name);
+            List<com.longwang.uhrm.Entity.EmployeeArchives> list = employeeArchivesDao.getEmployeeByName(name);
             model.addAttribute("list",list);
         }
         return "employee_search";
@@ -317,7 +330,7 @@ public class ViewController {
     public JSONObject get_info_by_departmentName(@RequestBody HashMap<String, String> map) {
         //执行的为查询操作
         System.out.println(map.get("department"));
-        List<Position> positions = positionDao.getPostByDepartment(map.get("department"));
+        List<com.longwang.uhrm.Entity.Position> positions = positionDao.getPostByDepartment(map.get("department"));
 //            System.out.println(positions);
         JSONObject jsonObject = new JSONObject();
         JSONArray post_name = new JSONArray();
@@ -335,7 +348,7 @@ public class ViewController {
 //        for (Position position1:positions){
 //            System.out.println(position1.getTypePostion());
 //        }
-        for(Position position:positions){
+        for(com.longwang.uhrm.Entity.Position position:positions){
             post_name.add(position.getTypePosition());
             position_id.add(position.getIdPosition());
             member_number.add(positionDao.getStuffNumByPosition_and_Department(map.get("department"),position.getTypePosition()));
@@ -364,8 +377,8 @@ public class ViewController {
     //审核招聘计划
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_plan_check")
     public String recruitment_plan_check(Model model) {
-        List<CollectTable> test = new ArrayList<>();
-        CollectTable a = new CollectTable();
+        List<com.longwang.uhrm.Entity.CollectTable> test = new ArrayList<>();
+        com.longwang.uhrm.Entity.CollectTable a = new com.longwang.uhrm.Entity.CollectTable();
         a.setId(1);
         a.setMemberNumber("5");
         a.setAuthorizedStrengthNumber("10");
@@ -374,7 +387,7 @@ public class ViewController {
         a.setDepartmentIdDepartment(1);
         a.setNamePost("二级人事助理");
         a.setDepartmentName("人事部");
-        CollectTable b = new CollectTable();
+        com.longwang.uhrm.Entity.CollectTable b = new com.longwang.uhrm.Entity.CollectTable();
         b.setId(2);
         b.setMemberNumber("25");
         b.setAuthorizedStrengthNumber("40");
@@ -402,4 +415,76 @@ public class ViewController {
         jsonObject.put("result", "pass");
         return jsonObject;
     }
+
+
+    public String employee_info_import(@RequestBody HashMap<String, String> map,Model m){
+        return "employee_import";
+
+    }
+
+    //跳转到信息修改页面
+    @RequestMapping(method = RequestMethod.GET,value = "/employee_info_change")
+    public String employee_info_change(HttpServletRequest httpServletRequest,Model model){
+        model.addAttribute("employee",employeeArchivesDao.getEmployeeById(Integer.parseInt(httpServletRequest.getParameter("id"))));
+//        model.addAttribute("employee",employeeArchivesDao.getEmployeeById(1));
+        return "information_change";
+    }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/info_change")
+    @ResponseBody
+    public JSONObject info_change(@RequestBody HashMap<String, String> map){
+        int originalLen = Integer.parseInt(map.get("lenn"));
+        int nowLen = Integer.parseInt(map.get("lenn1"));
+        int len1 = Integer.parseInt(map.get("len1"));
+        convertdata convertdata = new convertdata();
+        String[] changeInfoOriginal = new String[originalLen];
+        String[] changeInfoNow = new String[nowLen];
+        String[] selectedInfo = new String[len1];
+        for(int i=0;i<changeInfoOriginal.length;i++){
+            changeInfoOriginal[i] = map.get("changeinfooriginal["+i+"]");
+        }
+        for(int i=0;i<changeInfoNow.length;i++){
+            changeInfoNow[i] = map.get("changeinfonow["+i+"]");
+        }
+        for(int i=0;i<selectedInfo.length;i++) {
+            selectedInfo[i] = map.get("selectInfo[" + i + "]");
+        }
+        JSONObject jsonObject = new JSONObject();
+        convertdata.setEmployeeAddress(map.get("employeeAddress"));
+        convertdata.setEmployeeBirthday(map.get("employeeBirthday"));
+        convertdata.setEmployeeId(Integer.parseInt(map.get("employeeId")));
+        convertdata.setEmployeeName(map.get("employeeName"));
+        convertdata.setEmployeeSex(map.get("employeeSex"));
+        convertdata.setEmployeePhone(map.get("employeePhone"));
+        convertdata.setChangeInfoOriginal(changeInfoOriginal);
+        convertdata.setChangeInfoNow(changeInfoNow);
+        convertdata.setSelectedInfo(selectedInfo);
+//        Boolean res = employeeArchivesDao.informationChange(informationChange);
+
+//        if(res) jsonObject.put("result","success");
+//        else jsonObject.put("result","default");
+
+        return jsonObject;
+    }
+
+    //获取需修改信息的原信息
+    @RequestMapping(method = RequestMethod.POST, value = "/get_info")
+    @ResponseBody
+    public JSONObject get_info(@RequestBody HashMap<String,String> hashMap){
+        JSONObject jsonObject = new JSONObject();
+        String res="";
+        com.longwang.uhrm.Entity.EmployeeArchives employeeArchives = employeeArchivesDao.getEmployeeById(Integer.parseInt(hashMap.get("employeeId")));
+        switch (hashMap.get("changeType")){
+            case "employeeDepartment": res = employeeArchives.getEmployeeDepartment();break;
+            case "employeePost": res = employeeArchives.getEmployeePost();break;
+            case "employeeTitle": res = employeeArchives.getEmployeeTitle();break;
+            case "employeeTechnicalGrade": res = employeeArchives.getEmployeeTechnicalGrade();break;
+            case "employeeIdentity": res = employeeArchives.getEmployeeIdentity();break;
+            case "employeeEducation": res = employeeArchives.getEmployeeEducation();break;
+        }
+        jsonObject.put("res",res);
+        jsonObject.put("result","success");
+        return jsonObject;
+    }
+
 }

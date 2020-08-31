@@ -1,9 +1,11 @@
 package com.longwang.uhrm.mapper;
 
 import com.longwang.uhrm.Entity.EmployeeArchives;
+import com.longwang.uhrm.Tool.convertdata;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import com.longwang.uhrm.Entity.InformationChange;
 import java.util.List;
 
 @Mapper
@@ -35,6 +37,14 @@ public interface EmployeeArchivesMapper {
     //3.1.1.2 信息浏览
     @Select("Select * from EmployeeArchives where employeeName like concat('%',#{employeeName},'%')")
     public List<EmployeeArchives> getEmployeeByName(String employeeName);
+
+
+    //信息修改
+    @Insert("insert into InformationChange(idInformationChange, employeeId, employeeName, change_time, " +
+            "change_type, change_original, change_now) values(#{idInformationChange}, #{employeeId}," +
+            "#{employeeName}, now(), #{changeType}, #{changeOriginal}, #{changeNow} )")
+    public int informationChange(convertdata convertdata);
+
 
 
 }
