@@ -9,8 +9,8 @@
         <module name="uhrm" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="13">
-      <module name="uhrm" target="13" />
+    <bytecodeTargetLevel target="14">
+      <module name="uhrm" target="14" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
