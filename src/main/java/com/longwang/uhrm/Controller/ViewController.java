@@ -12,6 +12,7 @@ import com.longwang.uhrm.Entity.InformationChange;
 import com.alibaba.fastjson.JSONObject;
 import com.longwang.uhrm.Entity.Post;
 import com.longwang.uhrm.Tool.convertdata;
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import com.sun.tools.jconsole.JConsoleContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -220,7 +221,6 @@ public class ViewController {
     }
     //信息导入
     @RequestMapping(method = RequestMethod.POST,value = "/employee_info_import")
-
     @ResponseBody
     public JSONObject employee_info_import(@RequestBody com.longwang.uhrm.Entity.EmployeeArchives employeeArchives) {
         System.out.println(employeeArchives.getEmployeeName());
