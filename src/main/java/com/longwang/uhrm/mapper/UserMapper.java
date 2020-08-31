@@ -23,7 +23,7 @@ public interface UserMapper {
     public String getName(String telephone);
 
     @Insert("insert into User(name, sex, IDCard, photo, address, age, mailAddress, telephone, Post_idPost, password) " +
-            "values(#{name}, #{sex}, #{IDCard}, #{photo}, #{address}, #{age}, #{mailAddress}, #{telephone}, #{postIdPost}, #{password})")
+            "values(#{name}, #{sex}, #{IDCard}, #{photo}, #{address}, #{age}, #{mailAddress}, #{telephone}, #{Post_idPost}, #{password})")
     public int insertUser(User user);
 
     @Delete("delete from user where idUser = #{idUser}")

@@ -54,6 +54,7 @@ public class EmployeeArchivesDao{
 //        }
 //        //
 //    }
+
     public boolean informationChange(convertdata convertdata){
         return employeeArchivesMapper.informationChange(convertdata) == 1;
     }
@@ -65,5 +66,6 @@ public class EmployeeArchivesDao{
     public boolean updateEmployeeSpecialInfo(convertdata convertdata){
         return employeeArchivesMapper.updateEmployeeSpecialInfo(convertdata) == 1;
     }
+
 
 }
