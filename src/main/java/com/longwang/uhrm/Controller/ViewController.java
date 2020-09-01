@@ -603,13 +603,22 @@ public class ViewController {
     }
 
 
-    //用户注册
+    //跳转到找回密码
+    @RequestMapping(method = RequestMethod.GET,value = "/to_retrieve_password")
+    public String to_retrieve_password(){
+        return "Retrieve_password";
+    }
+
+
+    //用户找回密码
     @RequestMapping(method = RequestMethod.POST,value = "/retrieve_password")
     @ResponseBody
     public JSONObject retrieve_password(@RequestBody HashMap<String,String> hashMap){
-        String phoneNumber = hashMap.get("employeePhoneNumber");
-        String employeeName = hashMap.get("employeeName");
-        String res = userDao.retrieve_password(phoneNumber,employeeName);
+        convertdata convertdata = new convertdata();
+        convertdata.setEmployeePhone(hashMap.get("employeePhoneNumber"));
+        convertdata.setEmployeeId(Integer.parseInt(hashMap.get("employeeId")));
+        String res = userDao.retrieve_password(convertdata);
+        System.out.println(res);
         JSONObject jsonObject=new JSONObject();
         if(res!=null){
             jsonObject.put("password",res);
