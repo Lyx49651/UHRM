@@ -1,6 +1,7 @@
 package com.longwang.uhrm.Dao;
 
 import com.longwang.uhrm.Entity.User;
+import com.longwang.uhrm.Tool.convertdata;
 import com.longwang.uhrm.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,13 @@ public class UserDao {
             return false;
         }
     }
+
+    //找回密码
+    public String retrieve_password(convertdata convertdata){
+        return userMapper.retrieve_password(convertdata);
+    }
+
+
     //按id查找返回用户
     public User getUserById(int userId){
         return userMapper.getUserById(userId);

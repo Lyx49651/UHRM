@@ -42,5 +42,20 @@ public interface EmployeeArchivesMapper {
 
 
 
+    //信息修改
+    @Insert("insert into InformationChange(idInformationChange, employeeId, employeeName, change_time, " +
+            "change_type, change_original, change_now) values(#{idInformationChange}, #{employeeId}," +
+            "#{employeeName}, now(), #{changeType}, #{changeInfoOriginal}, #{changeInfoNow})")
+    public int informationChange(convertdata convertdata);
+
+
+    //信息更新
+    @Update("UPDATE EmployeeArchives SET employeeName = #{employeeName},employeeSex = #{employeeSex},employeeBirthday = #{employeeBirthday}," +
+            "employeeAddress = #{employeeAddress},employeePhoneNumber = #{employeePhone} WHERE employeeId = #{employeeId}")
+    public int updateEmployeeBaseInfo(convertdata convertdata);
+
+    @Update("UPDATE EmployeeArchives SET ${changeType} = #{changeInfoNow} WHERE employeeId = #{employeeId}")
+    public int updateEmployeeSpecialInfo(convertdata convertdata);
+
 
 }

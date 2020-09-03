@@ -56,4 +56,17 @@ public class EmployeeArchivesDao{
 //    }
 
 
+    public boolean informationChange(convertdata convertdata){
+        return employeeArchivesMapper.informationChange(convertdata) == 1;
+    }
+
+    public boolean updateEmployeeBaseInfo(convertdata convertdata){
+        return employeeArchivesMapper.updateEmployeeBaseInfo(convertdata) == 1;
+    }
+
+    public boolean updateEmployeeSpecialInfo(convertdata convertdata){
+        return employeeArchivesMapper.updateEmployeeSpecialInfo(convertdata) == 1;
+    }
+
+
 }

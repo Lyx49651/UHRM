@@ -1,4 +1,4 @@
-package com.longwang.uhrm.Controller;
+package com.longwang.uhrm.controller;
 
 
 import com.alibaba.fastjson.JSONArray;
@@ -481,16 +481,33 @@ public class ViewController {
         convertdata.setEmployeeName(map.get("employeeName"));
         convertdata.setEmployeeSex(map.get("employeeSex"));
         convertdata.setEmployeePhone(map.get("employeePhone"));
-        convertdata.setChangeInfoOriginal(changeInfoOriginal);
-        convertdata.setChangeInfoNow(changeInfoNow);
-        convertdata.setSelectedInfo(selectedInfo);
-//        Boolean res = employeeArchivesDao.informationChange(convertdata);
-//        Boolean res1 = employeeArchivesDao.updateEmployeeInfo(convertdata);
-//
-//
-//        if(res && res1) jsonObject.put("result","success");
-//        else jsonObject.put("result","default");
 
+        Boolean res = false;
+        Boolean res1 = false;
+
+
+        Boolean res2 = employeeArchivesDao.updateEmployeeBaseInfo(convertdata);
+
+        for(int i=0;i<len1;i++){
+            convertdata.setChangeInfoOriginal(changeInfoOriginal[i]);
+            convertdata.setChangeInfoNow(changeInfoNow[i]);
+            convertdata.setChangeType(selectedInfo[i]);
+            res = employeeArchivesDao.informationChange(convertdata);
+            if(res) continue;
+            else break;
+        }
+
+
+        for(int i=0;i<len1;i++){
+            convertdata.setChangeType(selectedInfo[i]);
+            convertdata.setChangeInfoNow(changeInfoNow[i]);
+            res1 = employeeArchivesDao.updateEmployeeSpecialInfo(convertdata);
+            if(res) continue;
+            else break;
+        }
+
+        if(res && res1 && res2) jsonObject.put("result","success");
+        else jsonObject.put("result","default");
         return jsonObject;
     }
 
@@ -538,6 +555,55 @@ public class ViewController {
         jsonObject.put("result","pass");
         return jsonObject;
     }
+    //跳转面试与笔试成绩审核页面
+    @RequestMapping(method = RequestMethod.GET,value = "/recruitment_info_save")
+    public String recruitment_info_save(Model model){
+        List<CandidateInfo> candidateInfos = new ArrayList<>();
+        CandidateInfo a = new CandidateInfo();
+        a.setIdCandidateInfo(1);
+        a.setInterviewResult("98");
+        a.setWrittenResult("90");
+        candidateInfos.add(a);
+        model.addAttribute("list", a);
+        return "select_recruitment_grade";
+    }
+    //接收经过笔试和面试成绩审核的信息
+    @RequestMapping(method = RequestMethod.POST, value = "/modify_users_selected")
+    @ResponseBody
+    public JSONObject modify_users_selected(@RequestBody HashMap<String,Object> map){
+        System.out.println(map.get("out_list"));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result","pass");
+        return jsonObject;
+    }
+    //跳转到招聘人归档页面
+    @RequestMapping(method = RequestMethod.GET,value = "/recruitment_to_employee")
+    public String recruitment_to_employee(Model model){
+        List<User> users = new ArrayList<>();
+        User a = new User();
+        a.setIdUser(1);
+        a.setName("边小博");
+        a.setIdCard("61012219990331xxxx");
+        a.setAddress("陕西榆林");
+        a.setAge(21);
+        a.setMailAddress("123@qq.com");
+        a.setTelephone("1531581010");
+        a.setEducation("本科");
+        a.setSex("男");
+        users.add(a);
+        model.addAttribute("list", users);
+        return "Archive";
+    }
+    //归档
+    @RequestMapping(method = RequestMethod.POST, value = "/archive_data")
+    @ResponseBody
+    public JSONObject archive_data(@RequestBody HashMap<String,Object> map) {
+        System.out.println(map.get("title"));
+        System.out.println(map.get("name").toString().split("]")[0]);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result", "pass");
+        return jsonObject;
+    }
     //用户注册
     @RequestMapping(method = RequestMethod.POST,value = "/userRegister")
     @ResponseBody
@@ -546,6 +612,33 @@ public class ViewController {
         JSONObject jsonObject=new JSONObject();
         if(flag){
             jsonObject.put("result","success");
+        }
+        return jsonObject;
+    }
+
+
+    //跳转到找回密码
+    @RequestMapping(method = RequestMethod.GET,value = "/to_retrieve_password")
+    public String to_retrieve_password(){
+        return "Retrieve_password";
+    }
+
+
+    //用户找回密码
+    @RequestMapping(method = RequestMethod.POST,value = "/retrieve_password")
+    @ResponseBody
+    public JSONObject retrieve_password(@RequestBody HashMap<String,String> hashMap){
+        convertdata convertdata = new convertdata();
+        convertdata.setEmployeePhone(hashMap.get("employeePhoneNumber"));
+        convertdata.setEmployeeId(Integer.parseInt(hashMap.get("employeeId")));
+        String res = userDao.retrieve_password(convertdata);
+        System.out.println(res);
+        JSONObject jsonObject=new JSONObject();
+        if(res!=null){
+            jsonObject.put("password",res);
+            jsonObject.put("result","success");
+        }else{
+            jsonObject.put("result","default");
         }
         return jsonObject;
     }
