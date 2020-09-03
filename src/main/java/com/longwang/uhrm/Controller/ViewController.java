@@ -110,13 +110,22 @@ public class ViewController {
     }
     //主页面
     @RequestMapping(method = RequestMethod.GET,value = "/index")
-    public String test(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
-
-        return "home";
-    }
-    //同样主页面
-    @RequestMapping(method = RequestMethod.GET,value = "/")
-    public String start(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+    public String test(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Model model){
+        HttpSession httpSession = httpServletRequest.getSession();//获取session
+        String type = (String) httpSession.getAttribute("type");
+        if(type != null){
+            model.addAttribute("islogged",true);
+            boolean typeBoolean;
+            if(type.equals("employee")){
+                typeBoolean = true;
+            }else{
+                typeBoolean = false;
+            }
+            model.addAttribute("typeBoolean",typeBoolean);
+            model.addAttribute("name",httpSession.getAttribute("name"));
+        }else{
+            model.addAttribute("islogged",false);
+        }
         return "home";
     }
     //登出
@@ -133,7 +142,7 @@ public class ViewController {
             cookie.setPath("/");
             httpServletResponse.addCookie(cookie);
         }
-        return "home";
+        return "redirect:index";
     }
 //    用户登录
     @RequestMapping(method = RequestMethod.GET,value = "/user_login")
@@ -157,18 +166,21 @@ public class ViewController {
     //员工登录信息确认
     @RequestMapping(method = RequestMethod.POST,value = "/employee_login_check")
     @ResponseBody
-    public JSONObject employee_login_check(@RequestBody HashMap<String, String> map , HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+    public JSONObject employee_login_check(@RequestBody HashMap<String, String> map , HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Model model){
         Boolean res =  employeeArchivesDao.authenticate(Integer.parseInt(map.get("id")), map.get("password"));
         if(res){
             HttpSession httpSession = httpServletRequest.getSession();//获取session
             String name = employeeArchivesDao.getName(Integer.parseInt(map.get("id")));
             httpSession.setAttribute("id",map.get("id"));
             httpSession.setAttribute("name",name);
+            httpSession.setAttribute("type","employee");
             httpSession.setMaxInactiveInterval(2*60);//设置session存活时间
             Cookie cookie = new Cookie("name",name);//新建cookie供客户端使用
             cookie.setMaxAge(2*60);// 设置存在时间为30分钟
             cookie.setPath("/");//设置作用域
             httpServletResponse.addCookie(cookie);
+            boolean typeBoolean = true;
+            model.addAttribute("typeBoolean", typeBoolean);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("result","pass");
             return jsonObject;
@@ -183,18 +195,20 @@ public class ViewController {
     //非员工登录信息确认
     @RequestMapping(method = RequestMethod.POST,value = "/personnel_login_check")
     @ResponseBody
-    public JSONObject personnel_login_check(@RequestBody HashMap<String, String> map , HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+    public JSONObject personnel_login_check(@RequestBody HashMap<String, String> map , HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Model model){
         Boolean res =  userDao.login(map.get("phone"), map.get("password"));
         if(res){
             HttpSession httpSession = httpServletRequest.getSession();//获取session
             String name = userDao.getName(map.get("phone"));
             System.out.println(name);
             httpSession.setAttribute("name",name);
+            httpSession.setAttribute("type","user");
             httpSession.setMaxInactiveInterval(2*60);//设置session存活时间
             Cookie cookie = new Cookie("name",name);//新建cookie供客户端使用
             cookie.setMaxAge(2*60);// 设置存在时间为30分钟
             cookie.setPath("/");//设置作用域
             httpServletResponse.addCookie(cookie);
+            model.addAttribute("typeBoolean", Boolean.FALSE);
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("result","pass");
             return jsonObject1;
