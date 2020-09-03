@@ -14,7 +14,7 @@ public interface CollectTableMapper {
     @Select("select * from CollectTable")
     List<CollectTable> findAll();
 
-    @Select("selec * CollectTable where status = 'passed'")
+    @Select("select * from CollectTable where status = 'passed'")
     List<CollectTable> findAllPassed();
 
     @Select("select * from CollectTable where status = 'saved'")

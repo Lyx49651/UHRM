@@ -59,4 +59,9 @@ public class PositionDao {
     public int getPostId(String postName){
         return positionMapper.getPostId(postName);
     }
+
+    //根据Post表中的idPost获得Post表的postName
+    public String getPostName(long postId){
+        return positionMapper.getPostName(postId);
+    }
 }

@@ -1,4 +1,4 @@
-package com.longwang.uhrm.controller;
+package com.longwang.uhrm.Controller;
 
 
 import com.alibaba.fastjson.JSONArray;
@@ -50,6 +50,12 @@ public class ViewController {
     DepartmentDao departmentDao;
     RecruitmentNoticeDao recruitmentNoticeDao;
     PositionDao positionDao;
+    CollectTableDao collectTableDao;
+
+    @Autowired
+    public void setCollectTableDao(CollectTableDao collectTableDao) {
+        this.collectTableDao = collectTableDao;
+    }
 
     @Autowired
     public void setPositionDao(PositionDao positionDao) {
@@ -256,27 +262,32 @@ public class ViewController {
         for(com.longwang.uhrm.Entity.RecruitmentNotice recruitmentNotice:test){
             recruitmentNotice.setStringTime(recruitmentNotice.getTime().toString());
         }
-        List<CollectTable> test1 = new ArrayList<>();
-        CollectTable a = new CollectTable();
-        a.setId(1);
-        a.setMemberNumber("5");
-        a.setAuthorizedStrengthNumber("10");
-        a.setRecutimentNumber("4");
-        a.setIdPost(1);
-        a.setDepartmentIdDepartment(1);
-        a.setNamePost("二级人事助理");
-        a.setDepartmentName("人事部");
-        CollectTable b = new CollectTable();
-        b.setId(2);
-        b.setMemberNumber("25");
-        b.setAuthorizedStrengthNumber("40");
-        b.setRecutimentNumber("14");
-        b.setIdPost(2);
-        b.setDepartmentIdDepartment(2);
-        b.setNamePost("科研组长");
-        b.setDepartmentName("科研部");
-        test1.add(a);
-        test1.add(b);
+        List<CollectTable> test1 =  collectTableDao.findAllPassed();
+        for(CollectTable collectTable: test1){
+            //System.out.println(collectTable.getDepartmentIdDepartment());
+            collectTable.setDepartmentName(departmentDao.getName(collectTable.getDepartment_idDepartment()));
+            collectTable.setNamePost(positionDao.getPostName(collectTable.getIdPost()));
+        }
+//        CollectTable a = new CollectTable();
+//        a.setId(1);
+//        a.setMemberNumber("5");
+//        a.setAuthorizedStrengthNumber("10");
+//        a.setRecutimentNumber("4");
+//        a.setIdPost(1);
+//        a.setDepartmentIdDepartment(1);
+//        a.setNamePost("二级人事助理");
+//        a.setDepartmentName("人事部");
+//        CollectTable b = new CollectTable();
+//        b.setId(2);
+//        b.setMemberNumber("25");
+//        b.setAuthorizedStrengthNumber("40");
+//        b.setRecutimentNumber("14");
+//        b.setIdPost(2);
+//        b.setDepartmentIdDepartment(2);
+//        b.setNamePost("科研组长");
+//        b.setDepartmentName("科研部");
+//        test1.add(a);
+//        test1.add(b);
         model.addAttribute("plan",test1);
         model.addAttribute("list",test);
 
@@ -402,7 +413,7 @@ public class ViewController {
         a.setAuthorizedStrengthNumber("10");
         a.setRecutimentNumber("4");
         a.setIdPost(1);
-        a.setDepartmentIdDepartment(1);
+        a.setDepartment_idDepartment(1);
         a.setNamePost("二级人事助理");
         a.setDepartmentName("人事部");
         com.longwang.uhrm.Entity.CollectTable b = new com.longwang.uhrm.Entity.CollectTable();
@@ -411,7 +422,7 @@ public class ViewController {
         b.setAuthorizedStrengthNumber("40");
         b.setRecutimentNumber("14");
         b.setIdPost(2);
-        b.setDepartmentIdDepartment(2);
+        b.setDepartment_idDepartment(2);
         b.setNamePost("科研组长");
         b.setDepartmentName("科研部");
         test.add(a);
@@ -583,20 +594,22 @@ public class ViewController {
     //归档
     @RequestMapping(method = RequestMethod.POST, value = "/archive_data")
     @ResponseBody
-    public JSONObject archive_data(@RequestBody HashMap<String,Object> map){
+    public JSONObject archive_data(@RequestBody HashMap<String,Object> map) {
         System.out.println(map.get("title"));
         System.out.println(map.get("name").toString().split("]")[0]);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("result","pass");
-    //用户注册
-    @RequestMapping(method = RequestMethod.POST,value = "/userRegister")
-    @ResponseBody
-    public JSONObject user_register(@RequestBody User user){
-        boolean flag=userDao.register(user);
-        JSONObject jsonObject=new JSONObject();
-        if(flag){
-            jsonObject.put("result","success");
-        }
+        jsonObject.put("result", "pass");
         return jsonObject;
     }
+        //用户注册
+        @RequestMapping(method = RequestMethod.POST, value = "/userRegister")
+        @ResponseBody
+        public JSONObject user_register (@RequestBody User user){
+            boolean flag = userDao.register(user);
+            JSONObject jsonObject = new JSONObject();
+            if (flag) {
+                jsonObject.put("result", "success");
+            }
+            return jsonObject;
+        }
 }

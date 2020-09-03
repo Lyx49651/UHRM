@@ -37,4 +37,7 @@ public interface PositionMapper {
 
     @Select("Select idPost from Post where postName = #{postName}")
     public int getPostId(String postName);
+
+    @Select("Select postName from Post where idPost = #{postId}")
+    public String getPostName(long postId);
 }
