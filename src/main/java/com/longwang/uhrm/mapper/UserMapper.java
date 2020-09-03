@@ -1,8 +1,10 @@
 package com.longwang.uhrm.mapper;
 
+import com.longwang.uhrm.Entity.CandidateInfo;
 import com.longwang.uhrm.Entity.User;
 import com.longwang.uhrm.Tool.convertdata;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -36,6 +38,9 @@ public interface UserMapper {
     @Select("SELECT * FROM User,CandidateInfo where CandidateInfo.status = \"passed\" and User.idUser = CandidateInfo.idCandidateInfo")
     public List<User> userPassed();
 
+    @Select("SELECT * from User,CandidateInfo where CandidateInfo.status = \"tested\" and User.idUser = CandidateInfo.idCandidateInfo")
+    public  List<User> testedUsers();
+
     @Select("SELECT password FROM EmployeeArchives where employeePhoneNumber = #{employeePhone} and employeeId = #{employeeId}")
     public String retrieve_password(convertdata convertdata);
 
@@ -44,4 +49,16 @@ public interface UserMapper {
 
     @Update("UPDATE CandidateInfo set status = 'passed' where idCandidateInfo = #{id}")
     public void passed_update(long id);
+
+    @Select("SELECT * from CandidateInfo where CandidateInfo.status = \"passed\"")
+    public List<CandidateInfo> userTested();
+
+    @Update("UPDATE CandidateInfo set status = 'tested' where idCandidateInfo = #{id}")
+    public void tested_update(long id);
+    @Update("UPDATE CandidateInfo set status = 'verified' where idCandidateInfo = #{id}")
+    public void untested_delete(long id);
+
+    @Delete("Delete from CandidateInfo where status = \"tested\"")
+    public void delete_tested();
 }
+

@@ -15,9 +15,9 @@ public class EmployeeArchives {
   private String employeeTitle;
   private String employeeTechnicalGrade;
   private String employeeIdentity;
-  private long salaryParametersIdSalaryParameters;
-  private long positionIdPosition;
-  private long departmentIdDepartment;
+  private long SalaryParameters_idSalaryParameters;
+  private long Position_idPosition;
+  private long Department_idDepartment;
 
   public String getPassword() {
     return password;
@@ -137,31 +137,6 @@ public class EmployeeArchives {
     this.employeeIdentity = employeeIdentity;
   }
 
-  public long getSalaryParametersIdSalaryParameters() {
-    return salaryParametersIdSalaryParameters;
-  }
-
-  public void setSalaryParametersIdSalaryParameters(long salaryParametersIdSalaryParameters) {
-    this.salaryParametersIdSalaryParameters = salaryParametersIdSalaryParameters;
-  }
-
-
-  public long getPositionIdPosition() {
-    return positionIdPosition;
-  }
-
-  public void setPositionIdPosition(long positionIdPosition) {
-    this.positionIdPosition = positionIdPosition;
-  }
-
-
-  public long getDepartmentIdDepartment() {
-    return departmentIdDepartment;
-  }
-
-  public void setDepartmentIdDepartment(long departmentIdDepartment) {
-    this.departmentIdDepartment = departmentIdDepartment;
-  }
 
   @Override
   public String toString() {
@@ -178,10 +153,35 @@ public class EmployeeArchives {
             ", employeeTitle='" + employeeTitle + '\'' +
             ", employeeTechnicalGrade='" + employeeTechnicalGrade + '\'' +
             ", employeeIdentity='" + employeeIdentity + '\'' +
-            ", salaryParametersIdSalaryParameters=" + salaryParametersIdSalaryParameters +
-            ", positionIdPosition=" + positionIdPosition +
-            ", departmentIdDepartment=" + departmentIdDepartment +
+            ", SalaryParameters_idSalaryParameters=" + SalaryParameters_idSalaryParameters +
+            ", Position_idPosition=" + Position_idPosition +
+            ", Department_idDepartment=" + Department_idDepartment +
             ", password='" + password + '\'' +
             '}';
+  }
+
+  public long getPosition_idPosition() {
+    return Position_idPosition;
+  }
+
+  public void setPosition_idPosition(long position_idPosition) {
+    Position_idPosition = position_idPosition;
+  }
+
+  public long getDepartment_idDepartment() {
+    return Department_idDepartment;
+  }
+
+  public void setDepartment_idDepartment(long department_idDepartment) {
+    Department_idDepartment = department_idDepartment;
+  }
+
+  public long getSalaryParameters_idSalaryParameters() {
+
+    return SalaryParameters_idSalaryParameters;
+  }
+
+  public void setSalaryParameters_idSalaryParameters(long salaryParameters_idSalaryParameters) {
+    SalaryParameters_idSalaryParameters = salaryParameters_idSalaryParameters;
   }
 }

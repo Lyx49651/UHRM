@@ -2,6 +2,7 @@ package com.longwang.uhrm.Tool;
 
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,10 @@ public class Solution {
     }
 //    public static void main(String[] args){
 //        String test = "[人事部--二级人事助理, 人事部--助理]";
-//        Solution a = new Solution();
-//        System.out.println(a.translate(test).get(1).length());
+//        Timestamp time = new Timestamp(System.currentTimeMillis());
+//        String[] a = time.toString().split(" ")[0].split("-");
+//        a[0] = String.valueOf(Integer.parseInt(a[0]) - 21);
+//
+//        System.out.println(a[0] + "-" + a[1] + "-" + a[2]);
 //    }
 }

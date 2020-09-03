@@ -27,13 +27,13 @@ public interface EmployeeArchivesMapper {
     @Insert("insert into EmployeeArchives(employeeId, employeeName, employeeSex, employeeBirthday," +
             "employeeAddress, employeePhoneNumber, employeeDepartment, employeeEducation," +
             "employeePost, employeeTitle, employeeTechnicalGrade, " +
-            "employeeIdentity, salaryParametersIdSalaryParameters," +
-            "positionIdPosition, departmentIdDepartment, password) values(#{employeeId}, " +
+            "employeeIdentity, SalaryParameters_idSalaryParameters," +
+            "Position_idPosition, Department_idDepartment, password) values(#{employeeId}, " +
             " #{employeeName}, #{employeeSex}, #{employeeBirthday}," +
             "#{employeeAddress}, #{employeePhoneNumber}, #{employeeDepartment}, #{employeeEducation}," +
             " #{employeePost}, #{employeeTitle}, #{employeeTechnicalGrade}, " +
-            "#{employeeIdentity}, #{salaryParametersIdSalaryParameters}," +
-            "#{positionIdPosition}, #{departmentIdDepartment}, #{password} )")
+            "#{employeeIdentity}, #{SalaryParameters_idSalaryParameters}," +
+            "#{Position_idPosition}, #{Department_idDepartment}, #{password})")
     public int insertEmployee(EmployeeArchives employeeArchives);
 
     //3.1.1.2 信息浏览

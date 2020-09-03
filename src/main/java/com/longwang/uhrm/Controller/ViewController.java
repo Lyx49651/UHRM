@@ -251,7 +251,7 @@ public class ViewController {
     @ResponseBody
     public JSONObject employee_info_import(@RequestBody com.longwang.uhrm.Entity.EmployeeArchives employeeArchives) {
         System.out.println(employeeArchives.getEmployeeName());
-        System.out.println(employeeArchives.getSalaryParametersIdSalaryParameters());
+        System.out.println(employeeArchives.getSalaryParameters_idSalaryParameters());
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result", "success");
         return jsonObject;
@@ -292,17 +292,7 @@ public class ViewController {
         model.addAttribute("plan",test1);
         model.addAttribute("list",test);
 
-        List<User> users = new ArrayList<>();
-        User h = new User();
-        h.setIdUser(1);
-        h.setName("边小博");
-        h.setIdCard("61012219990331xxxx");
-        h.setAddress("陕西榆林");
-        h.setAge(21);
-        h.setSex("男");
-        h.setMailAddress("123@qq.com");
-        h.setTelephone("1531581010");
-        users.add(h);
+        List<User> users = userDao.getUserPassed();//new ArrayList<>();
         model.addAttribute("list1",users);
         return "Recruitment_system_functions";
     }
@@ -417,12 +407,12 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST,value = "/recruitment_plan_check_result")
     @ResponseBody
     public JSONObject recruitment_plan_check_result(@RequestBody HashMap<String, Object> map) {
-        System.out.println(map.get("member"));
-        System.out.println(map.get("max"));
-        System.out.println(map.get("form_member"));
-        System.out.println(map.get("recruitment"));
-        System.out.println(map.get("state"));
-        System.out.println(map.get("depart"));
+//        System.out.println(map.get("member"));
+//        System.out.println(map.get("max"));
+//        System.out.println(map.get("form_member"));
+//        System.out.println(map.get("recruitment"));
+//        System.out.println(map.get("state"));
+//        System.out.println(map.get("depart"));
         List<String> member = solution.translate(map.get("member").toString());//现有人数
         List<String> max = solution.translate(map.get("max").toString());//编制人数
         List<String> form = solution.translate(map.get("form_member").toString());//原计划招聘人数
@@ -431,9 +421,10 @@ public class ViewController {
         List<String> depart = solution.translate(map.get("depart").toString());//部门和岗位名
         for(int i=0;i<member.size();i++){
             if(state.get(i).contains("#")){
-                System.out.println(state.get(i).split("#")[0]);
+                //System.out.println(state.get(i).split("#")[0]);
+                collectTableDao.deleteById(Integer.parseInt(state.get(i).split("#")[0]));
             }else {
-                System.out.println("通过");
+                collectTableDao.updatePassed(Integer.parseInt(state.get(i)), rec.get(i));
             }
         }
         JSONObject jsonObject = new JSONObject();
@@ -549,13 +540,13 @@ public class ViewController {
     //跳转面试与笔试成绩审核页面
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_info_save")
     public String recruitment_info_save(Model model){
-        List<CandidateInfo> candidateInfos = new ArrayList<>();
-        CandidateInfo a = new CandidateInfo();
-        a.setIdCandidateInfo(1);
-        a.setInterviewResult("98");
-        a.setWrittenResult("90");
-        candidateInfos.add(a);
-        model.addAttribute("list", a);
+        List<CandidateInfo> candidateInfos = userDao.userpassed_get();
+//        CandidateInfo a = new CandidateInfo();
+//        a.setIdCandidateInfo(1);
+//        a.setInterviewResult("98");
+//        a.setWrittenResult("90");
+//        candidateInfos.add(a);
+        model.addAttribute("list", candidateInfos);
         return "select_recruitment_grade";
     }
     //接收经过笔试和面试成绩审核的信息
@@ -563,6 +554,14 @@ public class ViewController {
     @ResponseBody
     public JSONObject modify_users_selected(@RequestBody HashMap<String,Object> map){
         System.out.println(map.get("out_list"));
+        List<String> re = solution.translate(map.get("out_list").toString());
+        for(int i=0;i<re.size();i++){
+            if(re.get(i).contains("#")){
+                userDao.user_untested(Integer.parseInt(re.get(i).split("#")[0]));
+            }else {
+                userDao.usertested(Integer.parseInt(re.get(i)));
+            }
+        }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result","pass");
         return jsonObject;
@@ -570,18 +569,7 @@ public class ViewController {
     //跳转到招聘人归档页面
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_to_employee")
     public String recruitment_to_employee(Model model){
-        List<User> users = new ArrayList<>();
-        User a = new User();
-        a.setIdUser(1);
-        a.setName("边小博");
-        a.setIdCard("61012219990331xxxx");
-        a.setAddress("陕西榆林");
-        a.setAge(21);
-        a.setMailAddress("123@qq.com");
-        a.setTelephone("1531581010");
-        a.setEducation("本科");
-        a.setSex("男");
-        users.add(a);
+        List<User> users = userDao.archive();//new ArrayList<>();
         model.addAttribute("list", users);
         return "Archive";
     }
@@ -590,7 +578,42 @@ public class ViewController {
     @ResponseBody
     public JSONObject archive_data(@RequestBody HashMap<String,Object> map) {
         System.out.println(map.get("title"));
-        System.out.println(map.get("name").toString().split("]")[0]);
+        System.out.println(map.get("name"));
+        List<String> name = solution.translate(map.get("name").toString());
+        List<String> sex = solution.translate(map.get("sex").toString());
+        List<String> age = solution.translate(map.get("age").toString());
+        List<String> address = solution.translate(map.get("address").toString());
+        List<String> telephone = solution.translate(map.get("telephone").toString());
+        List<String> education = solution.translate(map.get("education").toString());
+        List<String> IdCard = solution.translate(map.get("IdCard").toString());
+        List<String> title = solution.translate(map.get("title").toString());
+        List<String> technicalGrade = solution.translate(map.get("technicalGrade").toString());
+        List<String> depart = solution.translate(map.get("department").toString());
+        List<String> post = solution.translate(map.get("post").toString());
+        System.out.println(sex);
+        System.out.println(age);
+        System.out.println(address);
+        System.out.println(telephone);
+        System.out.println(education);
+        for(int i=0;i<name.size();i++){
+            EmployeeArchives temp = new EmployeeArchives();
+            temp.setEmployeeName(name.get(i));
+            temp.setEmployeeSex(sex.get(i));
+            Timestamp time = new Timestamp(System.currentTimeMillis());
+            String[] a = time.toString().split(" ")[0].split("-");
+            a[0] = String.valueOf(Integer.parseInt(a[0]) - Integer.parseInt(age.get(i)));
+            temp.setEmployeeBirthday(a[0] + "-" + a[1] + "-" + a[2]);
+            temp.setEmployeeAddress(address.get(i));
+            temp.setEmployeePhoneNumber(Integer.parseInt(telephone.get(i)));
+            temp.setEmployeeEducation(education.get(i));
+            temp.setEmployeeIdentity(IdCard.get(i));
+            temp.setEmployeeTitle(title.get(i));
+            temp.setEmployeeTechnicalGrade(technicalGrade.get(i));
+            temp.setEmployeeDepartment(depart.get(i));
+            temp.setEmployeePost(post.get(i));
+            employeeArchivesDao.register(temp);
+        }
+        userDao.delete_tested();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result", "pass");
         return jsonObject;
