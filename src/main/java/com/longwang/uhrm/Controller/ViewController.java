@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.longwang.uhrm.Dao.*;
 import com.longwang.uhrm.Entity.*;
+import com.longwang.uhrm.Tool.Solution;
 import com.longwang.uhrm.Tool.ToolMy;
 
 import com.alibaba.fastjson.JSON;
@@ -51,6 +52,12 @@ public class ViewController {
     RecruitmentNoticeDao recruitmentNoticeDao;
     PositionDao positionDao;
     CollectTableDao collectTableDao;
+    Solution solution;
+
+    @Autowired
+    public void setSolution(Solution solution) {
+        this.solution = solution;
+    }
 
     @Autowired
     public void setCollectTableDao(CollectTableDao collectTableDao) {
@@ -115,7 +122,7 @@ public class ViewController {
         return templateEngine;
     }
     //主页面
-    @RequestMapping(method = RequestMethod.GET,value = "/index")
+    @RequestMapping(method = RequestMethod.GET,value = {"/index","/"})
     public String test(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Model model){
         HttpSession httpSession = httpServletRequest.getSession();//获取session
         String type = (String) httpSession.getAttribute("type");
@@ -209,9 +216,9 @@ public class ViewController {
             System.out.println(name);
             httpSession.setAttribute("name",name);
             httpSession.setAttribute("type","user");
-            httpSession.setMaxInactiveInterval(2*60);//设置session存活时间
+            httpSession.setMaxInactiveInterval(5*60);//设置session存活时间
             Cookie cookie = new Cookie("name",name);//新建cookie供客户端使用
-            cookie.setMaxAge(2*60);// 设置存在时间为30分钟
+            cookie.setMaxAge(5*60);// 设置存在时间为30分钟
             cookie.setPath("/");//设置作用域
             httpServletResponse.addCookie(cookie);
             model.addAttribute("typeBoolean", Boolean.FALSE);
@@ -282,26 +289,6 @@ public class ViewController {
             collectTable.setDepartmentName(departmentDao.getName(collectTable.getDepartment_idDepartment()));
             collectTable.setNamePost(positionDao.getPostName(collectTable.getIdPost()));
         }
-//        CollectTable a = new CollectTable();
-//        a.setId(1);
-//        a.setMemberNumber("5");
-//        a.setAuthorizedStrengthNumber("10");
-//        a.setRecutimentNumber("4");
-//        a.setIdPost(1);
-//        a.setDepartmentIdDepartment(1);
-//        a.setNamePost("二级人事助理");
-//        a.setDepartmentName("人事部");
-//        CollectTable b = new CollectTable();
-//        b.setId(2);
-//        b.setMemberNumber("25");
-//        b.setAuthorizedStrengthNumber("40");
-//        b.setRecutimentNumber("14");
-//        b.setIdPost(2);
-//        b.setDepartmentIdDepartment(2);
-//        b.setNamePost("科研组长");
-//        b.setDepartmentName("科研部");
-//        test1.add(a);
-//        test1.add(b);
         model.addAttribute("plan",test1);
         model.addAttribute("list",test);
 
@@ -374,23 +361,11 @@ public class ViewController {
         //执行的为查询操作
         System.out.println(map.get("department"));
         List<com.longwang.uhrm.Entity.Position> positions = positionDao.getPostByDepartment(map.get("department"));
-//            System.out.println(positions);
         JSONObject jsonObject = new JSONObject();
         JSONArray post_name = new JSONArray();
         JSONArray position_id = new JSONArray();
         JSONArray member_number = new JSONArray();
         JSONArray authorize_strength = new JSONArray();
-//            post_name.add("二级人事助理");
-//            post_name.add("部门主管");
-//            position_id.add(1);
-//            position_id.add(2);
-//            member_number.add(3);
-//            member_number.add(1);
-//            authorize_strength.add(10);
-//            authorize_strength.add(1);
-//        for (Position position1:positions){
-//            System.out.println(position1.getTypePostion());
-//        }
         for(com.longwang.uhrm.Entity.Position position:positions){
             post_name.add(position.getTypePosition());
             position_id.add(position.getIdPosition());
@@ -409,10 +384,20 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST,value = "/get_info_by_departmentName_store")
     @ResponseBody
     public JSONObject get_info_by_departmentName_store(@RequestBody HashMap<String, Object> map) {
-            System.out.println(map.get("id"));
-            System.out.println(map.get("member"));
-            System.out.println(map.get("authoried"));
-            System.out.println(map.get("recruitment"));
+        List<String> id = solution.translate(map.get("id").toString());
+        List<String> member = solution.translate(map.get("member").toString());
+        List<String> authoried = solution.translate(map.get("authoried").toString());
+        List<String> recruitment = solution.translate(map.get("recruitment").toString());
+        for(int i=0;i<solution.translate(map.get("id").toString()).size();i++){
+            CollectTable temp = new CollectTable();
+            temp.setRecutimentNumber(recruitment.get(i));
+            temp.setMemberNumber(member.get(i));
+            temp.setAuthorizedStrengthNumber(authoried.get(i));
+            temp.setIdPost(Integer.parseInt(id.get(i)));
+            temp.setStatus("saved");
+            temp.setDepartment_idDepartment(positionDao.getPosByID(Integer.parseInt(id.get(i))).getDepartmentId());
+            collectTableDao.insertCollectTable(temp);
+        }
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("result", "pass");
             return jsonObject;
@@ -420,27 +405,11 @@ public class ViewController {
     //审核招聘计划
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_plan_check")
     public String recruitment_plan_check(Model model) {
-        List<com.longwang.uhrm.Entity.CollectTable> test = new ArrayList<>();
-        com.longwang.uhrm.Entity.CollectTable a = new com.longwang.uhrm.Entity.CollectTable();
-        a.setId(1);
-        a.setMemberNumber("5");
-        a.setAuthorizedStrengthNumber("10");
-        a.setRecutimentNumber("4");
-        a.setIdPost(1);
-        a.setDepartment_idDepartment(1);
-        a.setNamePost("二级人事助理");
-        a.setDepartmentName("人事部");
-        com.longwang.uhrm.Entity.CollectTable b = new com.longwang.uhrm.Entity.CollectTable();
-        b.setId(2);
-        b.setMemberNumber("25");
-        b.setAuthorizedStrengthNumber("40");
-        b.setRecutimentNumber("14");
-        b.setIdPost(2);
-        b.setDepartment_idDepartment(2);
-        b.setNamePost("科研组长");
-        b.setDepartmentName("科研部");
-        test.add(a);
-        test.add(b);
+        List<CollectTable> test = collectTableDao.findAllSaved();
+        for(int i=0;i<test.size();i++){
+            test.get(i).setDepartmentName(departmentDao.getDepartmentById(test.get(i).getDepartment_idDepartment()).getNameDepartment());
+            test.get(i).setNamePost(positionDao.getPost(test.get(i).getIdPost()).getPostName());
+        }
         model.addAttribute("plan",test);
         return "recruitment_plan_check";
     }
@@ -454,6 +423,19 @@ public class ViewController {
         System.out.println(map.get("recruitment"));
         System.out.println(map.get("state"));
         System.out.println(map.get("depart"));
+        List<String> member = solution.translate(map.get("member").toString());//现有人数
+        List<String> max = solution.translate(map.get("max").toString());//编制人数
+        List<String> form = solution.translate(map.get("form_member").toString());//原计划招聘人数
+        List<String> rec = solution.translate(map.get("recruitment").toString());//审核后人数
+        List<String> state = solution.translate(map.get("state").toString());//审核后状态
+        List<String> depart = solution.translate(map.get("depart").toString());//部门和岗位名
+        for(int i=0;i<member.size();i++){
+            if(state.get(i).contains("#")){
+                System.out.println(state.get(i).split("#")[0]);
+            }else {
+                System.out.println("通过");
+            }
+        }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result", "pass");
         return jsonObject;
@@ -462,7 +444,6 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.GET,value = "/employee_info_change")
     public String employee_info_change(HttpServletRequest httpServletRequest,Model model){
         model.addAttribute("employee",employeeArchivesDao.getEmployeeById(Integer.parseInt(httpServletRequest.getParameter("id"))));
-//        model.addAttribute("employee",employeeArchivesDao.getEmployeeById(1));
         return "information_change";
     }
 
@@ -541,19 +522,10 @@ public class ViewController {
         jsonObject.put("result","success");
         return jsonObject;
     }
-    //跳转到信息修改页面
+    //跳转到信息审核页面
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_namelist_check")
     public String recruitment_namelist_check(Model model){
-        List<User> users = new ArrayList<>();
-        User a = new User();
-        a.setIdUser(1);
-        a.setName("边小博");
-        a.setIdCard("61012219990331xxxx");
-        a.setAddress("陕西榆林");
-        a.setAge(21);
-        a.setMailAddress("123@qq.com");
-        a.setTelephone("1531581010");
-        users.add(a);
+        List<User> users = userDao.getUserByCandiate();
         model.addAttribute("list",users);
         return "recruitment_name_list_check";
     }
@@ -562,6 +534,14 @@ public class ViewController {
     @ResponseBody
     public JSONObject modify_users(@RequestBody HashMap<String,Object> map){
         System.out.println(map.get("out_list"));
+        List<String> out = solution.translate(map.get("out_list").toString());
+        for(int i=0;i<out.size();i++){
+            if(out.get(i).contains("#")){
+                userDao.update_unpassed(Integer.parseInt(out.get(i).split("#")[0]));
+            }else {
+                userDao.update_passed(Integer.parseInt(out.get(i)));
+            }
+        }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result","pass");
         return jsonObject;

@@ -20,8 +20,8 @@ public interface CollectTableMapper {
     @Select("select * from CollectTable where status = 'saved'")
     List<CollectTable> findAllSaved();
 
-    @Insert("insert into CollectTable values(#{id}, #{departmentIdDepartment}, #{departmentName}, #{recutimentNumber}, #{idPost}" +
-            ", #{namePost}, #{status})")
+    @Insert("insert into CollectTable values(#{id}, #{Department_idDepartment},#{recutimentNumber}, #{idPost}" +
+            ",#{memberNumber},#{authorizedStrengthNumber}, #{status})")
     public int insertCollectTable (CollectTable collectTable);
 
     //改变状态

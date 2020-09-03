@@ -1,46 +1,30 @@
 package com.longwang.uhrm.Tool;
 
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+//这个工具类用来将字符串形式的数组转化为可以读取的数组
+@Service
 public class Solution {
-    //1
-    public Boolean get_result(int num){
-
-        if(num % 2 == 0){
-            return false;
-        }else {
-            return true;
-        }
-    }
-    //2
-    private Boolean get(int num){
-        if(0<= num && num<= 225){
-            return true;
-        }else {
-            return false;
-        }
-    }
-    public Boolean vaildIPAddress(String IP){
-        int k;
-        String[] a = IP.split(".");
-        for (String h:a){
-            System.out.println(h);
-        }
-        for(String temp:a){
-            if(get_result(Integer.parseInt(temp.substring(0, 1)))){
-
+    public List<String> translate(String s){
+        String[] data = s.split(",");
+        List<String> k = new ArrayList<>();
+        for(int i=0;i<data.length;i++){
+            if(i == 0){
+                k.add(data[i].split("\\[")[1]);
+            }else if(i == data.length - 1){
+                k.add(data[i].split("]")[0].split(" ")[1]);
             }else {
-                return false;
+                k.add(data[i].split(" ")[1]);
             }
-            if (get(Integer.parseInt(temp))){
-                }else {
-                    return false;
-                }
         }
-        return true;
+        return  k;
     }
-    public static void main(String[] args){
-        String test = "172.316.254.1";
-        Solution demo = new Solution();
-        Solution demo1 = new Solution();
-        System.out.println(demo1.vaildIPAddress(test));
-    }
+//    public static void main(String[] args){
+//        String test = "[人事部--二级人事助理, 人事部--助理]";
+//        Solution a = new Solution();
+//        System.out.println(a.translate(test).get(1).length());
+//    }
 }

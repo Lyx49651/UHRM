@@ -16,6 +16,15 @@ public class Position {
   private long totalStaff;
   private long departmentId;
 
+  public void setTypePosition(String typePosition) {
+    this.typePosition = typePosition;
+  }
+
+  public long getDepartmentId() {
+
+    return departmentId;
+  }
+
   @Override
   public String toString() {
     return "Position{" +

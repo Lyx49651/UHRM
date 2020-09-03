@@ -70,4 +70,9 @@ public class UserDao {
         return userMapper.userPassed();
     }
 
+    //根据CandidateInfoID为没有通过资料审查的用户更新状态
+    public void update_unpassed(long id){ userMapper.unpassed_update(id); }
+
+    //根据CandidateInfoID为通过资料审查的用户更新状态
+    public void update_passed(long id){ userMapper.passed_update(id); }
 }

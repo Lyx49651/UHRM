@@ -28,7 +28,7 @@ public class PositionDao {
     }
 
     //根据idposition查询得到对应的post
-    public Post getPost(int idPosition){
+    public Post getPost(long idPosition){
         return positionMapper.getPost(idPosition);
     }
 

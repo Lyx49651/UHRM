@@ -2,10 +2,7 @@ package com.longwang.uhrm.mapper;
 
 import com.longwang.uhrm.Entity.User;
 import com.longwang.uhrm.Tool.convertdata;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -33,7 +30,7 @@ public interface UserMapper {
     @Delete("delete from user where name = #{name}")
     public boolean deleteUserByName(String name);
 
-    @Select("SELECT * FROM User,CandidateInfo where idUser = idCandidateInfo;")
+    @Select("SELECT * FROM User,CandidateInfo where idUser = idCandidateInfo and status = 'unverified'")
     public List<User> getUsrByCandidate();
 
     @Select("SELECT * FROM User,CandidateInfo where CandidateInfo.status = \"passed\" and User.idUser = CandidateInfo.idCandidateInfo")
@@ -41,4 +38,10 @@ public interface UserMapper {
 
     @Select("SELECT password FROM EmployeeArchives where employeePhoneNumber = #{employeePhone} and employeeId = #{employeeId}")
     public String retrieve_password(convertdata convertdata);
+
+    @Update("UPDATE CandidateInfo set status = 'verified' where idCandidateInfo = #{id}")
+    public void unpassed_update(long id);
+
+    @Update("UPDATE CandidateInfo set status = 'passed' where idCandidateInfo = #{id}")
+    public void passed_update(long id);
 }

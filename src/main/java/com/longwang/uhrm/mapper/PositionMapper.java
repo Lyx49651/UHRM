@@ -21,7 +21,7 @@ public interface PositionMapper {
     //sql
 
     @Select("SELECT idPost,postName FROM Post, Position where Position.idPosition = idPost and idPosition = #{idPosition}")
-    public Post getPost(int idPosition);
+    public Post getPost(long idPosition);
 
     @Select("Select * from Position where departmentId = #{departmentId}")
     public List<Position> getPositionListByDepartment(int departmentId);
