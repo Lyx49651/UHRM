@@ -172,8 +172,6 @@ public class User {
     this.mailAddress = mailAddress;
   }
 
-
-
   public Long getPost_idPost() {
     return Post_idPost;
   }

@@ -3,6 +3,7 @@ package com.longwang.uhrm.mapper;
 import com.longwang.uhrm.Entity.Position;
 import com.longwang.uhrm.Entity.Post;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -26,14 +27,14 @@ public interface PositionMapper {
     public List<Position> getPositionListByDepartment(int departmentId);
 
     @Select("Select employeeId from EmployeeArchives where employeeDepartment = #{employeeDepartment} and employeePost = #{employeePost}")
-    public List<Integer> getPositionStuff(String employeeDepartment, String employeePost);
+    public List<Integer> getPositionStuff(@Param("employeeDepartment") String employeeDepartment, @Param("employeePost") String employeePost);
 
     @Select("Select employeeId from EmployeeArchives where Position_idPosition = #{Position_idPosition} and Department_idDepartment = #{Department_idDepartment}")
     public List<Integer> getPositionStuffAdvanced(int Position_idPosition, int Department_idDepartment);
 
 
     @Select("Select totalStaff from Position where typePosition = #{typePosition} and departmentId = #{departmentId}")
-    public Long getRecruitment(String typePosition,int departmentId);
+    public Long getRecruitment(@Param("typePosition") String typePosition,@Param("departmentId") int departmentId);
 
     @Select("Select idPost from Post where postName = #{postName}")
     public int getPostId(String postName);
