@@ -1,5 +1,6 @@
 package com.longwang.uhrm.Dao;
 
+import com.longwang.uhrm.Entity.Contract;
 import com.longwang.uhrm.Entity.EmployeeArchives;
 import com.longwang.uhrm.Tool.convertdata;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,4 +69,31 @@ public class EmployeeArchivesDao{
         return employeeArchivesMapper.updateEmployeeSpecialInfo(convertdata) == 1;
     }
 
+
+    public List<Contract> findAllContract(){
+        return employeeArchivesMapper.findAllContract();
+    }
+
+    public Contract getContractById(int id){
+        return employeeArchivesMapper.getContractById(id);
+    }
+
+    public List<Contract> getContractByName(String employeeName){
+        return employeeArchivesMapper.getContractByName(employeeName);
+    }
+
+    //修改合同
+    public boolean contract_change(Contract contract){
+        return employeeArchivesMapper.contract_change(contract) == 1;
+    }
+
+    //删除合同
+    public void delete_contract(int id){
+        employeeArchivesMapper.delete_contract(id);
+    }
+
+    //新增合同
+    public boolean add_contract(Contract contract){
+        return employeeArchivesMapper.add_contract(contract) == 1;
+    }
 }

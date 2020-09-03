@@ -656,4 +656,105 @@ public class ViewController {
         }
         return jsonObject;
     }
+
+    //跳转到合同查询
+    @RequestMapping(method = RequestMethod.GET,value = "/to_contract_query")
+    public String to_contract_query(Model model){
+        List<Contract> list = employeeArchivesDao.findAllContract();
+        model.addAttribute("list",list);
+        return "contract_search";
+    }
+
+    //查询指定的合同
+    @RequestMapping(method = RequestMethod.GET,value = "/contract_info_search")
+    public String contract_info_search(HttpServletRequest request, Model model){
+        try{
+            int id = Integer.parseInt( request.getParameter("idOrName"));
+            Contract emp = employeeArchivesDao.getContractById(id);
+            model.addAttribute("list",emp);
+        }catch(Exception e){
+            String name = request.getParameter("idOrName");
+            List<Contract> list = employeeArchivesDao.getContractByName(name);
+            model.addAttribute("list",list);
+        }
+        return "contract_search";
+    }
+
+    //to合同修改
+    @RequestMapping(method = RequestMethod.GET,value = "/contract_info_change")
+    public String contract_info_change(HttpServletRequest httpServletRequest,Model model){
+        int ContractId = Integer.parseInt(httpServletRequest.getParameter("id"));
+        System.out.println(ContractId);
+        Contract contract = employeeArchivesDao.getContractById(ContractId);
+        model.addAttribute("list",contract);
+        return "contract_update";
+    }
+
+    //合同修改提交
+    @RequestMapping(method = RequestMethod.POST,value = "/contract_change")
+    @ResponseBody
+    public JSONObject contract_change(@RequestBody HashMap<String,String> hashMap){
+        Contract contract = new Contract();
+        JSONObject jsonObject = new JSONObject();
+        contract.setIdContract(Integer.parseInt(hashMap.get("contractId")));
+        contract.setEmployeeId(Integer.parseInt(hashMap.get("employeeId")));
+        contract.setContractPeriod(hashMap.get("contractPeriod"));
+        contract.setEmployeeName(hashMap.get("employeeName"));
+        contract.setEmployeeSex(hashMap.get("employeeSex"));
+        contract.setSalary(hashMap.get("salary"));
+        contract.setPosition(hashMap.get("position"));
+
+        boolean res = employeeArchivesDao.contract_change(contract);
+
+        if(res){
+            jsonObject.put("result","success");
+        }else{
+            jsonObject.put("result","default");
+        }
+
+        return jsonObject;
+    }
+
+    //删除合同
+    @RequestMapping(method = RequestMethod.GET,value = "/contract_delete")
+    public String contract_delete(HttpServletRequest httpServletRequest,Model model){
+        int idContract = Integer.parseInt(httpServletRequest.getParameter("id"));
+        employeeArchivesDao.delete_contract(idContract);
+
+        List<Contract> list = employeeArchivesDao.findAllContract();
+        model.addAttribute("list",list);
+
+
+        return "contract_search";
+    }
+
+    //to新增合同
+    @RequestMapping(method = RequestMethod.GET,value = "/to_add_contract")
+    public String to_add_contract(){
+        return "contract_import";
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST,value = "/add_contract")
+    @ResponseBody
+    public JSONObject add_contract(@RequestBody HashMap<String,String> hashMap){
+        Contract contract = new Contract();
+        JSONObject jsonObject = new JSONObject();
+        contract.setEmployeeId(Integer.parseInt(hashMap.get("employeeId")));
+        contract.setEmployeeName(hashMap.get("employeeName"));
+        contract.setEmployeeSex(hashMap.get("employeeSex"));
+        contract.setContractPeriod(hashMap.get("contractPeriod"));
+        contract.setSalary(hashMap.get("salary"));
+        contract.setPosition(hashMap.get("position"));
+
+        boolean res = employeeArchivesDao.add_contract(contract);
+        if(res){
+            jsonObject.put("result","success");
+        }else{
+            jsonObject.put("result","default");
+        }
+
+        return jsonObject;
+    }
+
 }

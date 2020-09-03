@@ -1,12 +1,10 @@
 package com.longwang.uhrm.mapper;
 
+import com.longwang.uhrm.Entity.Contract;
 import com.longwang.uhrm.Entity.EmployeeArchives;
 import com.longwang.uhrm.Tool.convertdata;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import com.longwang.uhrm.Entity.InformationChange;
-import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -57,5 +55,27 @@ public interface EmployeeArchivesMapper {
     @Update("UPDATE EmployeeArchives SET ${changeType} = #{changeInfoNow} WHERE employeeId = #{employeeId}")
     public int updateEmployeeSpecialInfo(convertdata convertdata);
 
+    //查询所有合同
+    @Select("select * from Contract")
+    public List<Contract> findAllContract();
+
+    @Select("select * from Contract where idContract = #{idContract}")
+    public Contract getContractById(long employeeId);
+
+    @Select("Select * from Contract where employeeName like concat('%',#{employeeName},'%')")
+    public List<Contract> getContractByName(String employeeName);
+    //合同修改
+    @Update("update Contract set employeeName = #{employeeName},employeeSex = #{employeeSex},contractPeriod = #{contractPeriod}," +
+            "salary = #{salary},position = #{position} where idContract = #{idContract}")
+    public int contract_change(Contract contract);
+
+    //合同删除
+    @Delete("delete from Contract where idContract = #{idContract}")
+    public void delete_contract(int id);
+
+    //添加合同
+    @Insert("insert into Contract(idContract,employeeId,employeeName,employeeSex,contractPeriod,salary,position) values(#{idContract},#{employeeId},#{employeeName},#{employeeSex}," +
+            "#{contractPeriod},#{salary},#{position})")
+    public int add_contract(Contract contract);
 
 }
