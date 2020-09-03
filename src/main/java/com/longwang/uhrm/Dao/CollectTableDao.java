@@ -9,9 +9,8 @@ import java.util.List;
 
 @Service
 public class CollectTableDao {
-    CollectTableMapper collectTableMapper;
     @Autowired
-    void setCollectTableMapper(CollectTableMapper collectTableMapper){this.collectTableMapper = collectTableMapper;}
+    CollectTableMapper collectTableMapper;
 
     List<CollectTable> findAll(){ return collectTableMapper.findAll(); }
     List<CollectTable> findAllPassed(){ return collectTableMapper.findAllPassed();}
