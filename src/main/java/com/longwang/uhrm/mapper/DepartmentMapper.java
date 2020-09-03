@@ -9,10 +9,10 @@ import java.util.List;
 @Mapper
 public interface DepartmentMapper {
     @Select("select * from Department where idDepartment = #{idDepartment}")
-    public Department getDepartmentById(int idDepartment);
+    public Department getDepartmentById(long idDepartment);
 
     @Select("select nameDepartment from Department where idDepartment = #{idDepartment}")
-    public String getName(int idDepartment);
+    public String getName(long idDepartment);
 
     @Select("select idDepartment from Department where nameDepartment = #{nameDepartment}")
     public int getID(String nameDepartment);

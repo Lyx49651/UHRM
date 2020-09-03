@@ -13,7 +13,7 @@ public class DepartmentDao {
     @Autowired
     DepartmentMapper departmentMapper;
     //按id获取部门信息
-    public Department getDepartmentById(int idDepartment){
+    public Department getDepartmentById(long idDepartment){
         return departmentMapper.getDepartmentById(idDepartment);
     }
 
@@ -23,7 +23,7 @@ public class DepartmentDao {
     }
 
     //按id获取name
-    public String getName(int idDepartment){
+    public String getName(long idDepartment){
         return departmentMapper.getName(idDepartment);
     }
 

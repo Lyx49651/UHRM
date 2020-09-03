@@ -24,6 +24,13 @@ public class DaoTest {
     private RecruitmentNoticeDao recruitmentNoticeDao;
 
     @Autowired
+    public void setCollectTableDao(CollectTableDao collectTableDao) {
+        this.collectTableDao = collectTableDao;
+    }
+
+    private CollectTableDao collectTableDao;
+
+    @Autowired
     public void setRecruitmentNoticeDao(RecruitmentNoticeDao recruitmentNoticeDao){this.recruitmentNoticeDao = recruitmentNoticeDao;}
 
 
@@ -75,7 +82,7 @@ public class DaoTest {
 ////        String  post = positionDao.getPostName(1);
 
        // System.out.println(employeeArchivesDao.getEmployeeByName("刘"));
-        System.out.println(recruitmentNoticeDao.findAll());
+//        System.out.println(recruitmentNoticeDao.findAll());
 
 
 //
@@ -93,10 +100,10 @@ public class DaoTest {
 //        System.out.println(num);
 //        //人事部对应id为1
 //        System.out.println(positionDao.getRecruitment("助理","人事部"));
-        List<User> user = userDao.getUserPassed();
-        System.out.println(user.get(0).toString());
-        System.out.println(user.toString());
-
+//        List<User> user = userDao.getUserPassed();
+//        System.out.println(user.get(0).toString());
+//        System.out.println(user.toString());
+        System.out.println(collectTableDao.updatePassed(1,"13"));
         return "success";
 
     }

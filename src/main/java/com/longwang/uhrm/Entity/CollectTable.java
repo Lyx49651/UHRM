@@ -4,7 +4,7 @@ package com.longwang.uhrm.Entity;
 public class CollectTable {
 
   private long id;
-  private long departmentIdDepartment;
+  private long Department_idDepartment;
   private String departmentName;
   private String recutimentNumber;
   private long idPost;
@@ -48,15 +48,13 @@ public class CollectTable {
     this.id = id;
   }
 
-
-  public long getDepartmentIdDepartment() {
-    return departmentIdDepartment;
+  public long getDepartment_idDepartment() {
+    return Department_idDepartment;
   }
 
-  public void setDepartmentIdDepartment(long departmentIdDepartment) {
-    this.departmentIdDepartment = departmentIdDepartment;
+  public void setDepartment_idDepartment(long department_idDepartment) {
+    Department_idDepartment = department_idDepartment;
   }
-
 
   public String getRecutimentNumber() {
     return recutimentNumber;

@@ -28,7 +28,7 @@ public class PositionDao {
     }
 
     //根据idposition查询得到对应的post
-    public Post getPost(int idPosition){
+    public Post getPost(long idPosition){
         return positionMapper.getPost(idPosition);
     }
 
@@ -58,5 +58,10 @@ public class PositionDao {
     //根据Post表中的postName获得Post表的id
     public int getPostId(String postName){
         return positionMapper.getPostId(postName);
+    }
+
+    //根据Post表中的idPost获得Post表的postName
+    public String getPostName(long postId){
+        return positionMapper.getPostName(postId);
     }
 }
