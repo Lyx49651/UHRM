@@ -16,39 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
     <script src = "https://cdn.jsdelivr.net/npm/chart.js@2.8.0" ></script>
     <![endif]-->
-    <script type="text/javascript">
-        window.onload=function(){
-            var cookie = document.cookie;
-            if(cookie.length != 0){
-                function getCookie(name){
-                    var cookieObj={},
-                        cookieSplit=[],
-                        // 以分号（;）分组
-                        cookieArr=document.cookie.split(";");
-                    for(var i=0,len=cookieArr.length;i<len;i++)
-                        if(cookieArr[i]) {
-                            // 以等号（=）分组
-                            cookieSplit=cookieArr[i].split("=");
-                            // Trim() 是自定义的函数，用来删除字符串两边的空格
-                            cookieObj[cookieSplit[0].trim()]=cookieSplit[1].trim();
-                        }
-                    return cookieObj[name];
-                }
-                var username = getCookie("name");
-                var pro = "<ul class='nav navbar-nav navbar-right'>\n" +
-                    "                <li class='dropdown' id='my_test_id'>\n" +
-                    "                    <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false' style='color: black'>"+username+"<span class='caret'></span></a>\n" +
-                    "                    <ul class='dropdown-menu'>\n" +
-                    "                        <li><a href='http://localhost:8080/logout' style='color: black'>登出</a></li>\n" +
-                    "                        <li><a href='http://localhost:8080/personalInfo' style='color: black'>个人信息</a></li>\n" +
-                    "                    </ul>\n" +
-                    "                </li>\n" +
-                    "                <!--li><a id=\"my_test_id\" href=\"http://localhost:3000/login\">登录</a></li-->\n" +
-                    "            </ul>"
-                document.getElementById("first").innerHTML= pro;
-            }
-        }
-    </script>
+
 </head>
 <body style="overflow-y: auto;width: 100%;height: 100%">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -80,7 +48,7 @@
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
             </li>
         </ul>
-        <div class="dropdown" id="first">
+        <div class="dropdown" id="first" th:if='${not islogged}'>
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 登录
             </button>
@@ -88,6 +56,18 @@
                 <a class="dropdown-item" href="http://localhost:8080/personnel_login">员工登录</a>
                 <a class="dropdown-item" href="http://localhost:8080/user_login">非员工登录</a>
             </div>
+        </div>
+        <div th:if='${islogged}'>
+            <ul class='nav navbar-nav navbar-right'>
+                <li class='dropdown' id='my_test_id'>
+                    <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false' style='color: black'><span th:text="${name}"></span><span class='caret'></span></a>
+                    <ul class='dropdown-menu'>
+                        <li><a href='http://localhost:8080/logout' style='color: black'>登出</a></li>
+                        <li th:if='${typeBoolean}'><a href='http://localhost:8080/personalInfo' style="color: black" >个人信息</a></li>
+                        <li th:if='${not typeBoolean}'><a href='http://localhost:8080/userInfo' style="color: black" >个人信息1</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
