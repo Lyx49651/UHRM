@@ -7,7 +7,6 @@ public class CandidateInfo {
   private String interviewResult;
   private String writtenResult;
 
-
   public long getIdCandidateInfo() {
     return idCandidateInfo;
   }
