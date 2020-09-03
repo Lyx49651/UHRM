@@ -1,6 +1,7 @@
 package com.longwang.uhrm.mapper;
 
 import com.longwang.uhrm.Entity.User;
+import com.longwang.uhrm.Tool.convertdata;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -37,4 +38,7 @@ public interface UserMapper {
 
     @Select("SELECT * FROM User,CandidateInfo where CandidateInfo.status = \"passed\" and User.idUser = CandidateInfo.idCandidateInfo")
     public List<User> userPassed();
+
+    @Select("SELECT password FROM EmployeeArchives where employeePhoneNumber = #{employeePhone} and employeeId = #{employeeId}")
+    public String retrieve_password(convertdata convertdata);
 }
