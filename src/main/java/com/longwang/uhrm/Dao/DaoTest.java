@@ -103,7 +103,7 @@ public class DaoTest {
 //        List<User> user = userDao.getUserPassed();
 //        System.out.println(user.get(0).toString());
 //        System.out.println(user.toString());
-        collectTableDao.findAllSaved();
+        System.out.println(collectTableDao.updatePassed(1,"13"));
         return "success";
 
     }
