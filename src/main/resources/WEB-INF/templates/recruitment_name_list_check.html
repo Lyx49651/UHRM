@@ -127,9 +127,10 @@
         var button = document.getElementById("get_list");
         for(var i=0;i<(td.length/8);i++){
             if(td[8*i+7].children[0].checked){
+                out_list.push(td[8*i+7].children[0].value);
             }else{
                 td[4*i+7].parentNode.style = "display:none";
-                out_list.push(td[8*i+7].children[0].value);
+                out_list.push(td[8*i+7].children[0].value + "#");
             }
         }
         button.parentNode.innerHTML = msg;

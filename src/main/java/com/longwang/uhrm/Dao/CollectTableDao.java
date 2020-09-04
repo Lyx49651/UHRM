@@ -12,11 +12,22 @@ public class CollectTableDao {
     @Autowired
     CollectTableMapper collectTableMapper;
 
-    List<CollectTable> findAll(){ return collectTableMapper.findAll(); }
-    List<CollectTable> findAllPassed(){ return collectTableMapper.findAllPassed();}
-    List<CollectTable> findAllSaved(){ return collectTableMapper.findAllSaved();}
+    public List<CollectTable> findAll(){ return collectTableMapper.findAll(); }
+    public List<CollectTable> findAllPassed(){ return collectTableMapper.findAllPassed();}
+    public List<CollectTable> findAllSaved(){ return collectTableMapper.findAllSaved();}
 
-    boolean changeStatusById(String status, int id){ return collectTableMapper.changeStatusById(status, id) == 1; }
-    boolean insertCollectTable(CollectTable collectTable) {return collectTableMapper.insertCollectTable(collectTable) == 1;}
+    public boolean changeStatusById(String status, int id){ return collectTableMapper.changeStatusById(status, id) == 1; }
+    public boolean insertCollectTable(CollectTable collectTable) {return collectTableMapper.insertCollectTable(collectTable) == 1;}
+
+    //删除
+    public boolean deleteById(int id) {
+        return collectTableMapper.deleteByID(id);
+    }
+
+    //更新collect表为passed
+    public boolean updatePassed(int id, String recutimentNumber){
+        return  collectTableMapper.updateStatus(id,recutimentNumber);
+    }
+
 
 }

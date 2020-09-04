@@ -21,7 +21,7 @@ public interface PositionMapper {
     //sql
 
     @Select("SELECT idPost,postName FROM Post, Position where Position.idPosition = idPost and idPosition = #{idPosition}")
-    public Post getPost(int idPosition);
+    public Post getPost(long idPosition);
 
     @Select("Select * from Position where departmentId = #{departmentId}")
     public List<Position> getPositionListByDepartment(int departmentId);
@@ -38,4 +38,7 @@ public interface PositionMapper {
 
     @Select("Select idPost from Post where postName = #{postName}")
     public int getPostId(String postName);
+
+    @Select("Select postName from Post where idPost = #{postId}")
+    public String getPostName(long postId);
 }

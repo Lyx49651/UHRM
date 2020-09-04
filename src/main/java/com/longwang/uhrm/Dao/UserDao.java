@@ -1,5 +1,6 @@
 package com.longwang.uhrm.Dao;
 
+import com.longwang.uhrm.Entity.CandidateInfo;
 import com.longwang.uhrm.Entity.User;
 import com.longwang.uhrm.Tool.convertdata;
 import com.longwang.uhrm.mapper.UserMapper;
@@ -79,4 +80,25 @@ public class UserDao {
     public boolean update_user_Info(User user){
         return userMapper.update_user_Info(user) == 1;
     }
+
+    //根据CandidateInfoID为没有通过资料审查的用户更新状态
+    public void update_unpassed(long id){ userMapper.unpassed_update(id); }
+
+    //根据CandidateInfoID为通过资料审查的用户更新状态
+    public void update_passed(long id){ userMapper.passed_update(id); }
+
+    //查询通过审核的候选人
+    public List<CandidateInfo> userpassed_get(){ return userMapper.userTested();}
+
+    //更新经过笔试和面试筛选的人
+    public void usertested(long id){ userMapper.tested_update(id);}
+
+    //更新未通过的人
+    public void user_untested(long id){ userMapper.untested_delete(id);}
+
+    //遍历即将归入员工的人
+    public List<User> archive(){ return userMapper.testedUsers();}
+
+    //归档结束删除所有tested的对象
+    public  void delete_tested(){ userMapper.delete_tested();}
 }

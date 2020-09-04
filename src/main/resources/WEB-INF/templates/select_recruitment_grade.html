@@ -93,9 +93,10 @@
         var td = element.getElementsByTagName("td");
         for(var i=0;i<(td.length/3);i++){
             if(td[3*i+2].children[0].checked){
+                out_list.push(td[3*i+2].children[0].value);
             }else{
                 td[3*i+2].parentNode.style = "display:none";
-                out_list.push(td[3*i+2].children[0].value);
+                out_list.push(td[3*i+2].children[0].value + "#");
             }
         }
         alert(out_list);
