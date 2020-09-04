@@ -66,5 +66,9 @@ public interface UserMapper {
 
     @Delete("Delete from CandidateInfo where status = \"tested\"")
     public void delete_tested();
+
+    @Delete("DELETE from User where telephone = #{phone}")
+    public void delete_user_phone(String phone);
+
 }
 
