@@ -5,6 +5,15 @@ public class User {
 
   private long idUser;
   private String name;
+
+  public long getIdUser() {
+    return idUser;
+  }
+
+  public void setIdUser(long idUser) {
+    this.idUser = idUser;
+  }
+
   private String sex;
   private String IDCard;
   private String photo;
@@ -35,10 +44,6 @@ public class User {
     this.telephone = telephone;
   }
 
-  public String getIDCard() {
-    return IDCard;
-  }
-
   public void setIDCard(String IDCard) {
     this.IDCard = IDCard;
   }
@@ -57,11 +62,11 @@ public class User {
     this.password = password;
   }
 
-  public User(long idUser, String name, String sex, String idCard, String photo, String address, long age, String mailAddress, String telephone, long postIdPost, String password) {
+  public User(long idUser, String name, String sex, String IDCard, String photo, String address, long age, String mailAddress, String telephone, long postIdPost, String password) {
     this.idUser = idUser;
     this.name = name;
     this.sex = sex;
-    this.IDCard = idCard;
+    this.IDCard = IDCard;
     this.photo = photo;
     this.address = address;
     this.age = age;
@@ -101,15 +106,6 @@ public class User {
   private String password;
 
 
-  public long getIdUser() {
-    return idUser;
-  }
-
-  public void setIdUser(long idUser) {
-    this.idUser = idUser;
-  }
-
-
   public String getName() {
     return name;
   }
@@ -127,15 +123,9 @@ public class User {
     this.sex = sex;
   }
 
-
-  public String getIdCard() {
+  public String getIDCard() {
     return IDCard;
   }
-
-  public void setIdCard(String idCard) {
-    this.IDCard = idCard;
-  }
-
 
   public String getPhoto() {
     return photo;

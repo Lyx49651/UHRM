@@ -2,10 +2,7 @@ package com.longwang.uhrm.mapper;
 
 import com.longwang.uhrm.Entity.User;
 import com.longwang.uhrm.Tool.convertdata;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -13,6 +10,9 @@ import java.util.List;
 public interface UserMapper {
     @Select("select *from User where idUser = #{idUser}")
     public User getUserById(int idUser);
+
+    @Select("select *from User where telephone = #{telephone}")
+    public User getUserByTelephone(String telephone);
 
     @Select("select *from User where name = #{name}")
     public User getUserByName(String name);
@@ -41,4 +41,8 @@ public interface UserMapper {
 
     @Select("SELECT password FROM EmployeeArchives where employeePhoneNumber = #{employeePhone} and employeeId = #{employeeId}")
     public String retrieve_password(convertdata convertdata);
+
+    @Update("UPDATE User SET sex = #{sex}, IDCard = #{IDCard}, address = #{address}," +
+            "age = #{age},mailAddress = #{mailAddress},education=#{education} WHERE telephone = #{telephone}")
+    public int update_user_Info(User user);
 }
