@@ -638,7 +638,8 @@ public class ViewController {
             temp.setEmployeeTechnicalGrade(technicalGrade.get(i));
             temp.setEmployeeDepartment(depart.get(i));
             temp.setEmployeePost(post.get(i));
-            employeeArchivesDao.register(temp);
+            temp.setEmployeeId(employeeArchivesDao.max_id()+1);
+            employeeArchivesDao.Archive(temp);
         }
         userDao.delete_tested();
         JSONObject jsonObject = new JSONObject();

@@ -78,4 +78,8 @@ public interface EmployeeArchivesMapper {
             "#{contractPeriod},#{salary},#{position})")
     public int add_contract(Contract contract);
 
+    //获取最大的ID值
+    @Select("SELECT max(employeeId) from EmployeeArchives")
+    public int max_id();
+
 }
