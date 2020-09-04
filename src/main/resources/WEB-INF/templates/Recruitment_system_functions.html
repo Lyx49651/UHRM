@@ -152,7 +152,7 @@
     <p class="mb-0">下面包括部门与岗位</p>
 </div>
 <div class="form-group" style="width: 100%;margin: 0;font-family: 微软雅黑;">
-    <ul style="width: 100%;list-style-type: none;padding-left: 20px" th:each="CollectTable:${plan}">
+    <ul style="width: 100%;list-style-type: none;padding-left: 20px" th:each="CollectTable:${plan}" id="post_list_now">
         <li>
             <div>
             <p>
@@ -160,7 +160,7 @@
                     [[${CollectTable.departmentName}]]--[[${CollectTable.namePost}]]
                 </button>
                 <span style="margin: 0 5% 0 0;float:right">
-                    <button type="button" class="btn btn-outline-info">我要申请</button>
+                    <button type="button" class="btn btn-outline-info" onclick="apply_my(this)">我要申请</button>
                 </span>
             </p>
             <div class="collapse" th:attr="id='collapseExample'+ ${CollectTable.id}">
@@ -294,7 +294,32 @@
                     alert("发布成功！");
                     window.location="http://localhost:8080/recruitment_system";
                 }else {
-                    alert("用户不存在或者信息有误！")
+                    alert("用户不存在或者信息有误！");
+                }
+            },
+            error:function (data) {
+                alert("发布失败！");
+            }
+        });
+    }
+    function apply_my(button) {
+        var element = document.getElementById("post_list_now");
+        var list = element.getElementsByTagName("button");
+        // alert(button.parentNode.parentNode.children[0].innerText);
+        var user ={};
+        user.post = button.parentNode.parentNode.children[0].innerText;
+        $.ajax({
+            url:"http://localhost:8080/sign_up",
+            type:"post",
+            dataType:"json",
+            data:JSON.stringify(user),
+            contentType: "application/json;charset=UTF-8",
+            success:function (data) {
+                if(data.result == "success"){
+                    alert("申请成功！");
+                    window.location="http://localhost:8080/recruitment_system";
+                }else {
+                    alert("申请失败！");
                 }
             },
             error:function (data) {

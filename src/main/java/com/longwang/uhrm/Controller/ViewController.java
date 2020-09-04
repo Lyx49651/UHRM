@@ -25,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -757,4 +758,13 @@ public class ViewController {
         return jsonObject;
     }
 
+    //应聘者报名,获取到岗位信息
+    @RequestMapping(method = RequestMethod.POST,value = "/sign_up")
+    @ResponseBody
+    public JSONObject sign_up(@RequestBody HashMap<String, String> map, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        System.out.println(map.get("post"));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result","success");
+        return jsonObject;
+    }
 }
