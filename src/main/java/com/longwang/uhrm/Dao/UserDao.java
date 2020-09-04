@@ -42,6 +42,11 @@ public class UserDao {
         return userMapper.getUserById(userId);
     }
 
+    //按telephone查找返回用户
+    public User getUserByTelephone(String telephone){
+        return userMapper.getUserByTelephone(telephone);
+    }
+
     //按name查找返回用户
     public User getUserByName(String name){
         return userMapper.getUserByName(name);
@@ -69,6 +74,11 @@ public class UserDao {
     //获取通过的user信息
     public List<User> getUserPassed(){
         return userMapper.userPassed();
+    }
+
+    //修改用户信息
+    public boolean update_user_Info(User user){
+        return userMapper.update_user_Info(user) == 1;
     }
 
     //根据CandidateInfoID为没有通过资料审查的用户更新状态

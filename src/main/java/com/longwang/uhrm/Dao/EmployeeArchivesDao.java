@@ -26,6 +26,10 @@ public class EmployeeArchivesDao{
          }
          return false;
     }
+    //添加记录
+    public boolean Archive(EmployeeArchives employeeArchives){
+            return employeeArchivesMapper.insertEmployee(employeeArchives) == 1;
+    }
 
     public String getName(int id) {
         return employeeArchivesMapper.getName(id);
@@ -96,4 +100,7 @@ public class EmployeeArchivesDao{
     public boolean add_contract(Contract contract){
         return employeeArchivesMapper.add_contract(contract) == 1;
     }
+
+    //获取最大的ID
+    public int max_id(){ return employeeArchivesMapper.max_id(); }
 }
