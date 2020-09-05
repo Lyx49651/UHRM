@@ -11,6 +11,7 @@ import com.longwang.uhrm.Tool.ToolMy;
 
 import com.longwang.uhrm.Tool.convertdata;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -31,6 +32,8 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,6 +47,8 @@ public class ViewController{
     PositionDao positionDao;
     CollectTableDao collectTableDao;
     Solution solution;
+    AttendanceDao attendanceDao;
+
 
     @Autowired
     public void setSolution(Solution solution) {
@@ -83,6 +88,11 @@ public class ViewController{
 
     ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
     //ThymeLeaf视图解析设置
+    @Autowired
+    public void setAttendanceDao(AttendanceDao attendanceDao) {
+        this.attendanceDao = attendanceDao;
+    }
+
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
         // SpringResourceTemplateResolver automatically integrates with Spring's own
@@ -309,11 +319,11 @@ public class ViewController{
             collectTable.setDepartmentName(departmentDao.getName(collectTable.getDepartment_idDepartment()));
             collectTable.setNamePost(positionDao.getPostName(collectTable.getIdPost()));
         }
-        model.addAttribute("plan",test1);
-        model.addAttribute("list",test);
+        model.addAttribute("plan", test1);
+        model.addAttribute("list", test);
 
         List<User> users = userDao.getUserPassed();//new ArrayList<>();
-        model.addAttribute("list1",users);
+        model.addAttribute("list1", users);
         return "Recruitment_system_functions";
     }
 
@@ -646,11 +656,11 @@ public class ViewController{
         List<String> technicalGrade = solution.translate(map.get("technicalGrade").toString());
         List<String> depart = solution.translate(map.get("department").toString());
         List<String> post = solution.translate(map.get("post").toString());
-//        System.out.println(sex);
-//        System.out.println(age);
-//        System.out.println(address);
-//        System.out.println(telephone);
-//        System.out.println(education);
+        System.out.println(sex);
+        System.out.println(age);
+        System.out.println(address);
+        System.out.println(telephone);
+        System.out.println(education);
         for(int i=0;i<name.size();i++){
             EmployeeArchives temp = new EmployeeArchives();
             temp.setEmployeeName(name.get(i));
@@ -668,10 +678,10 @@ public class ViewController{
             temp.setEmployeeDepartment(depart.get(i));
             temp.setEmployeePost(post.get(i));
             temp.setEmployeeId(employeeArchivesDao.max_id()+1);
-            userDao.delete_tested();
-            temp.setPassword(userDao.delete_phone(telephone.get(i)));
             employeeArchivesDao.Archive(temp);
+            temp.setPassword(userDao.delete_phone(telephone.get(i)));
         }
+        userDao.delete_tested();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result", "pass");
         return jsonObject;
@@ -790,8 +800,17 @@ public class ViewController{
     public String contract_info_change(HttpServletRequest httpServletRequest,Model model){
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         int ContractId = Integer.parseInt(httpServletRequest.getParameter("id"));
-        System.out.println(ContractId);
         Contract contract = employeeArchivesDao.getContractById(ContractId);
+        HttpSession httpSession = httpServletRequest.getSession();
+        String type = (String) httpSession.getAttribute("type");
+        String name = (String) httpSession.getAttribute("name");
+        if(name != null && type.equals("employee")){
+            model.addAttribute("typeBoolean",true);
+            model.addAttribute("name",httpSession.getAttribute("name"));
+        }else if(name != null && type.equals("user")){
+            model.addAttribute("typeBoolean",false);
+            model.addAttribute("name",httpSession.getAttribute("name"));
+        }
         model.addAttribute("list",contract);
         return "contract_update";
     }
@@ -892,6 +911,106 @@ public class ViewController{
         userDao.insert_candidate(candidateInfo);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result","success");
+        return jsonObject;
+    }
+
+
+
+    //跳转到我的考勤信息查看
+    @RequestMapping(method = RequestMethod.GET, value = "/myAttendance")
+    public String toMyAttendance(Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        String id = (String) httpServletRequest.getSession().getAttribute("id");
+        String name = (String) httpServletRequest.getSession().getAttribute("name");
+        String type = (String) httpServletRequest.getSession().getAttribute("type");
+        if(id == null || !type.equals("employee")){
+            return "redirect:index";
+        }else {
+            model.addAttribute("id", id);
+            model.addAttribute("name", name);
+        }
+        return "myAttendance";
+    }
+
+    //查找我的考勤信息
+    @RequestMapping(method = RequestMethod.GET, value = "/searchMyAttendance")
+    public String searchMyAttendance(Model m, HttpServletRequest request) {
+        String date = request.getParameter("AttendanceDate");
+        int id;
+        if(request.getSession().getAttribute("id")!=null){
+            id =  Integer.parseInt((String)request.getSession().getAttribute("id"));
+        }else {
+            return "redirect:index";
+        }
+
+        List<Attendance> attendances = attendanceDao.getEmployeeByTime(date, id);
+        m.addAttribute("list", attendances);
+        return "myAttendance";
+    }
+
+    //跳转到考勤管理系统
+    @RequestMapping(method = RequestMethod.GET, value = "/Attendance")
+    public String toAttendance(Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        int assitant_id = Integer.parseInt((String)httpServletRequest.getSession().getAttribute("id"));
+        EmployeeArchives emp = employeeArchivesDao.getEmployeeById(assitant_id);
+        String post = emp.getEmployeePost();
+
+        String id = (String) httpServletRequest.getSession().getAttribute("id");
+        String name = (String) httpServletRequest.getSession().getAttribute("name");
+        String type = (String) httpServletRequest.getSession().getAttribute("type");
+
+        //只有人事助理能访问考勤管理系统
+        if(id == null || !type.equals("employee") || !post.equals("二级人事助理")){
+            return "redirect:index";
+        }else {
+            model.addAttribute("id", id);
+            model.addAttribute("name", name);
+        }
+        return "Attendance";
+    }
+
+    String department_for_Attendance;
+
+    //查看部门对应的考勤信息，只有post为二级人事助理的雇员才能进行
+    @RequestMapping(method = RequestMethod.GET, value = "/departmentChange")
+    public String departmentChange(Model m, HttpServletRequest request) {
+        department_for_Attendance = request.getParameter("inlineRadioOptions");
+        List<EmployeeArchives> employeeArchivesList = departmentDao.getDepartmentEmployeeByName(department_for_Attendance);
+        List<Attendance> attendances = new ArrayList<>();
+        Date dNow = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+        String today = ft.format(dNow);
+        if (attendanceDao.checkAttendance(today, (int) employeeArchivesList.get(0).getEmployeeId()) == null) {
+            for (int i = 0; i < employeeArchivesList.size(); i++) {
+                Attendance attendance = new Attendance(today, employeeArchivesList.get(i).getEmployeeId(), employeeArchivesList.get(i).getEmployeeName(), "intime");
+                attendances.add(attendance);
+            }
+            m.addAttribute("list", attendances);
+            m.addAttribute("department", department_for_Attendance);
+        } else {
+
+        }
+        return "Attendance";
+    }
+    //进行对应部门的考勤,只有post为二级人事助理的雇员才能进行
+    @RequestMapping(method = RequestMethod.POST, value = "/checkIn")
+    @ResponseBody
+    public JSONObject checkIN(Model m, HttpServletRequest request, @RequestBody List<String> list) {
+        JSONObject jsonObject = new JSONObject();
+        List<EmployeeArchives> employeeArchivesList = departmentDao.getDepartmentEmployeeByName(department_for_Attendance);
+        Date dNow = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+        String today = ft.format(dNow);
+        int assistantId = Integer.parseInt((String)request.getSession().getAttribute("id"));
+        String assistantName = employeeArchivesDao.getName(assistantId);
+        if (attendanceDao.checkAttendance(today, (int) employeeArchivesList.get(0).getEmployeeId()) == null) {
+            for (int i = 0; i < employeeArchivesList.size(); i++) {
+                Attendance attendance = new Attendance(today, employeeArchivesList.get(i).getEmployeeId(),assistantName,assistantId, employeeArchivesList.get(i).getEmployeeName(), list.get(i));
+                attendanceDao.putListE(attendance);
+            }
+            jsonObject.put("result", "success");
+        } else {
+            jsonObject.put("result", "error");
+        }
         return jsonObject;
     }
 }

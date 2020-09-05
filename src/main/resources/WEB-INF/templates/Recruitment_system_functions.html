@@ -11,39 +11,6 @@
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
     <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
     <!--[if lt IE 9]-->
-    <script type="text/javascript">
-        window.onload=function(){
-            var cookie = document.cookie;
-            if(cookie!=null){
-                function getCookie(name){
-                    var cookieObj={},
-                        cookieSplit=[],
-                        // 以分号（;）分组
-                        cookieArr=document.cookie.split(";");
-                    for(var i=0,len=cookieArr.length;i<len;i++)
-                        if(cookieArr[i]) {
-                            // 以等号（=）分组
-                            cookieSplit=cookieArr[i].split("=");
-                            // Trim() 是自定义的函数，用来删除字符串两边的空格
-                            cookieObj[cookieSplit[0].trim()]=cookieSplit[1].trim();
-                        }
-                    return cookieObj[name];
-                }
-                var username = getCookie("name");
-                var pro = " <div class='btn-group dropleft'>" +
-                    "            <button class='btn btn-secondary dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' style='color: black'>\n" +
-                    username +
-                    "            </button>\n" +
-                    "            <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>\n" +
-                    "                <a class='dropdown-item' href='http://localhost:8080/logout' style='color: black'>登出</a>\n" +
-                    "            </div>\n" +
-                    "        </div>"
-                document.getElementById("first").innerHTML= pro;
-            }else{
-                document.location = "http://localhost:8080/personnel_login";
-            }
-        }
-    </script>
 </head>
 <body style="width: 100%;height: 100%;overflow-y: auto">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -109,15 +76,17 @@
                 </div>
             </li>
         </ul>
-        <div class="dropdown" id="first">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                登录
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+        <div>
+            <ul class='nav navbar-nav navbar-right'>
+                <li class='dropdown' id='my_test_id'>
+                    <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false' style='color: black'><span th:text="${name}"></span><span class='caret'></span></a>
+                    <ul class='dropdown-menu' style="margin: 0 0 0 -156%">
+                        <li><a href='http://localhost:8080/logout' style='color: black'>登出</a></li>
+                        <li th:if='${typeBoolean}'><a href='http://localhost:8080/personalInfo' style="color: black" >个人信息</a></li>
+                        <li th:if='${not typeBoolean}'><a href='http://localhost:8080/userInfo' style="color: black" >个人信息</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>

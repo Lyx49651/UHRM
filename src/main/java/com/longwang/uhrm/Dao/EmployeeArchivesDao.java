@@ -73,7 +73,6 @@ public class EmployeeArchivesDao{
         return employeeArchivesMapper.updateEmployeeSpecialInfo(convertdata) == 1;
     }
 
-
     public List<Contract> findAllContract(){
         return employeeArchivesMapper.findAllContract();
     }
