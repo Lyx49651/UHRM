@@ -7,6 +7,7 @@ import com.longwang.uhrm.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("userDao")
@@ -107,5 +108,13 @@ public class UserDao {
         String password = userMapper.getUserByTelephone(phone).getPassword();
         userMapper.delete_user_phone(phone);
         return  password;
+    }
+    //根据电话查询用户申请的部门和岗位
+    public List<String> get_post(List<User> users){
+        List<String> posts = new ArrayList<>();
+        for(User user:users){
+            posts.add(userMapper.get_post(user.getIdUser()));
+        }
+        return posts;
     }
 }

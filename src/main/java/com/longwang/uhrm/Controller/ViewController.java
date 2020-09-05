@@ -597,6 +597,11 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_to_employee")
     public String recruitment_to_employee(Model model){
         List<User> users = userDao.archive();
+        List<String> depart = userDao.get_post(users);
+        for (int i=0;i<users.size();i++){
+            users.get(i).setDepart_name_sign_up(depart.get(i).split("--")[0]);
+            users.get(i).setPost_name_sign_up(depart.get(i).split("--")[1]);
+        }
         model.addAttribute("list", users);
         return "Archive";
     }
@@ -618,11 +623,11 @@ public class ViewController {
         List<String> technicalGrade = solution.translate(map.get("technicalGrade").toString());
         List<String> depart = solution.translate(map.get("department").toString());
         List<String> post = solution.translate(map.get("post").toString());
-        System.out.println(sex);
-        System.out.println(age);
-        System.out.println(address);
-        System.out.println(telephone);
-        System.out.println(education);
+//        System.out.println(sex);
+//        System.out.println(age);
+//        System.out.println(address);
+//        System.out.println(telephone);
+//        System.out.println(education);
         for(int i=0;i<name.size();i++){
             EmployeeArchives temp = new EmployeeArchives();
             temp.setEmployeeName(name.get(i));
@@ -640,10 +645,10 @@ public class ViewController {
             temp.setEmployeeDepartment(depart.get(i));
             temp.setEmployeePost(post.get(i));
             temp.setEmployeeId(employeeArchivesDao.max_id()+1);
-            employeeArchivesDao.Archive(temp);
+            userDao.delete_tested();
             temp.setPassword(userDao.delete_phone(telephone.get(i)));
+            employeeArchivesDao.Archive(temp);
         }
-        userDao.delete_tested();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result", "pass");
         return jsonObject;
