@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -9,39 +9,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
     <title>信息更改</title>
-    <script type="text/javascript">
-        window.onload=function(){
-            var cookie = document.cookie;
-            if(cookie!=null){
-                function getCookie(name){
-                    var cookieObj={},
-                        cookieSplit=[],
-                        // 以分号（;）分组
-                        cookieArr=document.cookie.split(";");
-                    for(var i=0,len=cookieArr.length;i<len;i++)
-                        if(cookieArr[i]) {
-                            // 以等号（=）分组
-                            cookieSplit=cookieArr[i].split("=");
-                            // Trim() 是自定义的函数，用来删除字符串两边的空格
-                            cookieObj[cookieSplit[0].trim()]=cookieSplit[1].trim();
-                        }
-                    return cookieObj[name];
-                }
-                var username = getCookie("name");
-                var pro = " <div class='btn-group dropleft'>" +
-                    "            <button class='btn btn-secondary dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' style='color: black'>\n" +
-                    username +
-                    "            </button>\n" +
-                    "            <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>\n" +
-                    "                <a class='dropdown-item' href='http://localhost:8080/logout' style='color: black'>登出</a>\n" +
-                    "            </div>\n" +
-                    "        </div>"
-                document.getElementById("first").innerHTML= pro;
-            }else{
-                document.location = "http://localhost:8080/personnel_login";
-            }
-        }
-    </script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -73,15 +40,17 @@
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
             </li>
         </ul>
-        <div class="dropdown" id="first">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                登录
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+        <div>
+            <ul class='nav navbar-nav navbar-right'>
+                <li class='dropdown' id='my_test_id'>
+                    <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false' style='color: black'><span th:text="${name}"></span><span class='caret'></span></a>
+                    <ul class='dropdown-menu' style="margin: 0 0 0 -156%">
+                        <li><a href='http://localhost:8080/logout' style='color: black'>登出</a></li>
+                        <li th:if="${typeBoolean}"><a href='http://localhost:8080/personalInfo' style="color: black" >个人信息</a></li>
+                        <li th:if='${not typeBoolean}'><a href='http://localhost:8080/userInfo' style="color: black" >个人信息</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>

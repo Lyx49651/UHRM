@@ -64,4 +64,31 @@ public class Attendance {
     this.attendanceResults = attendanceResults;
   }
 
+  public Attendance(String attendanceTime, long employeeId, String attendanceAssistantName, long attendanceAssistantId, String employeeName, String attendanceResults) {
+    this.attendanceTime = attendanceTime;
+    this.employeeId = employeeId;
+    this.attendanceAssistantName = attendanceAssistantName;
+    this.attendanceAssistantId = attendanceAssistantId;
+    this.employeeName = employeeName;
+    this.attendanceResults = attendanceResults;
+  }
+
+  public Attendance(String attendanceTime, long employeeId, String employeeName, String attendanceResults) {
+    this.attendanceTime = attendanceTime;
+    this.employeeId = employeeId;
+    this.employeeName = employeeName;
+    this.attendanceResults = attendanceResults;
+  }
+
+  @Override
+  public String toString() {
+    return "Attendance{" +
+            "attendanceTime='" + attendanceTime + '\'' +
+            ", employeeId=" + employeeId +
+            ", attendanceAssistantName='" + attendanceAssistantName + '\'' +
+            ", attendanceAssistantId=" + attendanceAssistantId +
+            ", employeeName='" + employeeName + '\'' +
+            ", attendanceResults='" + attendanceResults + '\'' +
+            '}';
+  }
 }

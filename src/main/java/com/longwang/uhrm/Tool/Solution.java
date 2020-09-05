@@ -31,12 +31,12 @@ public class Solution {
         }
         return  k;
     }
-    public static void main(String[] args){
-        String test = "[ 杨馨琪]";
-        Timestamp time = new Timestamp(System.currentTimeMillis());
-        String[] a = time.toString().split(" ")[0].split("-");
-        a[0] = String.valueOf(Integer.parseInt(a[0]) - 21);
-        Solution t = new Solution();
-        System.out.println(t.translate(test));
-    }
+//    public static void main(String[] args){
+//        String test = "1231--131";
+//        Timestamp time = new Timestamp(System.currentTimeMillis());
+//        String[] a = time.toString().split(" ")[0].split("-");
+//        a[0] = String.valueOf(Integer.parseInt(a[0]) - 21);
+//        Solution t = new Solution();
+//        System.out.println(test.split("--")[0]);
+//    }
 }

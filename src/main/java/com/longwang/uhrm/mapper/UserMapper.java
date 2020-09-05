@@ -72,6 +72,9 @@ public interface UserMapper {
 
     @Delete("DELETE from User where telephone = #{phone}")
     public void delete_user_phone(String phone);
-    
+
+    @Select("SELECT departmentPost from CandidateInfo where idCandidateInfo = #{id}")
+    public String get_post(long id);
+
 }
 
