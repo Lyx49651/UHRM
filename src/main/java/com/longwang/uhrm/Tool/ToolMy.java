@@ -1,15 +1,14 @@
 package com.longwang.uhrm.Tool;
 
 import com.alibaba.fastjson.JSONObject;
-import com.longwang.uhrm.Dao.DepartmentDao;
 import com.longwang.uhrm.Entity.EmployeeArchives;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.longwang.uhrm.Proxy.LogInterface;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class ToolMy {
+public class ToolMy{
     //此类来进行json数据封装用于统计信息
     //计算年龄区间
     private int caculation_age(String value){
