@@ -31,6 +31,24 @@ public class User {
   }
   private String telephone;
   private Long Post_idPost;
+  private String depart_name_sign_up;
+  private String post_name_sign_up;
+
+  public String getDepart_name_sign_up() {
+    return depart_name_sign_up;
+  }
+
+  public void setDepart_name_sign_up(String depart_name_sign_up) {
+    this.depart_name_sign_up = depart_name_sign_up;
+  }
+
+  public String getPost_name_sign_up() {
+    return post_name_sign_up;
+  }
+
+  public void setPost_name_sign_up(String post_name_sign_up) {
+    this.post_name_sign_up = post_name_sign_up;
+  }
 
   public User() {
 

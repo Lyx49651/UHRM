@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>考勤系统</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">高校人力资源管理系统</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="http://localhost:8080/index">首页 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+<div class="p-3 mb-2 bg-dark text-dark">
+    <form name="department" action="/departmentChange">
+        <div style="width: 80%; margin: 2% auto" class="text-white">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="人事部" checked>
+                <label class="form-check-label" for="inlineRadio1">人事部</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="科研部">
+                <label class="form-check-label" for="inlineRadio2">科研部</label>
+            </div>
+            <button type="submit" class="btn btn-success">刷新部门</button>
+            <!--        <div class="form-check form-check-inline">-->
+            <!--            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">-->
+            <!--            <label class="form-check-label" for="inlineRadio3"></label>-->
+            <!--        </div>-->
+        </div>
+    </form>
+
+    <div class="card" style="width: 80%;margin:1% auto">
+        <div class="card-header">
+            查询结果
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead class="thead-light">
+                <tr th:name="department" th:text="${department}"></tr>
+                <tr>
+                    <th scope="col">考勤日期</th>
+                    <th scope="col">雇员id</th>
+                    <th scope="col">雇员姓名</th>
+                    <th scope="col">考勤结果</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="Attendance, stat:${list}">
+                    <td th:name="time+${stat.index}" th:text="${Attendance.attendanceTime}"></td>
+                    <td th:name="employeeId+${stat.index}" th:text="${Attendance.employeeId}"></td>
+                    <td th:name="employeeName+${stat.index}" th:text="${Attendance.employeeName}"></td>
+                    <td>
+                        <div class="text-dark">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" th:name="check+${stat.index}"
+                                       id="check-${Attendance.employeeId}"
+                                       value="intime" checked>
+                                <label class="form-check-label" for="inlineRadio1">intime</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" th:name="check+${stat.index}"
+                                       id="check2-${Attendance.employeeId}" value="late">
+                                <label class="form-check-label" for="inlineRadio2">late</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <button type="button" class="btn btn-success" onclick="submit_info()">提交考勤</button>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="http://localhost:8080/js/jquery-3.5.1.min.js"></script>
+<script>
+
+    function submit_info() {
+        var res = [];
+        for (var i = 2; i < $("tr").length; i++) {
+            var check = document.getElementsByName("check" + (i - 2));
+            var check_stat;
+            if (check[0].checked) {
+                check_stat = "intime";
+            } else {
+                check_stat = "late";
+            }
+
+            res.push(check_stat);
+        }
+        $.ajax({
+            url: "http://localhost:8080/checkIn",
+            type: "post",
+            dataType: "json",
+            data: JSON.stringify(res),
+            contentType: "application/json;charset=UTF-8",
+            success: function (data) {
+                window.alert("success");
+                window.location="http://localhost:8080/Attendance"
+            },
+            error: function (data) {
+                window.alert("该部门已进行考勤");
+            }
+        });
+    }
+</script>
+</body>
+</html>

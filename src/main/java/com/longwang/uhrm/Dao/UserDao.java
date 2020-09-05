@@ -7,6 +7,7 @@ import com.longwang.uhrm.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("userDao")
@@ -102,10 +103,21 @@ public class UserDao {
     //归档结束删除所有tested的对象
     public  void delete_tested(){ userMapper.delete_tested();}
 
+    //插入新候选人
+    public void insert_candidate(CandidateInfo candidateInfo){userMapper.insert_candidate(candidateInfo);}
+
     //删除电话对应的用户，并返回他的密码
     public  String delete_phone(String phone){
         String password = userMapper.getUserByTelephone(phone).getPassword();
         userMapper.delete_user_phone(phone);
         return  password;
+    }
+    //根据电话查询用户申请的部门和岗位
+    public List<String> get_post(List<User> users){
+        List<String> posts = new ArrayList<>();
+        for(User user:users){
+            posts.add(userMapper.get_post(user.getIdUser()));
+        }
+        return posts;
     }
 }

@@ -22,6 +22,7 @@ public class DaoTest {
     private DepartmentDao departmentDao;
     private PositionDao positionDao;
     private RecruitmentNoticeDao recruitmentNoticeDao;
+    private AttendanceDao attendanceDao;
 
     @Autowired
     public void setCollectTableDao(CollectTableDao collectTableDao) {
@@ -29,6 +30,12 @@ public class DaoTest {
     }
 
     private CollectTableDao collectTableDao;
+
+    @Autowired
+    public void setAttendanceDao(AttendanceDao attendanceDao) {
+        this.attendanceDao = attendanceDao;
+    }
+
 
     @Autowired
     public void setRecruitmentNoticeDao(RecruitmentNoticeDao recruitmentNoticeDao){this.recruitmentNoticeDao = recruitmentNoticeDao;}
@@ -103,7 +110,8 @@ public class DaoTest {
 //        List<User> user = userDao.getUserPassed();
 //        System.out.println(user.get(0).toString());
 //        System.out.println(user.toString());
-        System.out.println(collectTableDao.updatePassed(1,"13"));
+//        System.out.println(collectTableDao.updatePassed(1,"13"));
+        System.out.println(attendanceDao.checkAttendance("2009-07-16",2));
         return "success";
 
     }
