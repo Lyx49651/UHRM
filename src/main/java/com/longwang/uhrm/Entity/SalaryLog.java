@@ -4,7 +4,6 @@ package com.longwang.uhrm.Entity;
 public class SalaryLog {
 
   private long idSalaryLog;
-  private String receiverId;
   private String time;
   private String amount;
   private long employeeArchivesEmployeeId;
@@ -17,16 +16,6 @@ public class SalaryLog {
   public void setIdSalaryLog(long idSalaryLog) {
     this.idSalaryLog = idSalaryLog;
   }
-
-
-  public String getReceiverId() {
-    return receiverId;
-  }
-
-  public void setReceiverId(String receiverId) {
-    this.receiverId = receiverId;
-  }
-
 
   public String getTime() {
     return time;
