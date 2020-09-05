@@ -915,8 +915,6 @@ public class ViewController{
         return jsonObject;
     }
 
-
-
     //跳转到我的考勤信息查看
     @RequestMapping(method = RequestMethod.GET, value = "/myAttendance")
     public String toMyAttendance(Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
