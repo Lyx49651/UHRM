@@ -6,6 +6,8 @@ public class CandidateInfo {
   private long idCandidateInfo;
   private String interviewResult;
   private String writtenResult;
+  private String departmentPost;
+  private String status;
 
   public long getIdCandidateInfo() {
     return idCandidateInfo;
@@ -27,6 +29,22 @@ public class CandidateInfo {
 
   public String getWrittenResult() {
     return writtenResult;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public String getDepartmentPost() {
+    return departmentPost;
+  }
+
+  public void setDepartmentPost(String departmentPost) {
+    this.departmentPost = departmentPost;
   }
 
   public void setWrittenResult(String writtenResult) {

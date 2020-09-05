@@ -101,4 +101,7 @@ public class UserDao {
 
     //归档结束删除所有tested的对象
     public  void delete_tested(){ userMapper.delete_tested();}
+
+    //插入新候选人
+    public void insert_candidate(CandidateInfo candidateInfo){userMapper.insert_candidate(candidateInfo);}
 }

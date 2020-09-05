@@ -821,6 +821,13 @@ public class ViewController {
     @ResponseBody
     public JSONObject sign_up(@RequestBody HashMap<String, String> map, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         System.out.println(map.get("post"));
+        String phone = (String) httpServletRequest.getSession().getAttribute("phone");
+        User user=userDao.getUserByTelephone(phone);
+        CandidateInfo candidateInfo=new CandidateInfo();
+        candidateInfo.setIdCandidateInfo(user.getIdUser());
+        candidateInfo.setStatus("unverified");
+        candidateInfo.setDepartmentPost(map.get("post"));
+        userDao.insert_candidate(candidateInfo);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result","success");
         return jsonObject;
