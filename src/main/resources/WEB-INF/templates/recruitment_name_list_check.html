@@ -75,7 +75,7 @@
             <th scope="row">[[${User.idUser}]]</th>
             <td>[[${User.name}]]</td>
             <td>[[${User.sex}]]</td>
-            <td>[[${User.IdCard}]]</td>
+            <td>[[${User.IDCard}]]</td>
             <td>[[${User.age}]]</td>
             <td>[[${User.mailAddress}]]</td>
             <td>[[${User.telephone}]]</td>
@@ -127,9 +127,10 @@
         var button = document.getElementById("get_list");
         for(var i=0;i<(td.length/8);i++){
             if(td[8*i+7].children[0].checked){
+                alert(td[8*i+7].children[0].value);
                 out_list.push(td[8*i+7].children[0].value);
             }else{
-                td[4*i+7].parentNode.style = "display:none";
+                td[8*i+7].parentNode.style = "display:none";
                 out_list.push(td[8*i+7].children[0].value + "#");
             }
         }

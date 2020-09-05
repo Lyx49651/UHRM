@@ -122,6 +122,12 @@
     </div>
 </nav>
 <!--新闻列表-->
+<div class="alert alert-primary" role="alert">
+    <h4 class="alert-heading">招聘通知</h4>
+    <p>每个部门的招聘通知</p>
+    <hr>
+    <p class="mb-0">下面包括详细要求</p>
+</div>
 <div>
     <ul class="list-group" th:each="RecruitmentNotice:${list}">
         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -139,14 +145,14 @@
     </ul>
 </div>
 <!--招聘计划发布处-->
-<div class="alert alert-success" role="alert">
+<div class="alert alert-warning" role="alert">
     <h4 class="alert-heading">招聘计划</h4>
     <p>选择您心仪的岗位</p>
     <hr>
     <p class="mb-0">下面包括部门与岗位</p>
 </div>
 <div class="form-group" style="width: 100%;margin: 0;font-family: 微软雅黑;">
-    <ul style="width: 100%;list-style-type: none;padding-left: 20px" th:each="CollectTable:${plan}">
+    <ul style="width: 100%;list-style-type: none;padding-left: 20px" th:each="CollectTable:${plan}" id="post_list_now">
         <li>
             <div>
             <p>
@@ -154,7 +160,7 @@
                     [[${CollectTable.departmentName}]]--[[${CollectTable.namePost}]]
                 </button>
                 <span style="margin: 0 5% 0 0;float:right">
-                    <button type="button" class="btn btn-outline-info">我要申请</button>
+                    <button type="button" class="btn btn-outline-info" onclick="apply_my(this)">我要申请</button>
                 </span>
             </p>
             <div class="collapse" th:attr="id='collapseExample'+ ${CollectTable.id}">
@@ -217,6 +223,49 @@
                 </div>
             </div>
 </div>
+<!--底层面板-->
+<div>
+    <div class="panel panel-default" style="background: rgba(39,156,78,0.95);margin: 100px 0 0 0">
+        <div class="panel-body">
+            <div class="bg-dark">
+                <table class="table table-borderless" style="color: aliceblue;margin: 0 auto ; width: 50%;text-align: center">
+                    <thead>
+                    <tr align="center">
+                        <th scope="col" style="text-align: center">First</th>
+                        <th scope="col" style="text-align: center">Last</th>
+                        <th scope="col" style="text-align: center">Handle</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr align="center">
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr align="center">
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr align="center">
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default" style="background: rgba(25,92,163,0.82);margin: 0">
+        <div class="panel-body">
+            人力资源管理系统 Version1.0
+            <span style="margin: 0 0 0 70%">
+                加入我们----15389581010
+            </span>
+        </div>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
@@ -245,7 +294,32 @@
                     alert("发布成功！");
                     window.location="http://localhost:8080/recruitment_system";
                 }else {
-                    alert("用户不存在或者信息有误！")
+                    alert("用户不存在或者信息有误！");
+                }
+            },
+            error:function (data) {
+                alert("发布失败！");
+            }
+        });
+    }
+    function apply_my(button) {
+        var element = document.getElementById("post_list_now");
+        var list = element.getElementsByTagName("button");
+        // alert(button.parentNode.parentNode.children[0].innerText);
+        var user ={};
+        user.post = button.parentNode.parentNode.children[0].innerText;
+        $.ajax({
+            url:"http://localhost:8080/sign_up",
+            type:"post",
+            dataType:"json",
+            data:JSON.stringify(user),
+            contentType: "application/json;charset=UTF-8",
+            success:function (data) {
+                if(data.result == "success"){
+                    alert("申请成功！");
+                    window.location="http://localhost:8080/recruitment_system";
+                }else {
+                    alert("申请失败！");
                 }
             },
             error:function (data) {

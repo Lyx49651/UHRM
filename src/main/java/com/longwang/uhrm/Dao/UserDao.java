@@ -42,6 +42,11 @@ public class UserDao {
         return userMapper.getUserById(userId);
     }
 
+    //按telephone查找返回用户
+    public User getUserByTelephone(String telephone){
+        return userMapper.getUserByTelephone(telephone);
+    }
+
     //按name查找返回用户
     public User getUserByName(String name){
         return userMapper.getUserByName(name);
@@ -71,6 +76,11 @@ public class UserDao {
         return userMapper.userPassed();
     }
 
+    //修改用户信息
+    public boolean update_user_Info(User user){
+        return userMapper.update_user_Info(user) == 1;
+    }
+
     //根据CandidateInfoID为没有通过资料审查的用户更新状态
     public void update_unpassed(long id){ userMapper.unpassed_update(id); }
 
@@ -91,4 +101,14 @@ public class UserDao {
 
     //归档结束删除所有tested的对象
     public  void delete_tested(){ userMapper.delete_tested();}
+
+    //插入新候选人
+    public void insert_candidate(CandidateInfo candidateInfo){userMapper.insert_candidate(candidateInfo);}
+
+    //删除电话对应的用户，并返回他的密码
+    public  String delete_phone(String phone){
+        String password = userMapper.getUserByTelephone(phone).getPassword();
+        userMapper.delete_user_phone(phone);
+        return  password;
+    }
 }

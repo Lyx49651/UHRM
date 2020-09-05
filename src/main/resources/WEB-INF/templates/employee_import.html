@@ -171,23 +171,23 @@
         }else {
             gender_checked = "men";
         }
-        var user={};
-        user.employeeName = name;
-        user.employeeSex = gender_checked;
-        user.employreeBirthday = birthday;
-        user.employeeAddress = address;
-        user.employeeDepartment = department;
-        user.employeePhoneNumber = phone;
-        user.emolyeeEducation = education;
-        user.employeePost = post;
-        user.emplyeeTitle = title;
-        user.employeeTechnicalGrade = technicalGrade;
-        user.employeeIdentity = identity;
+        var employee={};
+        employee.employeeName = name;
+        employee.employeeSex = gender_checked;
+        employee.employreeBirthday = birthday;
+        employee.employeeAddress = address;
+        employee.employeeDepartment = department;
+        employee.employeePhoneNumber = phone;
+        employee.emolyeeEducation = education;
+        employee.employeePost = post;
+        employee.emplyeeTitle = title;
+        employee.employeeTechnicalGrade = technicalGrade;
+        employee.employeeIdentity = identity;
         $.ajax({
             url:"http://localhost:8080/employee_info_import",
             type:"post",
             dataType:"json",
-            data:JSON.stringify(user),
+            data:JSON.stringify(employee),
             contentType: "application/json;charset=UTF-8",
             success:function (data) {
                 if(data.result == "success"){
