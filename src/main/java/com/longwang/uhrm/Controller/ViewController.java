@@ -5,16 +5,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.longwang.uhrm.Dao.*;
 import com.longwang.uhrm.Entity.*;
+import com.longwang.uhrm.Proxy.LogInterface;
 import com.longwang.uhrm.Tool.Solution;
 import com.longwang.uhrm.Tool.ToolMy;
 
-import com.alibaba.fastjson.JSON;
-import com.longwang.uhrm.Entity.InformationChange;
-import com.alibaba.fastjson.JSONObject;
-import com.longwang.uhrm.Entity.Post;
 import com.longwang.uhrm.Tool.convertdata;
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
-import com.sun.tools.jconsole.JConsoleContext;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,12 +36,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import java.util.*;
 
 @Controller
-public class ViewController {
+public class ViewController{
     //注入
     EmployeeArchivesDao employeeArchivesDao;
     UserDao userDao;
@@ -96,7 +87,7 @@ public class ViewController {
     }
 
     ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-
+    //ThymeLeaf视图解析设置
     @Autowired
     public void setAttendanceDao(AttendanceDao attendanceDao) {
         this.attendanceDao = attendanceDao;
@@ -133,10 +124,15 @@ public class ViewController {
         templateEngine.setEnableSpringELCompiler(true);
         return templateEngine;
     }
-
+    //日志函数
+    private void log(String fun){
+        LogInterface logInterface = (LogInterface)applicationContext.getBean("logDaoProxy");
+        logInterface.time_function(fun);
+    }
     //主页面
-    @RequestMapping(method = RequestMethod.GET, value = {"/index", "/"})
-    public String test(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Model model) {
+    @RequestMapping(method = RequestMethod.GET,value = {"/index","/"})
+    public String test(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Model model){
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         HttpSession httpSession = httpServletRequest.getSession();//获取session
         String type = (String) httpSession.getAttribute("type");
         if (type != null) {
@@ -158,6 +154,7 @@ public class ViewController {
     //登出
     @RequestMapping(method = RequestMethod.GET, value = "/logout")
     public String logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         HttpSession httpSession = httpServletRequest.getSession();
         httpSession.setAttribute("name", null);
         httpSession.setMaxInactiveInterval(0);//设置session存活时间
@@ -175,13 +172,14 @@ public class ViewController {
     //    用户登录
     @RequestMapping(method = RequestMethod.GET, value = "/user_login")
     public String user_login(Model model) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         return "candidates_login";
     }
 
     //    员工登录
     @RequestMapping(method = RequestMethod.GET, value = "/personnel_login")
     public String personnel_login(Model model) {
-
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         return "employee_login";
     }
 
@@ -189,7 +187,8 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST, value = "/user_login_check")
     //@ResponseBody
     public String user_login_check(@RequestParam("phone") String phone, @RequestParam("password") String password, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        System.out.println(phone + password);
+//        System.out.println(phone + password);
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         Boolean res = employeeArchivesDao.authenticate(1, password);
         return "redirect:index";
     }
@@ -198,6 +197,7 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST, value = "/employee_login_check")
     @ResponseBody
     public JSONObject employee_login_check(@RequestBody HashMap<String, String> map, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Model model) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         Boolean res = employeeArchivesDao.authenticate(Integer.parseInt(map.get("id")), map.get("password"));
         if (res) {
             HttpSession httpSession = httpServletRequest.getSession();//获取session
@@ -228,6 +228,7 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST, value = "/personnel_login_check")
     @ResponseBody
     public JSONObject personnel_login_check(@RequestBody HashMap<String, String> map, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Model model) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         Boolean res = userDao.login(map.get("phone"), map.get("password"));
         if (res) {
             HttpSession httpSession = httpServletRequest.getSession();//获取session
@@ -254,12 +255,14 @@ public class ViewController {
     // 跳转到人员管理系统
     @RequestMapping(method = RequestMethod.GET, value = "/employee_management_system")
     public String employee_management_system() {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         return "employee_management_system_functionlist";
     }
 
     // 跳转到人员信息录入
     @RequestMapping(method = RequestMethod.GET, value = "/employee_import")
     public String employee_import(Model model) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         model.addAttribute("list", departmentDao.getAll());
         return "employee_import";
     }
@@ -268,8 +271,9 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST, value = "/employee_info_import")
     @ResponseBody
     public JSONObject employee_info_import(@RequestBody com.longwang.uhrm.Entity.EmployeeArchives employeeArchives) {
-        System.out.println(employeeArchives.getEmployeeName());
-        System.out.println(employeeArchives.getSalaryParameters_idSalaryParameters());
+//        System.out.println(employeeArchives.getEmployeeName());
+//        System.out.println(employeeArchives.getSalaryParameters_idSalaryParameters());
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result", "success");
         return jsonObject;
@@ -278,6 +282,7 @@ public class ViewController {
     //员工信息分析页面跳转
     @RequestMapping(method = RequestMethod.GET, value = "/employee_management/info_analysis")
     public String info_analysis(Model model) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         model.addAttribute("DepartmentList", departmentDao.getAll());
         return "EmployeeInfo_analysis";
     }
@@ -286,6 +291,7 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST, value = "/get_info_employee")
     @ResponseBody
     public JSONObject employee_info_import(@RequestBody HashMap<String, String> map) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         ToolMy demo = new ToolMy();
         return demo.analysis_json(departmentDao.getDepartmentEmployeeByName(map.get("name")));
     }
@@ -293,6 +299,7 @@ public class ViewController {
     //跳转到查询页面
     @RequestMapping(method = RequestMethod.GET, value = "/employee_search")
     public String employee_search(Model model) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         List<com.longwang.uhrm.Entity.EmployeeArchives> list = employeeArchivesDao.findAllEmployee();
         model.addAttribute("list", list);
         return "employee_search";
@@ -301,6 +308,7 @@ public class ViewController {
     //跳转到招聘系统的功能页面
     @RequestMapping(method = RequestMethod.GET, value = "/recruitment_system")
     public String recruitment_system(Model model) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         List<com.longwang.uhrm.Entity.RecruitmentNotice> test = recruitmentNoticeDao.findAll();
         for (com.longwang.uhrm.Entity.RecruitmentNotice recruitmentNotice : test) {
             recruitmentNotice.setStringTime(recruitmentNotice.getTime().toString());
@@ -323,8 +331,8 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST, value = "/recruitment_notice")
     @ResponseBody
     public JSONObject recruitment_notice(@RequestBody HashMap<String, String> map) {
-        System.out.println(map.get("title") + map.get("content"));
-
+//        System.out.println(map.get("title") + map.get("content"));
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         com.longwang.uhrm.Entity.RecruitmentNotice recruitmentNotice = new com.longwang.uhrm.Entity.RecruitmentNotice();
         recruitmentNotice.setTitle(map.get("title"));
         recruitmentNotice.setContent(map.get("content"));
@@ -340,6 +348,7 @@ public class ViewController {
     //高级查询，按id查询，或者按姓名模糊查询
     @RequestMapping(method = RequestMethod.GET, value = "/employee_id_search")
     public String employee_search_id(HttpServletRequest request, Model model) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         try {
             long id = Long.parseLong(request.getParameter("idOrName"));
             com.longwang.uhrm.Entity.EmployeeArchives emp = employeeArchivesDao.getEmployeeById(id);
@@ -356,6 +365,7 @@ public class ViewController {
     //查看个人信息
     @RequestMapping(method = RequestMethod.GET, value = "/personalInfo")
     public String personal_info(HttpServletRequest httpServletRequest, Model model) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         long employeeId = Long.parseLong((String) httpServletRequest.getSession().getAttribute("id"));
         model.addAttribute("Employee", employeeArchivesDao.getEmployeeById(employeeId));
         return "personal_info";
@@ -364,6 +374,7 @@ public class ViewController {
     //跳转到上报招聘计划页面
     @RequestMapping(method = RequestMethod.GET, value = "/recruitment_plan_make")
     public String recruitment_plan_make(Model model) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         model.addAttribute("DepartmentList", departmentDao.getAll());
         return "recruitment_plan_make";
     }
@@ -373,7 +384,8 @@ public class ViewController {
     @ResponseBody
     public JSONObject get_info_by_departmentName(@RequestBody HashMap<String, String> map) {
         //执行的为查询操作
-        System.out.println(map.get("department"));
+//        System.out.println(map.get("department"));
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         List<com.longwang.uhrm.Entity.Position> positions = positionDao.getPostByDepartment(map.get("department"));
         JSONObject jsonObject = new JSONObject();
         JSONArray post_name = new JSONArray();
@@ -400,6 +412,7 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST, value = "/get_info_by_departmentName_store")
     @ResponseBody
     public JSONObject get_info_by_departmentName_store(@RequestBody HashMap<String, Object> map) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         List<String> id = solution.translate(map.get("id").toString());
         List<String> member = solution.translate(map.get("member").toString());
         List<String> authoried = solution.translate(map.get("authoried").toString());
@@ -422,6 +435,7 @@ public class ViewController {
     //审核招聘计划
     @RequestMapping(method = RequestMethod.GET, value = "/recruitment_plan_check")
     public String recruitment_plan_check(Model model) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         List<CollectTable> test = collectTableDao.findAllSaved();
         for(int i=0;i<test.size();i++){
             test.get(i).setDepartmentName(departmentDao.getDepartmentById(test.get(i).getDepartment_idDepartment()).getNameDepartment());
@@ -435,6 +449,7 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST, value = "/recruitment_plan_check_result")
     @ResponseBody
     public JSONObject recruitment_plan_check_result(@RequestBody HashMap<String, Object> map) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         List<String> member = solution.translate(map.get("member").toString());//现有人数
         List<String> max = solution.translate(map.get("max").toString());//编制人数
         List<String> form = solution.translate(map.get("form_member").toString());//原计划招聘人数
@@ -457,6 +472,7 @@ public class ViewController {
     //跳转到信息修改页面
     @RequestMapping(method = RequestMethod.GET, value = "/employee_info_change")
     public String employee_info_change(HttpServletRequest httpServletRequest, Model model) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         model.addAttribute("employee", employeeArchivesDao.getEmployeeById(Integer.parseInt(httpServletRequest.getParameter("id"))));
 //        model.addAttribute("employee",employeeArchivesDao.getEmployeeById(1));
         return "information_change";
@@ -465,6 +481,7 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST, value = "/info_change")
     @ResponseBody
     public JSONObject info_change(@RequestBody HashMap<String, String> map) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         int originalLen = Integer.parseInt(map.get("originallen"));
         int nowLen = Integer.parseInt(map.get("nowlen"));
         int len1 = Integer.parseInt(map.get("len1"));
@@ -522,6 +539,7 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST, value = "/get_info")
     @ResponseBody
     public JSONObject get_info(@RequestBody HashMap<String, String> hashMap) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         JSONObject jsonObject = new JSONObject();
         String res = "";
         com.longwang.uhrm.Entity.EmployeeArchives employeeArchives = employeeArchivesDao.getEmployeeById(Integer.parseInt(hashMap.get("employeeId")));
@@ -553,6 +571,7 @@ public class ViewController {
     //跳转到信息审核页面
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_namelist_check")
     public String recruitment_namelist_check(Model model){
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         List<User> users = userDao.getUserByCandiate();
         model.addAttribute("list",users);
         return "recruitment_name_list_check";
@@ -562,6 +581,7 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST, value = "/modify_users")
     @ResponseBody
     public JSONObject modify_users(@RequestBody HashMap<String, Object> map) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         System.out.println(map.get("out_list"));
         List<String> out = solution.translate(map.get("out_list").toString());
         for(int i=0;i<out.size();i++){
@@ -579,6 +599,7 @@ public class ViewController {
     //跳转面试与笔试成绩审核页面
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_info_save")
     public String recruitment_info_save(Model model){
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         List<CandidateInfo> candidateInfos = userDao.userpassed_get();
         model.addAttribute("list", candidateInfos);
         return "select_recruitment_grade";
@@ -588,7 +609,8 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST, value = "/modify_users_selected")
     @ResponseBody
     public JSONObject modify_users_selected(@RequestBody HashMap<String, Object> map) {
-        System.out.println(map.get("out_list"));
+//        System.out.println(map.get("out_list"));
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         List<String> re = solution.translate(map.get("out_list").toString());
         for(int i=0;i<re.size();i++){
             if(re.get(i).contains("#")){
@@ -605,6 +627,7 @@ public class ViewController {
     //跳转到招聘人归档页面
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_to_employee")
     public String recruitment_to_employee(Model model){
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         List<User> users = userDao.archive();
         List<String> depart = userDao.get_post(users);
         for (int i=0;i<users.size();i++){
@@ -619,8 +642,9 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST, value = "/archive_data")
     @ResponseBody
     public JSONObject archive_data(@RequestBody HashMap<String, Object> map) {
-        System.out.println(map.get("title"));
-        System.out.println(map.get("name"));
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
+//        System.out.println(map.get("title"));
+//        System.out.println(map.get("name"));
         List<String> name = solution.translate(map.get("name").toString());
         List<String> sex = solution.translate(map.get("sex").toString());
         List<String> age = solution.translate(map.get("age").toString());
@@ -667,6 +691,7 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST, value = "/userRegister")
     @ResponseBody
     public JSONObject user_register(@RequestBody User user) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         boolean flag = userDao.register(user);
         JSONObject jsonObject = new JSONObject();
         if (flag) {
@@ -679,6 +704,7 @@ public class ViewController {
     //跳转到找回密码
     @RequestMapping(method = RequestMethod.GET, value = "/to_retrieve_password")
     public String to_retrieve_password() {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         return "Retrieve_password";
     }
 
@@ -687,6 +713,7 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST, value = "/retrieve_password")
     @ResponseBody
     public JSONObject retrieve_password(@RequestBody HashMap<String, String> hashMap) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         convertdata convertdata = new convertdata();
         convertdata.setEmployeePhone(hashMap.get("employeePhoneNumber"));
         convertdata.setEmployeeId(Integer.parseInt(hashMap.get("employeeId")));
@@ -705,6 +732,7 @@ public class ViewController {
     //查看修改用户个人信息
     @RequestMapping(method = RequestMethod.GET, value = "/userInfo")
     public String user_info(HttpServletRequest httpServletRequest, Model model) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         String phone = (String) httpServletRequest.getSession().getAttribute("phone");
         model.addAttribute("User", userDao.getUserByTelephone(phone));
         return "user_info";
@@ -713,6 +741,7 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST,value = "/user_info_change")
     @ResponseBody
     public  JSONObject user_info_change(@RequestBody HashMap<String,String> hashMap,Model model){
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         User user = new User();
         user.setSex(hashMap.get("sex"));
         user.setAge(Long.parseLong(hashMap.get("age")));
@@ -734,6 +763,7 @@ public class ViewController {
     //跳转到合同查询
     @RequestMapping(method = RequestMethod.GET,value = "/to_contract_query")
     public String to_contract_query(HttpServletRequest request,Model model){
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         List<Contract> list = employeeArchivesDao.findAllContract();
         HttpSession httpSession = request.getSession();
         String type = (String) httpSession.getAttribute("type");
@@ -752,6 +782,7 @@ public class ViewController {
     //查询指定的合同
     @RequestMapping(method = RequestMethod.GET,value = "/contract_info_search")
     public String contract_info_search(HttpServletRequest request, Model model){
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         try{
             int id = Integer.parseInt( request.getParameter("idOrName"));
             Contract emp = employeeArchivesDao.getContractById(id);
@@ -767,6 +798,7 @@ public class ViewController {
     //to合同修改
     @RequestMapping(method = RequestMethod.GET,value = "/contract_info_change")
     public String contract_info_change(HttpServletRequest httpServletRequest,Model model){
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         int ContractId = Integer.parseInt(httpServletRequest.getParameter("id"));
         Contract contract = employeeArchivesDao.getContractById(ContractId);
         HttpSession httpSession = httpServletRequest.getSession();
@@ -787,6 +819,7 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST,value = "/contract_change")
     @ResponseBody
     public JSONObject contract_change(@RequestBody HashMap<String,String> hashMap){
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         Contract contract = new Contract();
         JSONObject jsonObject = new JSONObject();
         contract.setIdContract(Integer.parseInt(hashMap.get("contractId")));
@@ -811,6 +844,7 @@ public class ViewController {
     //删除合同
     @RequestMapping(method = RequestMethod.GET,value = "/contract_delete")
     public String contract_delete(HttpServletRequest httpServletRequest,Model model){
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         int idContract = Integer.parseInt(httpServletRequest.getParameter("id"));
         employeeArchivesDao.delete_contract(idContract);
 
@@ -824,6 +858,7 @@ public class ViewController {
     //to新增合同
     @RequestMapping(method = RequestMethod.GET,value = "/to_add_contract")
     public String to_add_contract(HttpServletRequest httpServletRequest,Model model){
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         HttpSession httpSession = httpServletRequest.getSession();
         String type = (String) httpSession.getAttribute("type");
         String name = (String) httpSession.getAttribute("name");
@@ -841,6 +876,7 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST,value = "/add_contract")
     @ResponseBody
     public JSONObject add_contract(@RequestBody HashMap<String,String> hashMap){
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         Contract contract = new Contract();
         JSONObject jsonObject = new JSONObject();
         contract.setEmployeeId(Integer.parseInt(hashMap.get("employeeId")));
@@ -864,7 +900,8 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.POST,value = "/sign_up")
     @ResponseBody
     public JSONObject sign_up(@RequestBody HashMap<String, String> map, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
-        System.out.println(map.get("post"));
+//        System.out.println(map.get("post"));
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         String phone = (String) httpServletRequest.getSession().getAttribute("phone");
         User user=userDao.getUserByTelephone(phone);
         CandidateInfo candidateInfo=new CandidateInfo();

@@ -29,4 +29,12 @@
     </bean>
     <mvc:annotation-driven/>
     <mvc:resources mapping="/static/**" location="/static/"/>
+    <bean id="logDao" class="com.longwang.uhrm.Proxy.LogDao"/>
+    <bean id="logProxy" class="com.longwang.uhrm.Proxy.LogProxy"/>
+    <bean id="logDaoProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="proxyInterfaces" value="com.longwang.uhrm.Proxy.LogInterface"/>
+        <property name="target" ref="logDao"/>
+        <property name="interceptorNames" value="logProxy"/>
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
 </beans>
