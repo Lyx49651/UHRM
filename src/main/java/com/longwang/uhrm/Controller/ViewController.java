@@ -11,9 +11,15 @@ import com.longwang.uhrm.Tool.ToolMy;
 
 import com.longwang.uhrm.Tool.convertdata;
 
+import com.longwang.uhrm.Tool.getSessionInfo;
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
+import com.sun.tools.jconsole.JConsoleContext;
+
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.Banner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -255,14 +261,17 @@ public class ViewController{
 
     // 跳转到人员管理系统
     @RequestMapping(method = RequestMethod.GET, value = "/employee_management_system")
-    public String employee_management_system() {
+    public String employee_management_system(HttpServletRequest httpServletRequest,Model model) {
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
+
         return "employee_management_system_functionlist";
     }
 
     // 跳转到人员信息录入
     @RequestMapping(method = RequestMethod.GET, value = "/employee_import")
-    public String employee_import(Model model) {
+    public String employee_import(HttpServletRequest httpServletRequest,Model model) {
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         model.addAttribute("list", departmentDao.getAll());
         return "employee_import";
@@ -282,7 +291,8 @@ public class ViewController{
 
     //员工信息分析页面跳转
     @RequestMapping(method = RequestMethod.GET, value = "/employee_management/info_analysis")
-    public String info_analysis(Model model) {
+    public String info_analysis(HttpServletRequest httpServletRequest,Model model) {
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         model.addAttribute("DepartmentList", departmentDao.getAll());
         return "EmployeeInfo_analysis";
@@ -299,16 +309,17 @@ public class ViewController{
 
     //跳转到查询页面
     @RequestMapping(method = RequestMethod.GET, value = "/employee_search")
-    public String employee_search(Model model) {
+    public String employee_search(HttpServletRequest httpServletRequest,Model model) {
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         List<com.longwang.uhrm.Entity.EmployeeArchives> list = employeeArchivesDao.findAllEmployee();
         model.addAttribute("list", list);
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
         return "employee_search";
     }
 
     //跳转到招聘系统的功能页面
     @RequestMapping(method = RequestMethod.GET, value = "/recruitment_system")
-    public String recruitment_system(Model model) {
+    public String recruitment_system(HttpServletRequest httpServletRequest,Model model) {
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         List<com.longwang.uhrm.Entity.RecruitmentNotice> test = recruitmentNoticeDao.findAll();
         for (com.longwang.uhrm.Entity.RecruitmentNotice recruitmentNotice : test) {
@@ -325,6 +336,7 @@ public class ViewController{
 
         List<User> users = userDao.getUserPassed();//new ArrayList<>();
         model.addAttribute("list1", users);
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
         return "Recruitment_system_functions";
     }
 
@@ -359,6 +371,7 @@ public class ViewController{
             List<com.longwang.uhrm.Entity.EmployeeArchives> list = employeeArchivesDao.getEmployeeByName(name);
             model.addAttribute("list", list);
         }
+        getSessionInfo.getsessionInfo(request,model);
         return "employee_search";
     }
 
@@ -369,14 +382,18 @@ public class ViewController{
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         long employeeId = Long.parseLong((String) httpServletRequest.getSession().getAttribute("id"));
         model.addAttribute("Employee", employeeArchivesDao.getEmployeeById(employeeId));
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
         return "personal_info";
     }
 
     //跳转到上报招聘计划页面
     @RequestMapping(method = RequestMethod.GET, value = "/recruitment_plan_make")
-    public String recruitment_plan_make(Model model) {
+
+    public String recruitment_plan_make(HttpServletRequest httpServletRequest,Model model) {
+
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         model.addAttribute("DepartmentList", departmentDao.getAll());
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
         return "recruitment_plan_make";
     }
 
@@ -435,14 +452,17 @@ public class ViewController{
 
     //审核招聘计划
     @RequestMapping(method = RequestMethod.GET, value = "/recruitment_plan_check")
-    public String recruitment_plan_check(Model model) {
+    public String recruitment_plan_check(HttpServletRequest httpServletRequest,Model model) {
+
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
+
         List<CollectTable> test = collectTableDao.findAllSaved();
         for(int i=0;i<test.size();i++){
             test.get(i).setDepartmentName(departmentDao.getDepartmentById(test.get(i).getDepartment_idDepartment()).getNameDepartment());
             test.get(i).setNamePost(positionDao.getPost(test.get(i).getIdPost()).getPostName());
         }
         model.addAttribute("plan",test);
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
         return "recruitment_plan_check";
     }
 
@@ -475,6 +495,7 @@ public class ViewController{
     public String employee_info_change(HttpServletRequest httpServletRequest, Model model) {
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         model.addAttribute("employee", employeeArchivesDao.getEmployeeById(Integer.parseInt(httpServletRequest.getParameter("id"))));
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
 //        model.addAttribute("employee",employeeArchivesDao.getEmployeeById(1));
         return "information_change";
     }
@@ -571,10 +592,13 @@ public class ViewController{
 
     //跳转到信息审核页面
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_namelist_check")
-    public String recruitment_namelist_check(Model model){
+    public String recruitment_namelist_check(HttpServletRequest httpServletRequest,Model model){
+
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
+
         List<User> users = userDao.getUserByCandiate();
         model.addAttribute("list",users);
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
         return "recruitment_name_list_check";
     }
 
@@ -599,10 +623,13 @@ public class ViewController{
 
     //跳转面试与笔试成绩审核页面
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_info_save")
-    public String recruitment_info_save(Model model){
+    public String recruitment_info_save(HttpServletRequest httpServletRequest,Model model){
+
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
+
         List<CandidateInfo> candidateInfos = userDao.userpassed_get();
         model.addAttribute("list", candidateInfos);
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
         return "select_recruitment_grade";
     }
 
@@ -627,7 +654,8 @@ public class ViewController{
 
     //跳转到招聘人归档页面
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_to_employee")
-    public String recruitment_to_employee(Model model){
+    public String recruitment_to_employee(HttpServletRequest httpServletRequest,Model model){
+
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         List<User> users = userDao.archive();
         List<String> depart = userDao.get_post(users);
@@ -636,6 +664,7 @@ public class ViewController{
             users.get(i).setPost_name_sign_up(depart.get(i).split("--")[1]);
         }
         model.addAttribute("list", users);
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
         return "Archive";
     }
 
@@ -704,7 +733,9 @@ public class ViewController{
 
     //跳转到找回密码
     @RequestMapping(method = RequestMethod.GET, value = "/to_retrieve_password")
-    public String to_retrieve_password() {
+    public String to_retrieve_password(HttpServletRequest httpServletRequest,Model model) {
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
+
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         return "Retrieve_password";
     }
@@ -736,6 +767,7 @@ public class ViewController{
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         String phone = (String) httpServletRequest.getSession().getAttribute("phone");
         model.addAttribute("User", userDao.getUserByTelephone(phone));
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
         return "user_info";
     }
     //完善,修改用户个人信息
@@ -766,16 +798,8 @@ public class ViewController{
     public String to_contract_query(HttpServletRequest request,Model model){
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         List<Contract> list = employeeArchivesDao.findAllContract();
-        HttpSession httpSession = request.getSession();
-        String type = (String) httpSession.getAttribute("type");
-        String name = (String) httpSession.getAttribute("name");
-        if(name != null && type.equals("employee")){ 
-            model.addAttribute("typeBoolean",true);
-            model.addAttribute("name",httpSession.getAttribute("name"));
-        }else if(name != null && type.equals("user")){
-            model.addAttribute("typeBoolean",false);
-            model.addAttribute("name",httpSession.getAttribute("name"));
-        }
+//        getSessionInfo.getsessionInfo(request,model);
+        getSessionInfo.getsessionInfo(request,model);
         model.addAttribute("list",list);
         return "contract_search";
     }
@@ -802,16 +826,7 @@ public class ViewController{
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         int ContractId = Integer.parseInt(httpServletRequest.getParameter("id"));
         Contract contract = employeeArchivesDao.getContractById(ContractId);
-        HttpSession httpSession = httpServletRequest.getSession();
-        String type = (String) httpSession.getAttribute("type");
-        String name = (String) httpSession.getAttribute("name");
-        if(name != null && type.equals("employee")){
-            model.addAttribute("typeBoolean",true);
-            model.addAttribute("name",httpSession.getAttribute("name"));
-        }else if(name != null && type.equals("user")){
-            model.addAttribute("typeBoolean",false);
-            model.addAttribute("name",httpSession.getAttribute("name"));
-        }
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
         model.addAttribute("list",contract);
         return "contract_update";
     }
@@ -851,8 +866,7 @@ public class ViewController{
 
         List<Contract> list = employeeArchivesDao.findAllContract();
         model.addAttribute("list",list);
-
-
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
         return "contract_search";
     }
 
@@ -860,16 +874,7 @@ public class ViewController{
     @RequestMapping(method = RequestMethod.GET,value = "/to_add_contract")
     public String to_add_contract(HttpServletRequest httpServletRequest,Model model){
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
-        HttpSession httpSession = httpServletRequest.getSession();
-        String type = (String) httpSession.getAttribute("type");
-        String name = (String) httpSession.getAttribute("name");
-        if(name != null && type.equals("employee")){
-            model.addAttribute("typeBoolean",true);
-            model.addAttribute("name",httpSession.getAttribute("name"));
-        }else if(name != null && type.equals("user")){
-            model.addAttribute("typeBoolean",false);
-            model.addAttribute("name",httpSession.getAttribute("name"));
-        }
+        getSessionInfo.getsessionInfo(httpServletRequest,model);
         return "contract_import";
     }
 
@@ -915,8 +920,6 @@ public class ViewController{
         return jsonObject;
     }
 
-
-
     //跳转到我的考勤信息查看
     @RequestMapping(method = RequestMethod.GET, value = "/myAttendance")
     public String toMyAttendance(Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
@@ -934,11 +937,12 @@ public class ViewController{
 
     //查找我的考勤信息
     @RequestMapping(method = RequestMethod.GET, value = "/searchMyAttendance")
-    public String searchMyAttendance(Model m, HttpServletRequest request) {
+    public String searchMyAttendance(Model m, HttpServletRequest request, Model model) {
         String date = request.getParameter("AttendanceDate");
         int id;
         if(request.getSession().getAttribute("id")!=null){
             id =  Integer.parseInt((String)request.getSession().getAttribute("id"));
+            model.addAttribute("name",request.getSession().getAttribute("name"));
         }else {
             return "redirect:index";
         }
@@ -987,6 +991,7 @@ public class ViewController{
             }
             m.addAttribute("list", attendances);
             m.addAttribute("department", department_for_Attendance);
+            m.addAttribute("name",request.getSession().getAttribute("name"));
         } else {
 
         }
