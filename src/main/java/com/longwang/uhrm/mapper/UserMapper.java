@@ -67,10 +67,14 @@ public interface UserMapper {
     @Delete("Delete from CandidateInfo where status = \"tested\"")
     public void delete_tested();
 
+    @Insert("INSERT into CandidateInfo(idCandidateInfo, status, departmentPost) values(#{idCandidateInfo}, #{status}, #{departmentPost})")
+    public void insert_candidate(CandidateInfo candidateInfo);
+
     @Delete("DELETE from User where telephone = #{phone}")
     public void delete_user_phone(String phone);
 
     @Select("SELECT departmentPost from CandidateInfo where idCandidateInfo = #{id}")
     public String get_post(long id);
+
 }
 

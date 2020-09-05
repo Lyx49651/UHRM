@@ -40,10 +40,18 @@
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <div>
+            <ul class='nav navbar-nav navbar-right'>
+                <li class='dropdown' id='my_test_id'>
+                    <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false' style='color: black'><span th:text="${name}"></span><span class='caret'></span></a>
+                    <ul class='dropdown-menu'>
+                        <li><a href='http://localhost:8080/logout' style='color: black'>登出</a></li>
+                        <li th:if='${typeBoolean}'><a href='http://localhost:8080/personalInfo' style="color: black" >个人信息</a></li>
+                        <li th:if='${not typeBoolean}'><a href='http://localhost:8080/userInfo' style="color: black" >个人信息1</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
 <div class="p-3 mb-2 bg-dark text-dark">

@@ -724,8 +724,18 @@ public class ViewController {
 
     //跳转到合同查询
     @RequestMapping(method = RequestMethod.GET,value = "/to_contract_query")
-    public String to_contract_query(Model model){
+    public String to_contract_query(HttpServletRequest request,Model model){
         List<Contract> list = employeeArchivesDao.findAllContract();
+        HttpSession httpSession = request.getSession();
+        String type = (String) httpSession.getAttribute("type");
+        String name = (String) httpSession.getAttribute("name");
+        if(name != null && type.equals("employee")){ 
+            model.addAttribute("typeBoolean",true);
+            model.addAttribute("name",httpSession.getAttribute("name"));
+        }else if(name != null && type.equals("user")){
+            model.addAttribute("typeBoolean",false);
+            model.addAttribute("name",httpSession.getAttribute("name"));
+        }
         model.addAttribute("list",list);
         return "contract_search";
     }
@@ -795,7 +805,17 @@ public class ViewController {
 
     //to新增合同
     @RequestMapping(method = RequestMethod.GET,value = "/to_add_contract")
-    public String to_add_contract(){
+    public String to_add_contract(HttpServletRequest httpServletRequest,Model model){
+        HttpSession httpSession = httpServletRequest.getSession();
+        String type = (String) httpSession.getAttribute("type");
+        String name = (String) httpSession.getAttribute("name");
+        if(name != null && type.equals("employee")){
+            model.addAttribute("typeBoolean",true);
+            model.addAttribute("name",httpSession.getAttribute("name"));
+        }else if(name != null && type.equals("user")){
+            model.addAttribute("typeBoolean",false);
+            model.addAttribute("name",httpSession.getAttribute("name"));
+        }
         return "contract_import";
     }
 
@@ -827,6 +847,13 @@ public class ViewController {
     @ResponseBody
     public JSONObject sign_up(@RequestBody HashMap<String, String> map, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         System.out.println(map.get("post"));
+        String phone = (String) httpServletRequest.getSession().getAttribute("phone");
+        User user=userDao.getUserByTelephone(phone);
+        CandidateInfo candidateInfo=new CandidateInfo();
+        candidateInfo.setIdCandidateInfo(user.getIdUser());
+        candidateInfo.setStatus("unverified");
+        candidateInfo.setDepartmentPost(map.get("post"));
+        userDao.insert_candidate(candidateInfo);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result","success");
         return jsonObject;
