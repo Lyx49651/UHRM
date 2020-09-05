@@ -640,10 +640,10 @@ public class ViewController {
             temp.setEmployeeDepartment(depart.get(i));
             temp.setEmployeePost(post.get(i));
             temp.setEmployeeId(employeeArchivesDao.max_id()+1);
+            userDao.delete_tested();
             employeeArchivesDao.Archive(temp);
             temp.setPassword(userDao.delete_phone(telephone.get(i)));
         }
-        userDao.delete_tested();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result", "pass");
         return jsonObject;
