@@ -596,7 +596,7 @@ public class ViewController {
     //跳转到招聘人归档页面
     @RequestMapping(method = RequestMethod.GET,value = "/recruitment_to_employee")
     public String recruitment_to_employee(Model model){
-        List<User> users = userDao.archive();//new ArrayList<>();
+        List<User> users = userDao.archive();
         model.addAttribute("list", users);
         return "Archive";
     }
@@ -641,6 +641,7 @@ public class ViewController {
             temp.setEmployeePost(post.get(i));
             temp.setEmployeeId(employeeArchivesDao.max_id()+1);
             employeeArchivesDao.Archive(temp);
+            temp.setPassword(userDao.delete_phone(telephone.get(i)));
         }
         userDao.delete_tested();
         JSONObject jsonObject = new JSONObject();

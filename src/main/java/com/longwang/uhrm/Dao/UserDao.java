@@ -104,4 +104,11 @@ public class UserDao {
 
     //插入新候选人
     public void insert_candidate(CandidateInfo candidateInfo){userMapper.insert_candidate(candidateInfo);}
+
+    //删除电话对应的用户，并返回他的密码
+    public  String delete_phone(String phone){
+        String password = userMapper.getUserByTelephone(phone).getPassword();
+        userMapper.delete_user_phone(phone);
+        return  password;
+    }
 }
