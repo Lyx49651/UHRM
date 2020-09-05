@@ -20,6 +20,9 @@ public interface SalaryParametersMapper {
     @Insert("INSERT into SalaryLog(EmployeeArchives_employeeId, time, amount) values (${id}, #{time}, #{amount})")
     int insertSalaryLog(@Param("id") int id, @Param("time") String time, @Param("amount") String amount);
 
-    @Select("SELECT * from SalaryLog")
+    @Select("select EmployeeArchives_employeeId, employeeName, employeeDepartment, amount, time from SalaryLog left join EmployeeArchives EA on EA.employeeId = SalaryLog.EmployeeArchives_employeeId order by time desc")
     List<SalaryLog> findAllLogs();
+
+    @Select("select EmployeeArchives_employeeId, employeeName, employeeDepartment, amount, time from SalaryLog left join EmployeeArchives EA on EA.employeeId = SalaryLog.EmployeeArchives_employeeId where EA.employeeId = ${id} order by time desc")
+    List<SalaryLog> findPersonalLogs(int id);
 }

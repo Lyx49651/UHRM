@@ -6,7 +6,35 @@ public class SalaryLog {
   private long idSalaryLog;
   private String time;
   private String amount;
-  private long employeeArchivesEmployeeId;
+
+  public String getEmployeeName() {
+    return employeeName;
+  }
+
+  public void setEmployeeName(String employeeName) {
+    this.employeeName = employeeName;
+  }
+
+  public String getEmployeeDepartment() {
+    return employeeDepartment;
+  }
+
+  public void setEmployeeDepartment(String employeeDepartment) {
+    this.employeeDepartment = employeeDepartment;
+  }
+
+  private String employeeName;
+  private String employeeDepartment;
+
+  public long getEmployeeArchives_employeeId() {
+    return EmployeeArchives_employeeId;
+  }
+
+  public void setEmployeeArchives_employeeId(long employeeArchives_employeeId) {
+    EmployeeArchives_employeeId = employeeArchives_employeeId;
+  }
+
+  private long EmployeeArchives_employeeId;
 
 
   public long getIdSalaryLog() {
@@ -35,12 +63,5 @@ public class SalaryLog {
   }
 
 
-  public long getEmployeeArchivesEmployeeId() {
-    return employeeArchivesEmployeeId;
-  }
-
-  public void setEmployeeArchivesEmployeeId(long employeeArchivesEmployeeId) {
-    this.employeeArchivesEmployeeId = employeeArchivesEmployeeId;
-  }
 
 }
