@@ -91,7 +91,7 @@
                             <td th:text="${EmployeeArchives.levelSalaryParameters}"></td>
                             <td>
                                 <button class="btn btn-success" data-target="#salary_modal" data-toggle="modal" th:onclick="changeModal([[${EmployeeArchives.employeeId}]],[[${EmployeeArchives.employeeName}]],[[${EmployeeArchives.levelSalaryParameters}]]);">管理薪资</button>
-                                <button class="btn btn-danger">发放薪资</button>
+                                <button class="btn btn-danger" th:onclick="">发放薪资</button>
                             </td>
                         </tr>
                         </tbody>
@@ -100,21 +100,16 @@
                 <div class="tab-pane fade" id="research_tab" role="tabpanel" aria-labelledby="profile-tab"><table class="table">
                     <thead class="thead-light">
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">姓名</th>
-                        <th scope="col">部门</th>
+                        <th scope="col">接收者ID</th>
                         <th scope="col">发放金额</th>
                         <th scope="col">发放时间</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="EmployeeArchives:${list}">
-                        <td th:text="${EmployeeArchives.employeeId}"></td>
-                        <td th:text="${EmployeeArchives.employeeName}"></td>
+                    <tr th:each="salaryLog:${salaryLogs}">
+                        <td th:text="${salaryLog.employeeArchivesEmployeeId}"></td>
+                        <td th:text="${salaryLog.amount}"></td>
                         <td th:text="${EmployeeArchives.employeeDepartment}"></td>
-                        <td>800</td>
-                        <td>2020-9-6
-                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -192,6 +187,20 @@
                     alert("修改失败");
                 }
             }
+        )
+    }
+
+    function distribute(id, level){
+        fetch("/distribute?id = " + id + "&level = " + level).then(
+            (res) => {
+                return res.json();
+            }
+        ).then(
+            (json) => {
+                if(json.res){
+                    alert("薪资发放成功");
+                    location.reload();
+                }else alert("薪资发放失败");            }
         )
     }
 </script>

@@ -26,6 +26,7 @@ public class SalaryMgt {
             model.addAttribute("logged", false);
         }else {
             model.addAttribute("salaryMeters", salaryDao.getAllSalaryParameters());
+            model.addAttribute("salaryLogs", salaryDao.findAllLogs());
             model.addAttribute("logged", true);
             model.addAttribute("id", id);
             model.addAttribute("name", name);
@@ -37,6 +38,15 @@ public class SalaryMgt {
     @ResponseBody
     public String changeSalaryLevel(HttpServletRequest httpServletRequest){
         boolean res = salaryDao.changeLevel(httpServletRequest.getParameter("salaryLevel"), Integer.parseInt(httpServletRequest.getParameter("employeeId")));
+        if (res){
+            return "{\"changeResult\": true}";
+        }else return "{\"changeResult\": false}";
+    }
+
+    @GetMapping("distribute")
+    @ResponseBody
+    public String distribute(HttpServletRequest httpServletRequest){
+        boolean res = salaryDao.salaryLog(Integer.parseInt(httpServletRequest.getParameter("id")), httpServletRequest.getParameter("level"));
         if (res){
             return "{\"changeResult\": true}";
         }else return "{\"changeResult\": false}";
