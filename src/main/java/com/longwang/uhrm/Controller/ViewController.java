@@ -34,6 +34,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -913,8 +914,6 @@ public class ViewController{
         jsonObject.put("result","success");
         return jsonObject;
     }
-
-
 
     //跳转到我的考勤信息查看
     @RequestMapping(method = RequestMethod.GET, value = "/myAttendance")
