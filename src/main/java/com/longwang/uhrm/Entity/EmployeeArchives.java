@@ -19,6 +19,16 @@ public class EmployeeArchives {
   private long Position_idPosition;
   private long Department_idDepartment;
 
+  public String getLevelSalaryParameters() {
+    return levelSalaryParameters;
+  }
+
+  public void setLevelSalaryParameters(String levelSalaryParameters) {
+    this.levelSalaryParameters = levelSalaryParameters;
+  }
+
+  private String levelSalaryParameters;
+
   public String getPassword() {
     return password;
   }
