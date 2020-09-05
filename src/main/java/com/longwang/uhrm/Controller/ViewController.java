@@ -768,8 +768,17 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.GET,value = "/contract_info_change")
     public String contract_info_change(HttpServletRequest httpServletRequest,Model model){
         int ContractId = Integer.parseInt(httpServletRequest.getParameter("id"));
-        System.out.println(ContractId);
         Contract contract = employeeArchivesDao.getContractById(ContractId);
+        HttpSession httpSession = httpServletRequest.getSession();
+        String type = (String) httpSession.getAttribute("type");
+        String name = (String) httpSession.getAttribute("name");
+        if(name != null && type.equals("employee")){
+            model.addAttribute("typeBoolean",true);
+            model.addAttribute("name",httpSession.getAttribute("name"));
+        }else if(name != null && type.equals("user")){
+            model.addAttribute("typeBoolean",false);
+            model.addAttribute("name",httpSession.getAttribute("name"));
+        }
         model.addAttribute("list",contract);
         return "contract_update";
     }
