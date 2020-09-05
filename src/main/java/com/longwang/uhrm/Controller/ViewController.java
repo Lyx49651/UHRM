@@ -305,8 +305,8 @@ public class ViewController {
         for (com.longwang.uhrm.Entity.RecruitmentNotice recruitmentNotice : test) {
             recruitmentNotice.setStringTime(recruitmentNotice.getTime().toString());
         }
-        List<CollectTable> test1 = collectTableDao.findAllPassed();
-        for (CollectTable collectTable : test1) {
+        List<CollectTable> test1 =  collectTableDao.findAllPassed();
+        for(CollectTable collectTable: test1){
             //System.out.println(collectTable.getDepartmentIdDepartment());
             collectTable.setDepartmentName(departmentDao.getName(collectTable.getDepartment_idDepartment()));
             collectTable.setNamePost(positionDao.getPostName(collectTable.getIdPost()));
@@ -381,7 +381,7 @@ public class ViewController {
         JSONArray member_number = new JSONArray();
         JSONArray authorize_strength = new JSONArray();
 
-        for (com.longwang.uhrm.Entity.Position position : positions) {
+        for(com.longwang.uhrm.Entity.Position position:positions){
             post_name.add(position.getTypePosition());
             position_id.add(position.getIdPosition());
             member_number.add(positionDao.getStuffNumByPosition_and_Department(map.get("department"), position.getTypePosition()));
@@ -404,7 +404,7 @@ public class ViewController {
         List<String> member = solution.translate(map.get("member").toString());
         List<String> authoried = solution.translate(map.get("authoried").toString());
         List<String> recruitment = solution.translate(map.get("recruitment").toString());
-        for (int i = 0; i < solution.translate(map.get("id").toString()).size(); i++) {
+        for(int i=0;i<solution.translate(map.get("id").toString()).size();i++){
             CollectTable temp = new CollectTable();
             temp.setRecutimentNumber(recruitment.get(i));
             temp.setMemberNumber(member.get(i));
@@ -414,20 +414,20 @@ public class ViewController {
             temp.setDepartment_idDepartment(positionDao.getPosByID(Integer.parseInt(id.get(i))).getDepartmentId());
             collectTableDao.insertCollectTable(temp);
         }
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("result", "pass");
-        return jsonObject;
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("result", "pass");
+            return jsonObject;
     }
 
     //审核招聘计划
     @RequestMapping(method = RequestMethod.GET, value = "/recruitment_plan_check")
     public String recruitment_plan_check(Model model) {
         List<CollectTable> test = collectTableDao.findAllSaved();
-        for (int i = 0; i < test.size(); i++) {
+        for(int i=0;i<test.size();i++){
             test.get(i).setDepartmentName(departmentDao.getDepartmentById(test.get(i).getDepartment_idDepartment()).getNameDepartment());
             test.get(i).setNamePost(positionDao.getPost(test.get(i).getIdPost()).getPostName());
         }
-        model.addAttribute("plan", test);
+        model.addAttribute("plan",test);
         return "recruitment_plan_check";
     }
 
@@ -441,11 +441,11 @@ public class ViewController {
         List<String> rec = solution.translate(map.get("recruitment").toString());//审核后人数
         List<String> state = solution.translate(map.get("state").toString());//审核后状态
         List<String> depart = solution.translate(map.get("depart").toString());//部门和岗位名
-        for (int i = 0; i < member.size(); i++) {
-            if (state.get(i).contains("#")) {
+        for(int i=0;i<member.size();i++){
+            if(state.get(i).contains("#")){
                 //System.out.println(state.get(i).split("#")[0]);
                 collectTableDao.deleteById(Integer.parseInt(state.get(i).split("#")[0]));
-            } else {
+            }else {
                 collectTableDao.updatePassed(Integer.parseInt(state.get(i)), rec.get(i));
             }
         }
@@ -551,10 +551,10 @@ public class ViewController {
     }
 
     //跳转到信息审核页面
-    @RequestMapping(method = RequestMethod.GET, value = "/recruitment_namelist_check")
-    public String recruitment_namelist_check(Model model) {
+    @RequestMapping(method = RequestMethod.GET,value = "/recruitment_namelist_check")
+    public String recruitment_namelist_check(Model model){
         List<User> users = userDao.getUserByCandiate();
-        model.addAttribute("list", users);
+        model.addAttribute("list",users);
         return "recruitment_name_list_check";
     }
 
@@ -564,10 +564,10 @@ public class ViewController {
     public JSONObject modify_users(@RequestBody HashMap<String, Object> map) {
         System.out.println(map.get("out_list"));
         List<String> out = solution.translate(map.get("out_list").toString());
-        for (int i = 0; i < out.size(); i++) {
-            if (out.get(i).contains("#")) {
+        for(int i=0;i<out.size();i++){
+            if(out.get(i).contains("#")){
                 userDao.update_unpassed(Integer.parseInt(out.get(i).split("#")[0]));
-            } else {
+            }else {
                 userDao.update_passed(Integer.parseInt(out.get(i)));
             }
         }
@@ -577,8 +577,8 @@ public class ViewController {
     }
 
     //跳转面试与笔试成绩审核页面
-    @RequestMapping(method = RequestMethod.GET, value = "/recruitment_info_save")
-    public String recruitment_info_save(Model model) {
+    @RequestMapping(method = RequestMethod.GET,value = "/recruitment_info_save")
+    public String recruitment_info_save(Model model){
         List<CandidateInfo> candidateInfos = userDao.userpassed_get();
         model.addAttribute("list", candidateInfos);
         return "select_recruitment_grade";
@@ -590,10 +590,10 @@ public class ViewController {
     public JSONObject modify_users_selected(@RequestBody HashMap<String, Object> map) {
         System.out.println(map.get("out_list"));
         List<String> re = solution.translate(map.get("out_list").toString());
-        for (int i = 0; i < re.size(); i++) {
-            if (re.get(i).contains("#")) {
+        for(int i=0;i<re.size();i++){
+            if(re.get(i).contains("#")){
                 userDao.user_untested(Integer.parseInt(re.get(i).split("#")[0]));
-            } else {
+            }else {
                 userDao.usertested(Integer.parseInt(re.get(i)));
             }
         }
@@ -603,9 +603,14 @@ public class ViewController {
     }
 
     //跳转到招聘人归档页面
-    @RequestMapping(method = RequestMethod.GET, value = "/recruitment_to_employee")
-    public String recruitment_to_employee(Model model) {
+    @RequestMapping(method = RequestMethod.GET,value = "/recruitment_to_employee")
+    public String recruitment_to_employee(Model model){
         List<User> users = userDao.archive();
+        List<String> depart = userDao.get_post(users);
+        for (int i=0;i<users.size();i++){
+            users.get(i).setDepart_name_sign_up(depart.get(i).split("--")[0]);
+            users.get(i).setPost_name_sign_up(depart.get(i).split("--")[1]);
+        }
         model.addAttribute("list", users);
         return "Archive";
     }
@@ -632,7 +637,7 @@ public class ViewController {
         System.out.println(address);
         System.out.println(telephone);
         System.out.println(education);
-        for (int i = 0; i < name.size(); i++) {
+        for(int i=0;i<name.size();i++){
             EmployeeArchives temp = new EmployeeArchives();
             temp.setEmployeeName(name.get(i));
             temp.setEmployeeSex(sex.get(i));
@@ -648,7 +653,7 @@ public class ViewController {
             temp.setEmployeeTechnicalGrade(technicalGrade.get(i));
             temp.setEmployeeDepartment(depart.get(i));
             temp.setEmployeePost(post.get(i));
-            temp.setEmployeeId(employeeArchivesDao.max_id() + 1);
+            temp.setEmployeeId(employeeArchivesDao.max_id()+1);
             employeeArchivesDao.Archive(temp);
             temp.setPassword(userDao.delete_phone(telephone.get(i)));
         }
@@ -704,11 +709,10 @@ public class ViewController {
         model.addAttribute("User", userDao.getUserByTelephone(phone));
         return "user_info";
     }
-
     //完善,修改用户个人信息
-    @RequestMapping(method = RequestMethod.POST, value = "/user_info_change")
+    @RequestMapping(method = RequestMethod.POST,value = "/user_info_change")
     @ResponseBody
-    public JSONObject user_info_change(@RequestBody HashMap<String, String> hashMap, Model model) {
+    public  JSONObject user_info_change(@RequestBody HashMap<String,String> hashMap,Model model){
         User user = new User();
         user.setSex(hashMap.get("sex"));
         user.setAge(Long.parseLong(hashMap.get("age")));
@@ -717,63 +721,63 @@ public class ViewController {
         user.setIDCard(hashMap.get("IDCard"));
         user.setTelephone(hashMap.get("telephone"));
         user.setEducation(hashMap.get("education"));
-        boolean flag = userDao.update_user_Info(user);
-        JSONObject jsonObject = new JSONObject();
-        if (flag) {
-            jsonObject.put("result", "success");
-        } else {
-            jsonObject.put("result", "failure");
+        boolean flag=userDao.update_user_Info(user);
+        JSONObject jsonObject=new JSONObject();
+        if(flag){
+            jsonObject.put("result","success");
+        }else {
+            jsonObject.put("result","failure");
         }
         return jsonObject;
     }
 
     //跳转到合同查询
-    @RequestMapping(method = RequestMethod.GET, value = "/to_contract_query")
-    public String to_contract_query(HttpServletRequest request, Model model) {
+    @RequestMapping(method = RequestMethod.GET,value = "/to_contract_query")
+    public String to_contract_query(HttpServletRequest request,Model model){
         List<Contract> list = employeeArchivesDao.findAllContract();
         HttpSession httpSession = request.getSession();
         String type = (String) httpSession.getAttribute("type");
         String name = (String) httpSession.getAttribute("name");
-        if (name != null && type.equals("employee")) {
-            model.addAttribute("typeBoolean", true);
-            model.addAttribute("name", httpSession.getAttribute("name"));
-        } else if (name != null && type.equals("user")) {
-            model.addAttribute("typeBoolean", false);
-            model.addAttribute("name", httpSession.getAttribute("name"));
+        if(name != null && type.equals("employee")){ 
+            model.addAttribute("typeBoolean",true);
+            model.addAttribute("name",httpSession.getAttribute("name"));
+        }else if(name != null && type.equals("user")){
+            model.addAttribute("typeBoolean",false);
+            model.addAttribute("name",httpSession.getAttribute("name"));
         }
-        model.addAttribute("list", list);
+        model.addAttribute("list",list);
         return "contract_search";
     }
 
     //查询指定的合同
-    @RequestMapping(method = RequestMethod.GET, value = "/contract_info_search")
-    public String contract_info_search(HttpServletRequest request, Model model) {
-        try {
-            int id = Integer.parseInt(request.getParameter("idOrName"));
+    @RequestMapping(method = RequestMethod.GET,value = "/contract_info_search")
+    public String contract_info_search(HttpServletRequest request, Model model){
+        try{
+            int id = Integer.parseInt( request.getParameter("idOrName"));
             Contract emp = employeeArchivesDao.getContractById(id);
-            model.addAttribute("list", emp);
-        } catch (Exception e) {
+            model.addAttribute("list",emp);
+        }catch(Exception e){
             String name = request.getParameter("idOrName");
             List<Contract> list = employeeArchivesDao.getContractByName(name);
-            model.addAttribute("list", list);
+            model.addAttribute("list",list);
         }
         return "contract_search";
     }
 
     //to合同修改
-    @RequestMapping(method = RequestMethod.GET, value = "/contract_info_change")
-    public String contract_info_change(HttpServletRequest httpServletRequest, Model model) {
+    @RequestMapping(method = RequestMethod.GET,value = "/contract_info_change")
+    public String contract_info_change(HttpServletRequest httpServletRequest,Model model){
         int ContractId = Integer.parseInt(httpServletRequest.getParameter("id"));
         System.out.println(ContractId);
         Contract contract = employeeArchivesDao.getContractById(ContractId);
-        model.addAttribute("list", contract);
+        model.addAttribute("list",contract);
         return "contract_update";
     }
 
     //合同修改提交
-    @RequestMapping(method = RequestMethod.POST, value = "/contract_change")
+    @RequestMapping(method = RequestMethod.POST,value = "/contract_change")
     @ResponseBody
-    public JSONObject contract_change(@RequestBody HashMap<String, String> hashMap) {
+    public JSONObject contract_change(@RequestBody HashMap<String,String> hashMap){
         Contract contract = new Contract();
         JSONObject jsonObject = new JSONObject();
         contract.setIdContract(Integer.parseInt(hashMap.get("contractId")));
@@ -786,48 +790,48 @@ public class ViewController {
 
         boolean res = employeeArchivesDao.contract_change(contract);
 
-        if (res) {
-            jsonObject.put("result", "success");
-        } else {
-            jsonObject.put("result", "default");
+        if(res){
+            jsonObject.put("result","success");
+        }else{
+            jsonObject.put("result","default");
         }
 
         return jsonObject;
     }
 
     //删除合同
-    @RequestMapping(method = RequestMethod.GET, value = "/contract_delete")
-    public String contract_delete(HttpServletRequest httpServletRequest, Model model) {
+    @RequestMapping(method = RequestMethod.GET,value = "/contract_delete")
+    public String contract_delete(HttpServletRequest httpServletRequest,Model model){
         int idContract = Integer.parseInt(httpServletRequest.getParameter("id"));
         employeeArchivesDao.delete_contract(idContract);
 
         List<Contract> list = employeeArchivesDao.findAllContract();
-        model.addAttribute("list", list);
+        model.addAttribute("list",list);
 
 
         return "contract_search";
     }
 
     //to新增合同
-    @RequestMapping(method = RequestMethod.GET, value = "/to_add_contract")
-    public String to_add_contract(HttpServletRequest httpServletRequest, Model model) {
+    @RequestMapping(method = RequestMethod.GET,value = "/to_add_contract")
+    public String to_add_contract(HttpServletRequest httpServletRequest,Model model){
         HttpSession httpSession = httpServletRequest.getSession();
         String type = (String) httpSession.getAttribute("type");
         String name = (String) httpSession.getAttribute("name");
-        if (name != null && type.equals("employee")) {
-            model.addAttribute("typeBoolean", true);
-            model.addAttribute("name", httpSession.getAttribute("name"));
-        } else if (name != null && type.equals("user")) {
-            model.addAttribute("typeBoolean", false);
-            model.addAttribute("name", httpSession.getAttribute("name"));
+        if(name != null && type.equals("employee")){
+            model.addAttribute("typeBoolean",true);
+            model.addAttribute("name",httpSession.getAttribute("name"));
+        }else if(name != null && type.equals("user")){
+            model.addAttribute("typeBoolean",false);
+            model.addAttribute("name",httpSession.getAttribute("name"));
         }
         return "contract_import";
     }
 
 
-    @RequestMapping(method = RequestMethod.POST, value = "/add_contract")
+    @RequestMapping(method = RequestMethod.POST,value = "/add_contract")
     @ResponseBody
-    public JSONObject add_contract(@RequestBody HashMap<String, String> hashMap) {
+    public JSONObject add_contract(@RequestBody HashMap<String,String> hashMap){
         Contract contract = new Contract();
         JSONObject jsonObject = new JSONObject();
         contract.setEmployeeId(Integer.parseInt(hashMap.get("employeeId")));
@@ -838,30 +842,29 @@ public class ViewController {
         contract.setPosition(hashMap.get("position"));
 
         boolean res = employeeArchivesDao.add_contract(contract);
-        if (res) {
-            jsonObject.put("result", "success");
-        } else {
-            jsonObject.put("result", "default");
+        if(res){
+            jsonObject.put("result","success");
+        }else{
+            jsonObject.put("result","default");
         }
 
         return jsonObject;
     }
 
-
     //应聘者报名,获取到岗位信息
-    @RequestMapping(method = RequestMethod.POST, value = "/sign_up")
+    @RequestMapping(method = RequestMethod.POST,value = "/sign_up")
     @ResponseBody
-    public JSONObject sign_up(@RequestBody HashMap<String, String> map, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    public JSONObject sign_up(@RequestBody HashMap<String, String> map, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         System.out.println(map.get("post"));
         String phone = (String) httpServletRequest.getSession().getAttribute("phone");
-        User user = userDao.getUserByTelephone(phone);
-        CandidateInfo candidateInfo = new CandidateInfo();
+        User user=userDao.getUserByTelephone(phone);
+        CandidateInfo candidateInfo=new CandidateInfo();
         candidateInfo.setIdCandidateInfo(user.getIdUser());
         candidateInfo.setStatus("unverified");
         candidateInfo.setDepartmentPost(map.get("post"));
         userDao.insert_candidate(candidateInfo);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("result", "success");
+        jsonObject.put("result","success");
         return jsonObject;
     }
 
@@ -965,4 +968,3 @@ public class ViewController {
         return jsonObject;
     }
 }
-

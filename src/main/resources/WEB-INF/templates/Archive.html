@@ -84,16 +84,36 @@
             <td>[[${User.education}]]</td>
             <td>[[${User.IDCard}]]</td>
             <td>
-                <input type="text" class="form-control" th:attr="id='customControlInlinet'+ ${User.idUser}">
+                <div class="form-group col-md-6" style="padding-left: 0">
+                    <div class="form-group" style="padding-left: 0">
+                        <select class="form-control" id="FormTitle">
+                            <option selected>讲师</option>
+                            <option>副教授</option>
+                            <option>教授</option>
+                        </select>
+                    </div>
+                </div>
             </td>
             <td>
-                <input type="text" class="form-control" th:attr="id='customControlInlinet1'+ ${User.idUser}">
+                <div class="form-group col-md-6" style="padding-left: 0">
+                    <div class="form-group">
+                        <select class="form-control" id="FormTitle1" style="margin-right: 20px">
+                            <option selected>P1</option>
+                            <option>P2</option>
+                            <option>P3</option>
+                            <option>P4</option>
+                            <option>P5</option>
+                            <option>P6</option>
+                            <option>P7</option>
+                        </select>
+                    </div>
+                </div>
             </td>
             <td>
-                <input type="text" class="form-control" th:attr="id='customControlInlinet2'+ ${User.idUser}">
+               [[${User.depart_name_sign_up}]]
             </td>
             <td>
-                <input type="text" class="form-control" th:attr="id='customControlInlinet3'+ ${User.idUser}">
+                [[${User.post_name_sign_up}]]
             </td>
         </tr>
         </tbody>
@@ -112,6 +132,8 @@
         var elemment = document.getElementById("name_list_table");
         var lists = elemment.getElementsByTagName("td");
         var lists1 = elemment.getElementsByTagName("input");
+        var list2 = elemment.getElementsByTagName("select");
+        // alert(list2[0].value);
         var name = [];
         var sex = [];
         var age = [];
@@ -131,12 +153,12 @@
             telephone.push(lists[11*i+4].textContent);
             education.push(lists[11*i+5].textContent);
             IdCard.push(lists[11*i+6].textContent);
+            department.push(lists[11*i+9].textContent);
+            post.push(lists[11*i+10].textContent);
         }
-        for (var j=0;j<(lists1.length/4);j++) {
-            title.push(lists1[4*j].value);
-            technicalGrade.push(lists1[4*j+1].value);
-            department.push(lists1[4*j+2].value);
-            post.push(lists1[4*j+3].value);
+        for (var j=0;j<(list2.length/2);j++) {
+            title.push(list2[2*j].value);
+            technicalGrade.push(list2[2*j+1].value);
         }
         // alert(title+technicalGrade+department+post);
         // alert(name+sex+age+address+telephone+education+IdCard+title+technicalGrade+department+post);
