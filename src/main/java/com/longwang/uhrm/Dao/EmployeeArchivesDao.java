@@ -26,10 +26,6 @@ public class EmployeeArchivesDao{
          }
          return false;
     }
-    //添加记录
-    public boolean Archive(EmployeeArchives employeeArchives){
-            return employeeArchivesMapper.insertEmployee(employeeArchives) == 1;
-    }
 
     public String getName(int id) {
         return employeeArchivesMapper.getName(id);
@@ -72,7 +68,6 @@ public class EmployeeArchivesDao{
     public boolean updateEmployeeSpecialInfo(convertdata convertdata){
         return employeeArchivesMapper.updateEmployeeSpecialInfo(convertdata) == 1;
     }
-
 
     public List<Contract> findAllContract(){
         return employeeArchivesMapper.findAllContract();
