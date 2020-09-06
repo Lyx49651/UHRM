@@ -48,7 +48,19 @@ public class SalaryMgt {
     public String distribute(HttpServletRequest httpServletRequest){
         boolean res = salaryDao.salaryLog(Integer.parseInt(httpServletRequest.getParameter("id")), httpServletRequest.getParameter("level"));
         if (res){
-            return "{\"changeResult\": true}";
-        }else return "{\"changeResult\": false}";
+            return "{\"res\": true}";
+        }else return "{\"res\": false}";
+    }
+
+    @GetMapping("mySalary")
+    public String personalSalaryLog(Model model, HttpServletRequest httpServletRequest){
+        String id = (String) httpServletRequest.getSession().getAttribute("id");
+        if(id == null){
+            model.addAttribute("logged", false);
+        }else {
+            model.addAttribute("logged", true);
+            model.addAttribute("salaryLogs", salaryDao.findMyLogs(Integer.parseInt(id)));
+        }
+        return "MySalary";
     }
 }

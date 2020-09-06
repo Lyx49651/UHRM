@@ -39,4 +39,6 @@ public class SalaryDao {
     }
 
     public List<SalaryLog> findAllLogs(){return salaryParametersMapper.findAllLogs();}
+
+    public List<SalaryLog> findMyLogs(int id){return salaryParametersMapper.findPersonalLogs(id);}
 }
