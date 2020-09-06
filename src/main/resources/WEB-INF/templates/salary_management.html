@@ -46,7 +46,9 @@
                     <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false' style='color: black'><span th:text="${name}"></span><span class='caret'></span></a>
                     <ul class='dropdown-menu' style="margin: 0 0 0 -156%">
                         <li><a href='http://localhost:8080/logout' style='color: black'>登出</a></li>
+
                         <li><a href='http://localhost:8080/personalInfo' style="color: black" >个人信息</a></li>
+
                     </ul>
                 </li>
             </ul>
@@ -90,7 +92,7 @@
                             <td th:text="${EmployeeArchives.levelSalaryParameters}"></td>
                             <td>
                                 <button class="btn btn-success" data-target="#salary_modal" data-toggle="modal" th:onclick="changeModal([[${EmployeeArchives.employeeId}]],[[${EmployeeArchives.employeeName}]],[[${EmployeeArchives.levelSalaryParameters}]]);">管理薪资</button>
-                                <button class="btn btn-danger" th:onclick="">发放薪资</button>
+                                <button class="btn btn-danger" th:onclick="distribute([[${EmployeeArchives.employeeId}]],[[${EmployeeArchives.levelSalaryParameters}]]);">发放薪资</button>
                             </td>
                         </tr>
                         </tbody>
@@ -100,15 +102,19 @@
                     <thead class="thead-light">
                     <tr>
                         <th scope="col">接收者ID</th>
+                        <th scope="col">姓名</th>
+                        <th scope="col">部门</th>
                         <th scope="col">发放金额</th>
                         <th scope="col">发放时间</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="salaryLog:${salaryLogs}">
-                        <td th:text="${salaryLog.employeeArchivesEmployeeId}"></td>
+                        <td th:text="${salaryLog.EmployeeArchives_employeeId}"></td>
+                        <td th:text="${salaryLog.employeeName}"></td>
+                        <td th:text="${salaryLog.employeeDepartment}"></td>
                         <td th:text="${salaryLog.amount}"></td>
-                        <td th:text="${EmployeeArchives.employeeDepartment}"></td>
+                        <td th:text="${salaryLog.time}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -190,7 +196,7 @@
     }
 
     function distribute(id, level){
-        fetch("/distribute?id = " + id + "&level = " + level).then(
+        fetch("/distribute?id=" + id + "&level=" + level).then(
             (res) => {
                 return res.json();
             }
@@ -199,7 +205,8 @@
                 if(json.res){
                     alert("薪资发放成功");
                     location.reload();
-                }else alert("薪资发放失败");            }
+                }else alert("薪资发放失败");
+            }
         )
     }
 </script>
