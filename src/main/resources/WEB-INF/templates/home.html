@@ -16,32 +16,40 @@
     <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
     <script src = "https://cdn.jsdelivr.net/npm/chart.js@2.8.0" ></script>
     <![endif]-->
-
+    <style>
+        #list_f a{
+            color: white;
+        }
+        #system_list a{
+            color: black;
+        }
+    </style>
 </head>
-<body style="overflow-y: auto;width: 100%;height: 100%;background: #f8fafa">
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">高校人力资源管理系统</a>
+<body style="overflow-y: auto;width: 100%;height: 100%;">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background: none !important" onmouseover="mouse_over()" id="obave_list" onmouseleave="mouse_leave()">
+    <a class="navbar-brand" href="#" style="color: white">高校人力资源管理系统</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto" id="list_f">
             <li class="nav-item active">
-                <a class="nav-link" href="#">首页 <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="#" style="color: white">首页 <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
+                    系统
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">1</a>
-                    <a class="dropdown-item" href="#">2</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="system_list">
+                    <a class="dropdown-item" href="http://localhost:8080/employee_management_system">人员管理系统</a>
+                    <a class="dropdown-item" href="http://localhost:8080/recruitment_system">招聘系统</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="#">薪资管理系统</a>
+                    <a class="dropdown-item" href="http://localhost:8080/Attendance">考勤管理系统</a>
                 </div>
             </li>
             <li class="nav-item">
@@ -72,117 +80,117 @@
     </div>
 </nav>
 <!--滚动新闻部分-->
-<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" style="width: 100%;height: 300px;background: black">
-    <ol class="carousel-indicators">
-        <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-        <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner" style="width: 100%;height: 300px">
-        <div class="carousel-item active" style="height: 300px">
-            <img th:src="@{/images/home2.jpg}" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <h5 >与西电惜别</h5>
-                <p>2020年毕业签约的详细流程</p>
-            </div>
-        </div>
-        <div class="carousel-item" style="height: 300px">
-            <img th:src="@{/images/home1.jpg}" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>相约西电</h5>
-                <p>2020界新生，新的血液</p>
-            </div>
-        </div>
-        <div class="carousel-item" style="height: 300px">
-            <img th:src="@{/images/home3.jpg}" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <h5></h5>
-                <p></p>
-            </div>
-        </div>
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
+<!--<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" style="width: 100%;height: 300px;background: black">-->
+    <!--<ol class="carousel-indicators">-->
+        <!--<li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>-->
+        <!--<li data-target="#carouselExampleCaptions" data-slide-to="1"></li>-->
+        <!--<li data-target="#carouselExampleCaptions" data-slide-to="2"></li>-->
+    <!--</ol>-->
+    <!--<div class="carousel-inner" style="width: 100%;height: 300px">-->
+        <!--<div class="carousel-item active" style="height: 300px">-->
+            <!--<img th:src="@{/images/home2.jpg}" class="d-block w-100" alt="...">-->
+            <!--<div class="carousel-caption d-none d-md-block">-->
+                <!--<h5 >与西电惜别</h5>-->
+                <!--<p>2020年毕业签约的详细流程</p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="carousel-item" style="height: 300px">-->
+            <!--<img th:src="@{/images/home1.jpg}" class="d-block w-100" alt="...">-->
+            <!--<div class="carousel-caption d-none d-md-block">-->
+                <!--<h5>相约西电</h5>-->
+                <!--<p>2020界新生，新的血液</p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="carousel-item" style="height: 300px">-->
+            <!--<img th:src="@{/images/home3.jpg}" class="d-block w-100" alt="...">-->
+            <!--<div class="carousel-caption d-none d-md-block">-->
+                <!--<h5></h5>-->
+                <!--<p></p>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">-->
+        <!--<span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+        <!--<span class="sr-only">Previous</span>-->
+    <!--</a>-->
+    <!--<a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">-->
+        <!--<span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+        <!--<span class="sr-only">Next</span>-->
+    <!--</a>-->
+<!--</div>-->
 <!--中间工具层-->
-<div style="width: 100%;height: 70%;margin: 100px 0 0 0">
-    <div class="panel panel-default" style="width: 60%;;margin: 0 0 0 20%;border: none">
-        <div class="panel-body" style="font-size: 30px">
-           功能选择
-        </div>
-    </div>
-    <table class="table table-bordered" style="width: 60%;height: 100%;margin: 0 0 0 20%">
-       <tr>
-           <td style="padding: 0;width: 272px;height: 251px;margin: 0">
-               <div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">
-                   <div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">
-                       <a href="http://localhost:8080/employee_management_system" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">
-                           <img th:src="@{/images/4.jpg}" alt="..." style="margin: 0;width: 374.1%;height: 100%">
-                       </a>
-                   </div>
-               </div>
-           </td>
-           <td style="padding: 0;width: 272px;height: 251px">
-               <div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">
-                   <div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">
-                       <a href="http://localhost:8080/recruitment_system" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">
-                           <img th:src="@{/images/system2.jpg}" alt="..." style="margin: 0;width: 374.1%;height: 100%">
-                       </a>
-                   </div>
-               </div>
-           </td>
-           <td style="padding: 0;width: 272px;height: 251px">
-               <div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">
-                   <div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">
-                       <a href="http://localhost:8080/Attendance" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">
-                           <img th:src="@{/images/1.jpg}" alt="..." style="margin: 0;width: 374.1%;height: 100%">
-                       </a>
-                   </div>
-               </div>
-           </td>
-       </tr>
-        <tr>
-            <td style="padding: 0;width: 272px;height: 251px">
-                <div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">
-                    <div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">
-                        <a href="#" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">
-                            <img th:src="@{/images/1.jpg}" alt="..." style="margin: 0;width: 374.1%;height: 100%">
-                        </a>
-                    </div>
-                </div>
-            </td>
-            <td style="padding: 0;width: 272px;height: 251px;">
-                <div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">
-                    <div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">
-                        <a href="#" class="thumbnail" style="height: 100%;width: 272px;padding: 0;border: 0;margin: 0">
-                            <img th:src="@{/images/1.jpg}" alt="..." style="margin: 0;width: 374.1%;height: 100%">
-                        </a>
-                    </div>
-                </div>
-            </td>
-            <td style="padding: 0;width: 272px;height: 251px">
-                <div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">
-                    <div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">
-                        <a href="#" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">
-                            <img th:src="@{/images/1.jpg}" alt="..." style="margin: 0;width: 374.1%;height: 100%">
-                        </a>
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </table>
-</div>
+<!--<div style="width: 100%;height: 70%;margin: 100px 0 0 0">-->
+    <!--<div class="panel panel-default" style="width: 60%;;margin: 0 0 0 20%;border: none">-->
+        <!--<div class="panel-body" style="font-size: 30px">-->
+           <!--功能选择-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<table class="table table-bordered" style="width: 60%;height: 100%;margin: 0 0 0 20%">-->
+       <!--<tr>-->
+           <!--<td style="padding: 0;width: 272px;height: 251px;margin: 0">-->
+               <!--<div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">-->
+                   <!--<div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">-->
+                       <!--<a href="http://localhost:8080/employee_management_system" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">-->
+                           <!--<img th:src="@{/images/4.jpg}" alt="..." style="margin: 0;width: 374.1%;height: 100%">-->
+                       <!--</a>-->
+                   <!--</div>-->
+               <!--</div>-->
+           <!--</td>-->
+           <!--<td style="padding: 0;width: 272px;height: 251px">-->
+               <!--<div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">-->
+                   <!--<div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">-->
+                       <!--<a href="http://localhost:8080/recruitment_system" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">-->
+                           <!--<img th:src="@{/images/system2.jpg}" alt="..." style="margin: 0;width: 374.1%;height: 100%">-->
+                       <!--</a>-->
+                   <!--</div>-->
+               <!--</div>-->
+           <!--</td>-->
+           <!--<td style="padding: 0;width: 272px;height: 251px">-->
+               <!--<div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">-->
+                   <!--<div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">-->
+                       <!--<a href="http://localhost:8080/Attendance" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">-->
+                           <!--<img th:src="@{/images/1.jpg}" alt="..." style="margin: 0;width: 374.1%;height: 100%">-->
+                       <!--</a>-->
+                   <!--</div>-->
+               <!--</div>-->
+           <!--</td>-->
+       <!--</tr>-->
+        <!--<tr>-->
+            <!--<td style="padding: 0;width: 272px;height: 251px">-->
+                <!--<div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">-->
+                    <!--<div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">-->
+                        <!--<a href="#" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">-->
+                            <!--<img th:src="@{/images/1.jpg}" alt="..." style="margin: 0;width: 374.1%;height: 100%">-->
+                        <!--</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</td>-->
+            <!--<td style="padding: 0;width: 272px;height: 251px;">-->
+                <!--<div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">-->
+                    <!--<div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">-->
+                        <!--<a href="#" class="thumbnail" style="height: 100%;width: 272px;padding: 0;border: 0;margin: 0">-->
+                            <!--<img th:src="@{/images/1.jpg}" alt="..." style="margin: 0;width: 374.1%;height: 100%">-->
+                        <!--</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</td>-->
+            <!--<td style="padding: 0;width: 272px;height: 251px">-->
+                <!--<div class="row" style="height: 100%;width: 100%;margin: 0;padding: 0">-->
+                    <!--<div class="col-xs-6 col-md-3" style="height: 100%;width: 100%;padding: 0">-->
+                        <!--<a href="#" class="thumbnail" style="height: 100%;width: 100%;padding: 0;border: 0;margin: 0">-->
+                            <!--<img th:src="@{/images/1.jpg}" alt="..." style="margin: 0;width: 374.1%;height: 100%">-->
+                        <!--</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</td>-->
+        <!--</tr>-->
+    <!--</table>-->
+<!--</div>-->
 <!--底层面板-->
-<div>
-    <div class="panel panel-default" style="background: rgba(39,156,78,0.95);margin: 300px 0 0 0">
+<div style="margin: 30% 0 0 0;" onmouseover="mouse_over1()" onmouseleave="mouse_leave1()" id="under_list">
+    <div class="panel panel-default">
         <div class="panel-body">
-            <div class="bg-dark">
+            <div class="bg-dark" style="background: none !important;">
                 <table class="table table-borderless" style="color: aliceblue;margin: 0 auto ; width: 50%;text-align: center">
                     <thead>
                     <tr align="center">
@@ -212,7 +220,7 @@
             </div>
         </div>
     </div>
-    <div class="panel panel-default" style="background: rgba(25,92,163,0.82);margin: 0">
+    <div class="panel panel-default" style="margin: 0;color: white">
         <div class="panel-body">
             人力资源管理系统 Version1.0
             <span style="margin: 0 0 0 70%">
@@ -228,6 +236,7 @@
 </body>
 <script src="http://api.asilu.com/cdn/jquery.js,jquery.backstretch.min.js" type="text/javascript"></script>
 <script type="text/javascript">
+    //722x1536
     $.backstretch([
         'http://localhost:8080/images/background1.jpg',
         'http://localhost:8080/images/background2.jpg',
@@ -237,5 +246,19 @@
         fade : 1000, // 动画时长
         duration : 2000 // 切换延时
     });
+</script>
+<script>
+    function mouse_over() {
+        document.getElementById("obave_list").style = "background: #D8ECFF !important;";
+    }
+    function mouse_leave() {
+        document.getElementById("obave_list").style = "background: none !important;";
+    }
+    function mouse_over1() {
+        document.getElementById("under_list").style = "background: black !important;margin: 30% 0 0 0;";
+    }
+    function mouse_leave1() {
+        document.getElementById("under_list").style = "background: none !important;margin: 30% 0 0 0;";
+    }
 </script>
 </html>
