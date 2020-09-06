@@ -970,6 +970,7 @@ public class ViewController{
             String name = (String) httpServletRequest.getSession().getAttribute("name");
             String type = (String) httpServletRequest.getSession().getAttribute("type");
             if(type.equals("employee")&&post.equals("二级人事助理")){
+                model.addAttribute("departmentNames",departmentDao.getAllName());
                 model.addAttribute("id", id);
                 model.addAttribute("name", name);
                 return "Attendance";
@@ -986,7 +987,11 @@ public class ViewController{
     //查看部门对应的考勤信息，只有post为二级人事助理的雇员才能进行
     @RequestMapping(method = RequestMethod.GET, value = "/departmentChange")
     public String departmentChange(Model m, HttpServletRequest request) {
+        m.addAttribute("departmentNames",departmentDao.getAllName());
         department_for_Attendance = request.getParameter("inlineRadioOptions");
+        if(department_for_Attendance==null){
+            return "Attendance";
+        }
         List<EmployeeArchives> employeeArchivesList = departmentDao.getDepartmentEmployeeByName(department_for_Attendance);
         List<Attendance> attendances = new ArrayList<>();
         Date dNow = new Date();
@@ -1000,8 +1005,9 @@ public class ViewController{
             m.addAttribute("list", attendances);
             m.addAttribute("department", department_for_Attendance);
             m.addAttribute("name",request.getSession().getAttribute("name"));
+//            m.addAttribute("dis","disable");
         } else {
-
+            department_for_Attendance = null;
         }
         return "Attendance";
     }
@@ -1010,7 +1016,12 @@ public class ViewController{
     @ResponseBody
     public JSONObject checkIN(Model m, HttpServletRequest request, @RequestBody List<String> list) {
         JSONObject jsonObject = new JSONObject();
+//        if(department_for_Attendance==null || list==null ||department_for_Attendance.equals(null)){
+////            jsonObject.put("result","error");
+////            return jsonObject;
+////        }
         List<EmployeeArchives> employeeArchivesList = departmentDao.getDepartmentEmployeeByName(department_for_Attendance);
+
         Date dNow = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
         String today = ft.format(dNow);
