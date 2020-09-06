@@ -58,16 +58,16 @@
 </nav>
 <div class="p-3 mb-2 bg-dark text-dark">
     <form name="department" action="/departmentChange">
-        <div style="width: 80%; margin: 2% auto" class="text-white">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="人事部" checked>
-                <label class="form-check-label" for="inlineRadio1">人事部</label>
+        <div style="width: 80%; margin: 2% auto" class="text-white" >
+            <div class="form-check form-check-inline" th:each="departments:${departmentNames}">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" th:id="${departments}" th:value="${departments}">
+                <label class="form-check-label" th:for="${departments}" th:text = "${departments}"></label>
             </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="科研部">
-                <label class="form-check-label" for="inlineRadio2">科研部</label>
-            </div>
-            <button type="submit" class="btn btn-success">刷新部门</button>
+<!--            <div class="form-check form-check-inline">-->
+<!--                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="科研部">-->
+<!--                <label class="form-check-label" for="inlineRadio2">科研部</label>-->
+<!--            </div>-->
+            <button type="submit" class="btn btn-success">更换部门</button>
             <!--        <div class="form-check form-check-inline">-->
             <!--            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">-->
             <!--            <label class="form-check-label" for="inlineRadio3"></label>-->
@@ -104,19 +104,18 @@
                         <div class="text-dark">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" th:name="check+${stat.index}"
-                                       id="check-${Attendance.employeeId}"
+                                       id="inline1"
                                        value="intime" checked>
-                                <label class="form-check-label" for="inlineRadio1">intime</label>
+                                <label class="form-check-label" for="inline1">intime</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" th:name="check+${stat.index}"
-                                       id="check2-${Attendance.employeeId}" value="late">
-                                <label class="form-check-label" for="inlineRadio2">late</label>
+                                       id="inline2" value="late">
+                                <label class="form-check-label" for="inline2">late</label>
                             </div>
                         </div>
                     </td>
                 </tr>
-
                 </tbody>
             </table>
         </div>
@@ -152,7 +151,7 @@
                 window.location="http://localhost:8080/Attendance"
             },
             error: function (data) {
-                window.alert("该部门已进行考勤");
+                window.alert("该部门已进行考勤或部门未选择");
             }
         });
     }

@@ -25,4 +25,7 @@ public interface DepartmentMapper {
 
     @Select("select * from EmployeeArchives, Department where employeeDepartment=nameDepartment and nameDepartment = #{nameDepartment};")
     public List<EmployeeArchives> getAllEmployeeByDepartmentname(String nameDepartment);
+
+    @Select("select nameDepartment from Department")
+    public List<String> getAllName();
 }

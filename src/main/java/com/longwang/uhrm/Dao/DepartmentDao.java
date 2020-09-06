@@ -39,4 +39,8 @@ public class DepartmentDao {
     public List<EmployeeArchives> getDepartmentEmployeeByName(String nameDepartment){
         return departmentMapper.getAllEmployeeByDepartmentname(nameDepartment);
     }
+
+    public List<String> getAllName(){
+        return departmentMapper.getAllName();
+    }
 }
