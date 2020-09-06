@@ -80,7 +80,10 @@
                         <td th:text="${EmployeeArchives.employeeId}" id="employeeId"></td>
                         <td th:text="${EmployeeArchives.employeeName}"></td>
                         <td th:text="${EmployeeArchives.employeeDepartment}"></td>
-                        <td><a class="btn btn-outline-success my-2 my-sm-0" type="button" th:href="'http://localhost:8080/employee_info_change?id='+${EmployeeArchives.employeeId}">修改</a></td>
+                        <td>
+                            <a class="btn btn-outline-success my-2 my-sm-0" type="button" th:href="'http://localhost:8080/employee_info_change?id='+${EmployeeArchives.employeeId}">修改</a>
+                            <a class="btn btn-outline-success my-2 my-sm-0" type="button" th:href="'http://localhost:8080/employee_info_delete?id='+${EmployeeArchives.employeeId}">删除</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

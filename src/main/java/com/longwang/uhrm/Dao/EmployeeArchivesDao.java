@@ -102,4 +102,9 @@ public class EmployeeArchivesDao{
 
     //获取最大的ID
     public int max_id(){ return employeeArchivesMapper.max_id(); }
+
+    //删除员工档案
+    public void delete_employee(int id){
+        employeeArchivesMapper.delete_employee(id);
+    }
 }

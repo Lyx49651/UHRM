@@ -55,7 +55,12 @@ public class ViewController{
     CollectTableDao collectTableDao;
     Solution solution;
     AttendanceDao attendanceDao;
+    SalaryDao salaryDao;
 
+    @Autowired
+    public void setSalaryDao(SalaryDao salaryDao) {
+        this.salaryDao = salaryDao;
+    }
 
     @Autowired
     public void setSolution(Solution solution) {
@@ -262,17 +267,18 @@ public class ViewController{
     // 跳转到人员管理系统
     @RequestMapping(method = RequestMethod.GET, value = "/employee_management_system")
     public String employee_management_system(HttpServletRequest httpServletRequest,Model model) {
-        getSessionInfo.getsessionInfo(httpServletRequest,model);
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
-
+        boolean res = getSessionInfo.getsessionInfo(httpServletRequest,model);
+        if(!res) return "index";
         return "employee_management_system_functionlist";
     }
 
     // 跳转到人员信息录入
     @RequestMapping(method = RequestMethod.GET, value = "/employee_import")
     public String employee_import(HttpServletRequest httpServletRequest,Model model) {
-        getSessionInfo.getsessionInfo(httpServletRequest,model);
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
+        boolean res = getSessionInfo.getsessionInfo(httpServletRequest,model);
+        if(!res) return "index";
         model.addAttribute("list", departmentDao.getAll());
         return "employee_import";
     }
@@ -280,20 +286,27 @@ public class ViewController{
     //信息导入
     @RequestMapping(method = RequestMethod.POST, value = "/employee_info_import")
     @ResponseBody
-    public JSONObject employee_info_import(@RequestBody com.longwang.uhrm.Entity.EmployeeArchives employeeArchives) {
-//        System.out.println(employeeArchives.getEmployeeName());
-//        System.out.println(employeeArchives.getSalaryParameters_idSalaryParameters());
+    public JSONObject employee_info_import(@RequestBody EmployeeArchives employeeArchives) {
+        int id = employeeArchivesDao.max_id();
+        employeeArchives.setEmployeeId(id+1);
+        boolean res1 = employeeArchivesDao.Archive(employeeArchives);
+        boolean res = salaryDao.createNewSalaryParameters(id+1);
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("result", "success");
+        if(res && res1){
+            jsonObject.put("result", "success");
+        }else{
+            jsonObject.put("result", "default");
+        }
         return jsonObject;
     }
 
     //员工信息分析页面跳转
     @RequestMapping(method = RequestMethod.GET, value = "/employee_management/info_analysis")
     public String info_analysis(HttpServletRequest httpServletRequest,Model model) {
-        getSessionInfo.getsessionInfo(httpServletRequest,model);
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
+        boolean res = getSessionInfo.getsessionInfo(httpServletRequest,model);
+        if(!res) return "index";
         model.addAttribute("DepartmentList", departmentDao.getAll());
         return "EmployeeInfo_analysis";
     }
@@ -927,7 +940,7 @@ public class ViewController{
         String name = (String) httpServletRequest.getSession().getAttribute("name");
         String type = (String) httpServletRequest.getSession().getAttribute("type");
         if(id == null || !type.equals("employee")){
-            return "redirect:index";
+            return "employee_login";
         }else {
             model.addAttribute("id", id);
             model.addAttribute("name", name);
@@ -939,14 +952,9 @@ public class ViewController{
     @RequestMapping(method = RequestMethod.GET, value = "/searchMyAttendance")
     public String searchMyAttendance(Model m, HttpServletRequest request, Model model) {
         String date = request.getParameter("AttendanceDate");
-        int id;
-        if(request.getSession().getAttribute("id")!=null){
-            id =  Integer.parseInt((String)request.getSession().getAttribute("id"));
-            model.addAttribute("name",request.getSession().getAttribute("name"));
-        }else {
-            return "redirect:index";
-        }
+        int id =  Integer.parseInt((String)request.getSession().getAttribute("id"));
 
+        model.addAttribute("name",request.getSession().getAttribute("name"));
         List<Attendance> attendances = attendanceDao.getEmployeeByTime(date, id);
         m.addAttribute("list", attendances);
         return "myAttendance";
@@ -955,22 +963,22 @@ public class ViewController{
     //跳转到考勤管理系统
     @RequestMapping(method = RequestMethod.GET, value = "/Attendance")
     public String toAttendance(Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        int assitant_id = Integer.parseInt((String)httpServletRequest.getSession().getAttribute("id"));
-        EmployeeArchives emp = employeeArchivesDao.getEmployeeById(assitant_id);
-        String post = emp.getEmployeePost();
-
         String id = (String) httpServletRequest.getSession().getAttribute("id");
-        String name = (String) httpServletRequest.getSession().getAttribute("name");
-        String type = (String) httpServletRequest.getSession().getAttribute("type");
-
-        //只有人事助理能访问考勤管理系统
-        if(id == null || !type.equals("employee") || !post.equals("二级人事助理")){
-            return "redirect:index";
-        }else {
-            model.addAttribute("id", id);
-            model.addAttribute("name", name);
+        if(id!=null){
+            EmployeeArchives emp = employeeArchivesDao.getEmployeeById(Integer.parseInt(id));
+            String post = emp.getEmployeePost();
+            String name = (String) httpServletRequest.getSession().getAttribute("name");
+            String type = (String) httpServletRequest.getSession().getAttribute("type");
+            if(type.equals("employee")&&post.equals("二级人事助理")){
+                model.addAttribute("id", id);
+                model.addAttribute("name", name);
+                return "Attendance";
+            }else{
+                return "employee_login";
+            }
+        }else{
+            return "employee_login";
         }
-        return "Attendance";
     }
 
     String department_for_Attendance;
@@ -1018,5 +1026,15 @@ public class ViewController{
             jsonObject.put("result", "error");
         }
         return jsonObject;
+    }
+
+    //删除员工档案信息
+    @RequestMapping(method = RequestMethod.GET,value = "/employee_info_delete")
+    public String employee_info_delete(HttpServletRequest httpServletRequest,Model model){
+        boolean res = getSessionInfo.getsessionInfo(httpServletRequest,model);
+        if(!res) return "index";
+        int id = Integer.parseInt(httpServletRequest.getParameter("id"));
+        employeeArchivesDao.delete_employee(id);
+        return "employee_search";
     }
 }

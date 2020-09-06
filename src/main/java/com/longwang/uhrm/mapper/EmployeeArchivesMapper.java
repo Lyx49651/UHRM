@@ -70,7 +70,7 @@ public interface EmployeeArchivesMapper {
     public int contract_change(Contract contract);
 
     //合同删除
-    @Delete("delete from Contract where idContract = #{idContract}")
+    @Delete("delete from Contract where idContract = #{id}")
     public void delete_contract(int id);
 
     //添加合同
@@ -81,5 +81,9 @@ public interface EmployeeArchivesMapper {
     //获取最大的ID值
     @Select("SELECT max(employeeId) from EmployeeArchives")
     public int max_id();
+
+    //删除员工档案
+    @Delete("delete from EmployeeArchives where employeeId = #{id}")
+    public void delete_employee(int id);
 
 }

@@ -82,13 +82,17 @@
         <div class="card-body">
             <table class="table">
                 <thead class="thead-light">
-                <tr th:name="department" th:text="${department}"></tr>
+                <tr>
+                    <th th:name="department" th:text="${department}"></th>
+                    <th></th>
+                    <th><button type="button" class="btn btn-success" onclick="submit_info()" style="float: right">提交考勤</button></th>
+                    <th></th>
+                </tr>
                 <tr>
                     <th scope="col">考勤日期</th>
                     <th scope="col">雇员id</th>
                     <th scope="col">雇员姓名</th>
                     <th scope="col">考勤结果</th>
-                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -112,7 +116,7 @@
                         </div>
                     </td>
                 </tr>
-                <button type="button" class="btn btn-success" onclick="submit_info()">提交考勤</button>
+
                 </tbody>
             </table>
         </div>
