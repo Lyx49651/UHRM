@@ -927,7 +927,7 @@ public class ViewController{
         String name = (String) httpServletRequest.getSession().getAttribute("name");
         String type = (String) httpServletRequest.getSession().getAttribute("type");
         if(id == null || !type.equals("employee")){
-            return "redirect:index";
+            return "employee_login";
         }else {
             model.addAttribute("id", id);
             model.addAttribute("name", name);
@@ -939,14 +939,9 @@ public class ViewController{
     @RequestMapping(method = RequestMethod.GET, value = "/searchMyAttendance")
     public String searchMyAttendance(Model m, HttpServletRequest request, Model model) {
         String date = request.getParameter("AttendanceDate");
-        int id;
-        if(request.getSession().getAttribute("id")!=null){
-            id =  Integer.parseInt((String)request.getSession().getAttribute("id"));
-            model.addAttribute("name",request.getSession().getAttribute("name"));
-        }else {
-            return "redirect:index";
-        }
+        int id =  Integer.parseInt((String)request.getSession().getAttribute("id"));
 
+        model.addAttribute("name",request.getSession().getAttribute("name"));
         List<Attendance> attendances = attendanceDao.getEmployeeByTime(date, id);
         m.addAttribute("list", attendances);
         return "myAttendance";
@@ -955,22 +950,22 @@ public class ViewController{
     //跳转到考勤管理系统
     @RequestMapping(method = RequestMethod.GET, value = "/Attendance")
     public String toAttendance(Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        int assitant_id = Integer.parseInt((String)httpServletRequest.getSession().getAttribute("id"));
-        EmployeeArchives emp = employeeArchivesDao.getEmployeeById(assitant_id);
-        String post = emp.getEmployeePost();
-
         String id = (String) httpServletRequest.getSession().getAttribute("id");
-        String name = (String) httpServletRequest.getSession().getAttribute("name");
-        String type = (String) httpServletRequest.getSession().getAttribute("type");
-
-        //只有人事助理能访问考勤管理系统
-        if(id == null || !type.equals("employee") || !post.equals("二级人事助理")){
-            return "redirect:index";
-        }else {
-            model.addAttribute("id", id);
-            model.addAttribute("name", name);
+        if(id!=null){
+            EmployeeArchives emp = employeeArchivesDao.getEmployeeById(Integer.parseInt(id));
+            String post = emp.getEmployeePost();
+            String name = (String) httpServletRequest.getSession().getAttribute("name");
+            String type = (String) httpServletRequest.getSession().getAttribute("type");
+            if(type.equals("employee")&&post.equals("二级人事助理")){
+                model.addAttribute("id", id);
+                model.addAttribute("name", name);
+                return "Attendance";
+            }else{
+                return "employee_login";
+            }
+        }else{
+            return "employee_login";
         }
-        return "Attendance";
     }
 
     String department_for_Attendance;
