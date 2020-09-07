@@ -38,14 +38,11 @@ public interface EmployeeArchivesMapper {
     @Select("Select * from EmployeeArchives where employeeName like concat('%',#{employeeName},'%')")
     public List<EmployeeArchives> getEmployeeByName(String employeeName);
 
-
-
     //信息修改
     @Insert("insert into InformationChange(idInformationChange, employeeId, employeeName, change_time, " +
             "change_type, change_original, change_now) values(#{idInformationChange}, #{employeeId}," +
             "#{employeeName}, now(), #{changeType}, #{changeInfoOriginal}, #{changeInfoNow})")
     public int informationChange(convertdata convertdata);
-
 
     //信息更新
     @Update("UPDATE EmployeeArchives SET employeeName = #{employeeName},employeeSex = #{employeeSex},employeeBirthday = #{employeeBirthday}," +
@@ -86,4 +83,7 @@ public interface EmployeeArchivesMapper {
     @Delete("delete from EmployeeArchives where employeeId = #{id}")
     public void delete_employee(int id);
 
+    //找回密码
+    @Select("SELECT password FROM EmployeeArchives where employeePhoneNumber = #{employeePhone} and employeeId = #{employeeId}")
+    public String retrieve_password(convertdata convertdata);
 }
