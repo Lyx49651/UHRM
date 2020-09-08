@@ -1,4 +1,4 @@
-package com.longwang.uhrm.Controller;
+package com.longwang.uhrm.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.longwang.uhrm.Dao.EmployeeArchivesDao;
