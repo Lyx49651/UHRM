@@ -80,17 +80,18 @@ public class AttendanceMgt {
             String post = emp.getEmployeePost();
             String name = (String) httpServletRequest.getSession().getAttribute("name");
             String type = (String) httpServletRequest.getSession().getAttribute("type");
-            if(type.equals("employee")&&post.equals("二级人事助理")){
+            if(type.equals("employee")&&post.equals("二级考勤助理")){
                 model.addAttribute("departmentNames",departmentDao.getAllName());
                 model.addAttribute("id", id);
                 model.addAttribute("name", name);
-                return "Attendance";
+                model.addAttribute("logged",true);
             }else{
-                return "employee_login";
+                model.addAttribute("logged",false);
             }
         }else{
-            return "employee_login";
+            model.addAttribute("logged",false);
         }
+        return "Attendance";
     }
 
     String department_for_Attendance;

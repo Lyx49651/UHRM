@@ -64,12 +64,13 @@ public class EmployeeMgt {
         Boolean res = employeeArchivesDao.authenticate(Integer.parseInt(map.get("id")), map.get("password"));
         if (res) {
             HttpSession httpSession = httpServletRequest.getSession();//获取session
-            String name = employeeArchivesDao.getName(Integer.parseInt(map.get("id")));
+            EmployeeArchives employeeArchives = employeeArchivesDao.getEmployeeById(Integer.parseInt(map.get("id")));
             httpSession.setAttribute("id", map.get("id"));
-            httpSession.setAttribute("name", name);
+            httpSession.setAttribute("name", employeeArchives.getEmployeeName());
             httpSession.setAttribute("type", "employee");
+            httpSession.setAttribute("post",employeeArchives.getEmployeePost());
             httpSession.setMaxInactiveInterval(2 * 60);//设置session存活时间
-            Cookie cookie = new Cookie("name", name);//新建cookie供客户端使用
+            Cookie cookie = new Cookie("name", employeeArchives.getEmployeeName());//新建cookie供客户端使用
             cookie.setMaxAge(2 * 60);// 设置存在时间为30分钟
             cookie.setPath("/");//设置作用域
             httpServletResponse.addCookie(cookie);
@@ -88,8 +89,22 @@ public class EmployeeMgt {
     @RequestMapping(method = RequestMethod.GET, value = "/employee_management_system")
     public String employee_management_system(HttpServletRequest httpServletRequest,Model model) {
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
-        boolean res = getSessionInfo.getsessionInfo(httpServletRequest,model);
-        if(!res) return "index";
+        String id = (String) httpServletRequest.getSession().getAttribute("id");
+        if(id!=null){
+            EmployeeArchives emp = employeeArchivesDao.getEmployeeById(Integer.parseInt(id));
+            String post = emp.getEmployeePost();
+            String name = (String) httpServletRequest.getSession().getAttribute("name");
+            String type = (String) httpServletRequest.getSession().getAttribute("type");
+            if(type.equals("employee")&&post.equals("二级人事助理")){
+                model.addAttribute("id", id);
+                model.addAttribute("name", name);
+                model.addAttribute("logged",true);
+            }else {
+                model.addAttribute("logged",false);
+            }
+        }else{
+            model.addAttribute("logged",false);
+        }
         return "employee_management_system_functionlist";
     }
 

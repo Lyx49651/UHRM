@@ -22,23 +22,6 @@
             <li class="nav-item active">
                 <a class="nav-link" href="http://localhost:8080/index">首页 <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-            </li>
         </ul>
         <div>
             <ul class='nav navbar-nav navbar-right'>
@@ -46,8 +29,7 @@
                     <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false' style='color: black'><span th:text="${name}"></span><span class='caret'></span></a>
                     <ul class='dropdown-menu' style="margin: 0 0 0 -156%">
                         <li><a href='http://localhost:8080/logout' style='color: black'>登出</a></li>
-                        <li th:if='${typeBoolean}'><a href='http://localhost:8080/personalInfo' style="color: black" >个人信息</a></li>
-                        <li th:if='${not typeBoolean}'><a href='http://localhost:8080/userInfo' style="color: black" >个人信息</a></li>
+                        <li><a href='http://localhost:8080/personalInfo' style="color: black" >个人信息</a></li>
                     </ul>
                 </li>
             </ul>
