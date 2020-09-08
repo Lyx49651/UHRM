@@ -78,15 +78,16 @@ public class RecruitMgt {
     public String recruitment_system(HttpServletRequest httpServletRequest, Model model) {
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         String id = (String) httpServletRequest.getSession().getAttribute("id");
+        String telephone = (String) httpServletRequest.getSession().getAttribute("phone");
         if(id!=null) {
             EmployeeArchives emp = employeeArchivesDao.getEmployeeById(Integer.parseInt(id));
             String post = emp.getEmployeePost();
             String name = (String) httpServletRequest.getSession().getAttribute("name");
-            String type = (String) httpServletRequest.getSession().getAttribute("type");
-            if (type.equals("employee") && post.equals("二级招聘助理")) {
+            if (post.equals("二级招聘助理")) {
                 model.addAttribute("id", id);
                 model.addAttribute("name", name);
                 model.addAttribute("logged",true);
+                model.addAttribute("type",true);
                 List<RecruitmentNotice> test = recruitmentNoticeDao.findAll();
                 for (com.longwang.uhrm.Entity.RecruitmentNotice recruitmentNotice : test) {
                     recruitmentNotice.setStringTime(recruitmentNotice.getTime().toString());
@@ -105,6 +106,19 @@ public class RecruitMgt {
             } else {
                 model.addAttribute("logged",false);
             }
+        }else if(telephone!=null){
+            User user = userDao.getUserByTelephone(telephone);
+            String name = user.getName();
+            model.addAttribute("name", name);
+            model.addAttribute("logged",true);
+            model.addAttribute("type",false);
+            List<CollectTable> test1 = collectTableDao.findAllPassed();
+            for (CollectTable collectTable : test1) {
+                collectTable.setDepartmentName(departmentDao.getName(collectTable.getDepartment_idDepartment()));
+                collectTable.setNamePost(positionDao.getPostName(collectTable.getIdPost()));
+            }
+            model.addAttribute("plan", test1);
+            getSessionInfo.getsessionInfo(httpServletRequest, model);
         }else{
             model.addAttribute("logged",false);
         }
@@ -115,7 +129,6 @@ public class RecruitMgt {
     @RequestMapping(method = RequestMethod.POST, value = "/recruitment_notice")
     @ResponseBody
     public JSONObject recruitment_notice(@RequestBody HashMap<String, String> map) {
-//        System.out.println(map.get("title") + map.get("content"));
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         com.longwang.uhrm.Entity.RecruitmentNotice recruitmentNotice = new com.longwang.uhrm.Entity.RecruitmentNotice();
         recruitmentNotice.setTitle(map.get("title"));
