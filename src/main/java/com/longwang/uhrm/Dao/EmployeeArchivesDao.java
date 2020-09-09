@@ -107,4 +107,9 @@ public class EmployeeArchivesDao{
     public void delete_employee(int id){
         employeeArchivesMapper.delete_employee(id);
     }
+
+    //找回密码
+    public String retrieve_password(convertdata convertdata){
+        return employeeArchivesMapper.retrieve_password(convertdata);
+    }
 }

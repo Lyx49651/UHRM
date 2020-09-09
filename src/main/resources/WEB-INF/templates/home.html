@@ -38,22 +38,16 @@
                 <a class="nav-link" href="#" style="color: white">首页 <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    系统
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="system_list">
-                    <a class="dropdown-item" href="http://localhost:8080/employee_management_system">人员管理系统</a>
-                    <a class="dropdown-item" href="http://localhost:8080/recruitment_system">招聘系统</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">薪资管理系统</a>
-                    <a class="dropdown-item" href="http://localhost:8080/Attendance">考勤管理系统</a>
-                </div>
+                <a class="nav-link" href="http://localhost:8080/employee_management_system">人员管理系统</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                <a class="nav-link" href="http://localhost:8080/recruitment_system">招聘系统</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8080/salaryMgt">薪资管理系统</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8080/Attendance">考勤管理系统</a>
             </li>
         </ul>
         <div class="dropdown" th:if='${not islogged}'>
@@ -68,7 +62,7 @@
         <div th:if='${islogged}'>
             <ul class='nav navbar-nav navbar-right'>
                 <li class='dropdown' id='my_test_id'>
-                    <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false' style='color: black'><span th:text="${name}"></span><span class='caret'></span></a>
+                    <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false' style='color: white'><span th:text="${name}"></span><span class='caret'></span></a>
                     <ul class='dropdown-menu'>
                         <li><a href='http://localhost:8080/logout' style='color: black'>登出</a></li>
                         <li th:if='${typeBoolean}'><a href='http://localhost:8080/personalInfo' style="color: black" >个人信息</a></li>
@@ -187,39 +181,7 @@
     <!--</table>-->
 <!--</div>-->
 <!--底层面板-->
-<div style="margin: 30% 0 0 0;" onmouseover="mouse_over1()" onmouseleave="mouse_leave1()" id="under_list">
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="bg-dark" style="background: none !important;">
-                <table class="table table-borderless" style="color: aliceblue;margin: 0 auto ; width: 50%;text-align: center">
-                    <thead>
-                    <tr align="center">
-                        <th scope="col" style="text-align: center">First</th>
-                        <th scope="col" style="text-align: center">Last</th>
-                        <th scope="col" style="text-align: center">Handle</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr align="center">
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr align="center">
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr align="center">
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+<div style="margin: 45% 0 5% 0;" onmouseover="mouse_over1()" onmouseleave="mouse_leave1()" id="under_list">
     <div class="panel panel-default" style="margin: 0;color: white">
         <div class="panel-body">
             人力资源管理系统 Version1.0
@@ -249,16 +211,16 @@
 </script>
 <script>
     function mouse_over() {
-        document.getElementById("obave_list").style = "background: #D8ECFF !important;";
+        document.getElementById("obave_list").style = "background: gray !important;";
     }
     function mouse_leave() {
         document.getElementById("obave_list").style = "background: none !important;";
     }
     function mouse_over1() {
-        document.getElementById("under_list").style = "background: black !important;margin: 30% 0 0 0;";
+        document.getElementById("under_list").style = "background: gray !important;margin: 45% 0 5% 0;";
     }
     function mouse_leave1() {
-        document.getElementById("under_list").style = "background: none !important;margin: 30% 0 0 0;";
+        document.getElementById("under_list").style = "background: none !important;margin: 45% 0 5% 0;";
     }
 </script>
 </html>

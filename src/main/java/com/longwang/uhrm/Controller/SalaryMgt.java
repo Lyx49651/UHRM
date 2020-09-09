@@ -21,8 +21,8 @@ public class SalaryMgt {
     public String mgtPage(Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         String id = (String) httpServletRequest.getSession().getAttribute("id");
         String name = (String) httpServletRequest.getSession().getAttribute("name");
-        String type = (String) httpServletRequest.getSession().getAttribute("type");
-        if(id == null || !type.equals("employee")){
+        String post= (String) httpServletRequest.getSession().getAttribute("post");
+        if(id == null || !post.equals("二级薪资助理")){
             model.addAttribute("logged", false);
         }else {
             model.addAttribute("salaryMeters", salaryDao.getAllSalaryParameters());

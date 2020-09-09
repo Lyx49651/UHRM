@@ -12,7 +12,7 @@
     <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
     <!--[if lt IE 9]-->
 </head>
-<body style="width: 100%;height: 100%;overflow-y: auto">
+<body style="width: 100%;height: 100%;overflow-y: auto" th:if="${logged}">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">高校人力资源管理系统</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,10 +24,7 @@
             <li class="nav-item active">
                 <a class="nav-link" href="http://localhost:8080/index">首页 <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" th:if="${type}">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     功能
                 </a>
@@ -42,7 +39,7 @@
                     <a class="dropdown-item" href="http://localhost:8080/recruitment_namelist_check">应聘人员名单查核</a>
                 </div>
             </li>
-            <li class="nav-item">
+            <li class="nav-item"th:if="${type}">
                 <!--招聘通知模态框-->
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="background:#f8f9fa;border-color:  #f8f9fa;color: #424d57">
                     发布招聘信息
@@ -82,8 +79,7 @@
                     <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false' style='color: black'><span th:text="${name}"></span><span class='caret'></span></a>
                     <ul class='dropdown-menu' style="margin: 0 0 0 -156%">
                         <li><a href='http://localhost:8080/logout' style='color: black'>登出</a></li>
-                        <li th:if='${typeBoolean}'><a href='http://localhost:8080/personalInfo' style="color: black" >个人信息</a></li>
-                        <li th:if='${not typeBoolean}'><a href='http://localhost:8080/userInfo' style="color: black" >个人信息</a></li>
+                        <li><a href='http://localhost:8080/personalInfo' style="color: black" >个人信息</a></li>
                     </ul>
                 </li>
             </ul>
@@ -91,13 +87,13 @@
     </div>
 </nav>
 <!--新闻列表-->
-<div class="alert alert-primary" role="alert">
+<div class="alert alert-primary" role="alert" th:if="${type}">
     <h4 class="alert-heading">招聘通知</h4>
     <p>每个部门的招聘通知</p>
     <hr>
     <p class="mb-0">下面包括详细要求</p>
 </div>
-<div>
+<div th:if="${type}">
     <ul class="list-group" th:each="RecruitmentNotice:${list}">
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <p>
@@ -153,13 +149,13 @@
     </ul>
 </div>
 <!--审核通过名单发布处-->
-<div class="alert alert-success" role="alert">
+<div class="alert alert-success" role="alert" th:if="${type}">
     <h4 class="alert-heading">通过名单</h4>
     <p>下面通过的将予以录取</p>
     <hr>
     <p class="mb-0">没有通过的不显示</p>
 </div>
-<div class="form-group" style="width: 100%;margin: 0;font-family: 微软雅黑;">
+<div class="form-group" style="width: 100%;margin: 0;font-family: 微软雅黑;" th:if="${type}">
             <div>
                 <p>
                     <button class="btn btn-primary" th:inline="text"  data-target='#collapseExamplet' type="button" data-toggle="collapse"  aria-expanded="false" aria-controls="collapseExample" style="color: white;border-color: #007bff;background-color: #007bff;margin: 1% 0 0 0">
@@ -194,39 +190,7 @@
 </div>
 <!--底层面板-->
 <div>
-    <div class="panel panel-default" style="background: rgba(39,156,78,0.95);margin: 100px 0 0 0">
-        <div class="panel-body">
-            <div class="bg-dark">
-                <table class="table table-borderless" style="color: aliceblue;margin: 0 auto ; width: 50%;text-align: center">
-                    <thead>
-                    <tr align="center">
-                        <th scope="col" style="text-align: center">First</th>
-                        <th scope="col" style="text-align: center">Last</th>
-                        <th scope="col" style="text-align: center">Handle</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr align="center">
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr align="center">
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr align="center">
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-default" style="background: rgba(25,92,163,0.82);margin: 0">
+    <div class="panel panel-default" style="background: rgba(25,92,163,0.82);margin: 40% 0 0 0">
         <div class="panel-body">
             人力资源管理系统 Version1.0
             <span style="margin: 0 0 0 70%">
@@ -239,6 +203,36 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body >
+<body th:if="not ${logged}">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">高校人力资源管理系统</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="http://localhost:8080/index">首页 <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div th:if="not ${logged}" style="display: flex; justify-content: center">
+    <div class="card mt-5" style="width: 60%">
+        <div class="card-header">
+            权限不足
+        </div>
+        <br>
+        <h1 style="display: flex;justify-content: center">未登录或非二级招聘助理账号或非用户账号</h1>
+        <br>
+        <h1 style="display: flex;justify-content: center">请登录二级招聘助理账号或用户账号</h1>
+        <br>
+        <a href="http://localhost:8080/personnel_login" style="display: flex;justify-content: center">去登录</a>
+        <br>
+    </div>
+</div>
+</body>
 <!--<script th:inline="javascript">-->
     <!--var test = [[${id}]];-->
     <!--alert(test);-->

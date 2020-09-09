@@ -32,12 +32,6 @@ public class UserDao {
         }
     }
 
-    //找回密码
-    public String retrieve_password(convertdata convertdata){
-        return userMapper.retrieve_password(convertdata);
-    }
-
-
     //按id查找返回用户
     public User getUserById(int userId){
         return userMapper.getUserById(userId);
@@ -119,5 +113,9 @@ public class UserDao {
             posts.add(userMapper.get_post(user.getIdUser()));
         }
         return posts;
+    }
+    //找回密码
+    public String user_retrieve_password(String telephone,String name){
+        return userMapper.user_retrieve_password(telephone,name);
     }
 }

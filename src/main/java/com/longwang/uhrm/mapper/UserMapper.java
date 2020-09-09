@@ -43,9 +43,6 @@ public interface UserMapper {
     @Select("SELECT * from User,CandidateInfo where CandidateInfo.status = \"tested\" and User.idUser = CandidateInfo.idCandidateInfo")
     public  List<User> testedUsers();
 
-    @Select("SELECT password FROM EmployeeArchives where employeePhoneNumber = #{employeePhone} and employeeId = #{employeeId}")
-    public String retrieve_password(convertdata convertdata);
-
     @Update("UPDATE User SET sex = #{sex}, IDCard = #{IDCard}, address = #{address}," +
             "age = #{age},mailAddress = #{mailAddress},education=#{education} WHERE telephone = #{telephone}")
     public int update_user_Info(User user);
@@ -76,5 +73,8 @@ public interface UserMapper {
     @Select("SELECT departmentPost from CandidateInfo where idCandidateInfo = #{id}")
     public String get_post(long id);
 
+    //找回密码
+    @Select("SELECT password FROM User where telephone = #{telephone} and name = #{name}")
+    public String user_retrieve_password(@Param("telephone") String telephone,@Param("name") String name);
 }
 
