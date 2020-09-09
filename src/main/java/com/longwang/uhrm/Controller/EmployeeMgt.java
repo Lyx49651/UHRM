@@ -136,25 +136,6 @@ public class EmployeeMgt {
         return jsonObject;
     }
 
-    //员工信息分析页面跳转
-    @RequestMapping(method = RequestMethod.GET, value = "/employee_management/info_analysis")
-    public String info_analysis(HttpServletRequest httpServletRequest,Model model) {
-        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
-        boolean res = getSessionInfo.getsessionInfo(httpServletRequest,model);
-        if(!res) return "index";
-        model.addAttribute("DepartmentList", departmentDao.getAll());
-        return "EmployeeInfo_analysis";
-    }
-
-    //向前端发送部门详细数据
-    @RequestMapping(method = RequestMethod.POST, value = "/get_info_employee")
-    @ResponseBody
-    public JSONObject employee_info_import(@RequestBody HashMap<String, String> map) {
-        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
-        ToolMy demo = new ToolMy();
-        return demo.analysis_json(departmentDao.getDepartmentEmployeeByName(map.get("name")));
-    }
-
     //跳转到查询页面
     @RequestMapping(method = RequestMethod.GET, value = "/employee_search")
     public String employee_search(HttpServletRequest httpServletRequest,Model model) {
