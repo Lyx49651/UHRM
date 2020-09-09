@@ -1,4 +1,4 @@
-package com.longwang.uhrm.Controller;
+package com.longwang.uhrm.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.longwang.uhrm.Dao.UserDao;
@@ -56,9 +56,9 @@ public class UserMgt {
             httpSession.setAttribute("phone", map.get("phone"));
             httpSession.setAttribute("name", name);
             httpSession.setAttribute("type", "user");
-            httpSession.setMaxInactiveInterval(5 * 60);//设置session存活时间
+            httpSession.setMaxInactiveInterval(40 * 60);//设置session存活时间
             Cookie cookie = new Cookie("name", name);//新建cookie供客户端使用
-            cookie.setMaxAge(5 * 60);// 设置存在时间为30分钟
+            cookie.setMaxAge(40 * 60);// 设置存在时间为30分钟
             cookie.setPath("/");//设置作用域68563656
             httpServletResponse.addCookie(cookie);
             model.addAttribute("typeBoolean", Boolean.FALSE);

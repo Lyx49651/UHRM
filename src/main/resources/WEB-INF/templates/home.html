@@ -63,8 +63,9 @@
         <div th:if='${islogged}'>
             <ul class='nav navbar-nav navbar-right'>
                 <li class='dropdown' id='my_test_id'>
-                    <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false' style='color: white'><span th:text="${name}"></span><span class='caret'></span></a>
-                    <ul class='dropdown-menu'>
+                    <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false' style='color: black'><span th:text="${name}"></span><span class='caret'></span></a>
+                    <ul class='dropdown-menu' style="margin: 0 0 0 -156%">
+
                         <li><a href='http://localhost:8080/logout' style='color: black'>登出</a></li>
                         <li th:if='${typeBoolean}'><a href='http://localhost:8080/personalInfo' style="color: black" >个人信息</a></li>
                         <li th:if='${not typeBoolean}'><a href='http://localhost:8080/userInfo' style="color: black" >个人信息</a></li>

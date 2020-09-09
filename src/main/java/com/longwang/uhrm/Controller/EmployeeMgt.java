@@ -68,10 +68,10 @@ public class EmployeeMgt {
             httpSession.setAttribute("id", map.get("id"));
             httpSession.setAttribute("name", employeeArchives.getEmployeeName());
             httpSession.setAttribute("type", "employee");
-            httpSession.setAttribute("post",employeeArchives.getEmployeePost());
-            httpSession.setMaxInactiveInterval(2 * 60);//设置session存活时间
+
+            httpSession.setMaxInactiveInterval(40 * 60);//设置session存活时间
             Cookie cookie = new Cookie("name", employeeArchives.getEmployeeName());//新建cookie供客户端使用
-            cookie.setMaxAge(2 * 60);// 设置存在时间为30分钟
+            cookie.setMaxAge(40 * 60);// 设置存在时间为30分钟
             cookie.setPath("/");//设置作用域
             httpServletResponse.addCookie(cookie);
             boolean typeBoolean = true;
