@@ -1,5 +1,6 @@
 package com.longwang.uhrm.Controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.longwang.uhrm.Dao.*;
 import com.longwang.uhrm.Entity.*;
@@ -78,15 +79,16 @@ public class RecruitMgt {
     public String recruitment_system(HttpServletRequest httpServletRequest, Model model) {
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         String id = (String) httpServletRequest.getSession().getAttribute("id");
+        String telephone = (String) httpServletRequest.getSession().getAttribute("phone");
         if(id!=null) {
             EmployeeArchives emp = employeeArchivesDao.getEmployeeById(Integer.parseInt(id));
             String post = emp.getEmployeePost();
             String name = (String) httpServletRequest.getSession().getAttribute("name");
-            String type = (String) httpServletRequest.getSession().getAttribute("type");
-            if (type.equals("employee") && post.equals("二级招聘助理")) {
+            if (post.equals("二级招聘助理")) {
                 model.addAttribute("id", id);
                 model.addAttribute("name", name);
                 model.addAttribute("logged",true);
+                model.addAttribute("type",true);
                 List<RecruitmentNotice> test = recruitmentNoticeDao.findAll();
                 for (com.longwang.uhrm.Entity.RecruitmentNotice recruitmentNotice : test) {
                     recruitmentNotice.setStringTime(recruitmentNotice.getTime().toString());
@@ -105,6 +107,19 @@ public class RecruitMgt {
             } else {
                 model.addAttribute("logged",false);
             }
+        }else if(telephone!=null){
+            User user = userDao.getUserByTelephone(telephone);
+            String name = user.getName();
+            model.addAttribute("name", name);
+            model.addAttribute("logged",true);
+            model.addAttribute("type",false);
+            List<CollectTable> test1 = collectTableDao.findAllPassed();
+            for (CollectTable collectTable : test1) {
+                collectTable.setDepartmentName(departmentDao.getName(collectTable.getDepartment_idDepartment()));
+                collectTable.setNamePost(positionDao.getPostName(collectTable.getIdPost()));
+            }
+            model.addAttribute("plan", test1);
+            getSessionInfo.getsessionInfo(httpServletRequest, model);
         }else{
             model.addAttribute("logged",false);
         }
@@ -115,7 +130,6 @@ public class RecruitMgt {
     @RequestMapping(method = RequestMethod.POST, value = "/recruitment_notice")
     @ResponseBody
     public JSONObject recruitment_notice(@RequestBody HashMap<String, String> map) {
-//        System.out.println(map.get("title") + map.get("content"));
         log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
         com.longwang.uhrm.Entity.RecruitmentNotice recruitmentNotice = new com.longwang.uhrm.Entity.RecruitmentNotice();
         recruitmentNotice.setTitle(map.get("title"));
@@ -304,5 +318,56 @@ public class RecruitMgt {
         model.addAttribute("DepartmentList", departmentDao.getAll());
         getSessionInfo.getsessionInfo(httpServletRequest,model);
         return "recruitment_plan_make";
+    }
+
+    //根据部门名获取编制信息
+    @RequestMapping(method = RequestMethod.POST, value = "/get_info_by_departmentName")
+    @ResponseBody
+    public JSONObject get_info_by_departmentName(@RequestBody HashMap<String, String> map) {
+        //执行的为查询操作
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
+        List<com.longwang.uhrm.Entity.Position> positions = positionDao.getPostByDepartment(map.get("department"));
+        JSONObject jsonObject = new JSONObject();
+        JSONArray post_name = new JSONArray();
+        JSONArray position_id = new JSONArray();
+        JSONArray member_number = new JSONArray();
+        JSONArray authorize_strength = new JSONArray();
+
+        for(com.longwang.uhrm.Entity.Position position:positions){
+            post_name.add(position.getTypePosition());
+            position_id.add(position.getIdPosition());
+            member_number.add(positionDao.getStuffNumByPosition_and_Department(map.get("department"), position.getTypePosition()));
+            System.out.println(position.getTypePosition());
+            authorize_strength.add(positionDao.getRecruitment(position.getTypePosition(), map.get("department")));
+        }
+        jsonObject.put("post_name", post_name);
+        jsonObject.put("position_id", position_id);
+        jsonObject.put("member_number", member_number);
+        jsonObject.put("authorize_strength", authorize_strength);
+        return jsonObject;
+    }
+
+    //存储上报招聘计划
+    @RequestMapping(method = RequestMethod.POST, value = "/get_info_by_departmentName_store")
+    @ResponseBody
+    public JSONObject get_info_by_departmentName_store(@RequestBody HashMap<String, Object> map) {
+        log(Thread.currentThread().getStackTrace()[1].getMethodName());//日志
+        List<String> id = solution.translate(map.get("id").toString());
+        List<String> member = solution.translate(map.get("member").toString());
+        List<String> authoried = solution.translate(map.get("authoried").toString());
+        List<String> recruitment = solution.translate(map.get("recruitment").toString());
+        for(int i=0;i<solution.translate(map.get("id").toString()).size();i++){
+            CollectTable temp = new CollectTable();
+            temp.setRecutimentNumber(recruitment.get(i));
+            temp.setMemberNumber(member.get(i));
+            temp.setAuthorizedStrengthNumber(authoried.get(i));
+            temp.setIdPost(Integer.parseInt(id.get(i)));
+            temp.setStatus("saved");
+            temp.setDepartment_idDepartment(positionDao.getPosByID(Integer.parseInt(id.get(i))).getDepartmentId());
+            collectTableDao.insertCollectTable(temp);
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("result", "pass");
+        return jsonObject;
     }
 }
