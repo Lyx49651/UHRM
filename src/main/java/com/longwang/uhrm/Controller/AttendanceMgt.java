@@ -63,14 +63,16 @@ public class AttendanceMgt {
     @RequestMapping(method = RequestMethod.GET, value = "/searchMyAttendance")
     public String searchMyAttendance(Model m, HttpServletRequest request, Model model) {
         String date = request.getParameter("AttendanceDate");
+        System.out.println(date);
         int id =  Integer.parseInt((String)request.getSession().getAttribute("id"));
-
+        System.out.println(date);
         model.addAttribute("name",request.getSession().getAttribute("name"));
         List<Attendance> attendances = attendanceDao.getEmployeeByTime(date, id);
         m.addAttribute("list", attendances);
         return "myAttendance";
     }
 
+    String department_for_Attendance;
     //跳转到考勤管理系统
     @RequestMapping(method = RequestMethod.GET, value = "/Attendance")
     public String toAttendance(Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
@@ -85,23 +87,31 @@ public class AttendanceMgt {
                 model.addAttribute("id", id);
                 model.addAttribute("name", name);
                 model.addAttribute("logged",true);
+                System.out.println("in1");
             }else{
                 model.addAttribute("logged",false);
+                System.out.println("in2");
             }
         }else{
             model.addAttribute("logged",false);
+            model.addAttribute("done",true);
+            System.out.println("in3");
         }
         return "Attendance";
     }
 
-    String department_for_Attendance;
+
 
     //查看部门对应的考勤信息，只有post为二级人事助理的雇员才能进行
     @RequestMapping(method = RequestMethod.GET, value = "/departmentChange")
     public String departmentChange(Model m, HttpServletRequest request) {
         m.addAttribute("departmentNames",departmentDao.getAllName());
         department_for_Attendance = request.getParameter("inlineRadioOptions");
+        System.out.println(department_for_Attendance);
         if(department_for_Attendance==null){
+            m.addAttribute("logged",true);
+            m.addAttribute("empty",true);
+            System.out.println("in4");
             return "Attendance";
         }
         List<EmployeeArchives> employeeArchivesList = departmentDao.getDepartmentEmployeeByName(department_for_Attendance);
@@ -117,9 +127,11 @@ public class AttendanceMgt {
             m.addAttribute("list", attendances);
             m.addAttribute("department", department_for_Attendance);
             m.addAttribute("name",request.getSession().getAttribute("name"));
-//            m.addAttribute("dis","disable");
+            m.addAttribute("logged",true);
         } else {
-            department_for_Attendance = null;
+            m.addAttribute("department", department_for_Attendance);
+            m.addAttribute("logged",true);
+            m.addAttribute("done",true);
         }
         return "Attendance";
     }
@@ -131,6 +143,7 @@ public class AttendanceMgt {
 
         List<EmployeeArchives> employeeArchivesList = departmentDao.getDepartmentEmployeeByName(department_for_Attendance);
 
+
         Date dNow = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
         String today = ft.format(dNow);
@@ -141,9 +154,11 @@ public class AttendanceMgt {
                 Attendance attendance = new Attendance(today, employeeArchivesList.get(i).getEmployeeId(),assistantName,assistantId, employeeArchivesList.get(i).getEmployeeName(), list.get(i));
                 attendanceDao.putListE(attendance);
             }
+            System.out.println(attendanceDao.checkAttendance(today, (int) employeeArchivesList.get(0).getEmployeeId()) + "test");
             jsonObject.put("result", "success");
         } else {
             jsonObject.put("result", "error");
+            System.out.println("????");
         }
         return jsonObject;
     }
